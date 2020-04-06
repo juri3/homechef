@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.RcpMapper">
+	<select id="insert_max" resultType="int">
+		select nvl(max(rcpNum)+1,1)
+		from Rcp
+	</select>
+	
+	<insert id="insert1" parameterType="Rcp">
+		insert into Rcp 
+		values(#{rcpnum},#{title},#{foodname},#{subtitle},#{cookingtime},#{memnum},sysdate,#{thumbnail},#{hashtag},#{category})
+	</insert>
+	
+	<insert id="insertIngredient" parameterType="Ingredient">
+		insert into ingredient 
+		values(#{rcpNum},#{ingredient},#{quantity})
+	</insert>
+	
+	<insert id="insertRcpContent" parameterType="RcpContent">
+		insert into RcpContent 
+		values(#{rcpNum},#{step},#{fileName},#{content})
+	</insert>
+	
+	<select id="getCategory" resultType="Category">
+		select * 
+		from category
+	</select>
+	
+</mapper>
