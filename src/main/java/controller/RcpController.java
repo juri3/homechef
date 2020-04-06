@@ -28,9 +28,25 @@ public class RcpController {
 	MybatisRcpDaoMysql dbPro;
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
-	public String rcp_list() throws Exception {
+	public String rcp_list(Model m) throws Exception {
+		int rcpAllCount = dbPro.rcpAllCount();
+		List<Rcp> rcpAllList=dbPro.rcpAllList();
+		List<Category> category = dbPro.getCategory();
+		
+		m.addAttribute("rcpAllCount", rcpAllCount);
+		m.addAttribute("rcpAllList", rcpAllList);
+		m.addAttribute("category", category);
 
 		return "rcp/list";
+	}
+	
+	@RequestMapping(value = "content", method = RequestMethod.GET)
+	public String rcp_content(int rcpnum, Model m) throws Exception {
+		Rcp rcpContent=dbPro.rcpContent(rcpnum);
+		
+		m.addAttribute("rcpContent", rcpContent);
+		
+		return "rcp/content";
 	}
 
 	@RequestMapping(value = "writeForm", method = RequestMethod.GET)

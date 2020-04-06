@@ -11,7 +11,206 @@
 </head>
 
 <style>
+.user_information {
+    background: #f5f5f5;
+    width: 100%;
+    margin-top: 43px;
+    position: relative;
+}
+.user_information .inner {
+    min-height: 167px;
+    box-sizing: border-box;
+    padding: 50px 0 50px 150px;
+}
+.inner {
+    position: relative;
+    margin: 0px 200px;
+}
+.user_information img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+.user_information>.inner>strong {
+    display: inline-block;
+    font-size: 22px;
+    color: #3b3b3b;
+    font-family: Microsoft YaHei,'NST';
+}
+.user_information .follow {
+    display: inline-block;
+    color: #979797;
+    font-size: 16px;
+    font-family: Microsoft YaHei,'NSL';
+    white-space: nowrap;
+    word-break: keep-all;
+}
+.user_information .dsc {
+    width: 500px;
+    font-size: 13px;
+    color: #676767;
+    margin: 7px 0 0 2px;
+}
+.user_information .btn_area {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+}
+.data-tab {
+    width: 100%;
+    height: 60px;
+    border-top: 1px solid #e8e9e9;
+    border-bottom: 1px solid #e8e9e9;
+    margin-bottom: 55px;
+}
+ol, ul {
+    list-style: none;
+}
+.tab-list { 
+	padding-inline-start: 0px;
+	overflow: hidden;
+	margin-block-end: 0px;
+	margin-bottom: -1px;
+}
+.tab-list li {
+	float: left; 
+	width: 33%; 
+	text-align: center; 
+	margin-right: -1px;
+}
+.tab-list li a {
+	text-decoration: none; 
+	display: block; 
+	padding: 10px 0px; 
+	font-size: 15px; 
+	color: #666; 
+	font-weight: 700;
+}
+.tab-list li.active a {
+	color: #3b3b3b; 
+	border-bottom: 3px solid #ff6d00;
+}
+.itemcard-list {
+	display: table;
+	width: auto;
+	min-width: 100%;
+	margin-left: -26px;
+	overflow: auto;
+	margin-bottom: -85px;
+}
 
+.itemcard-list-item {
+	position: relative;
+	width: 80px;
+	padding-right: 26px;
+	box-sizing: border-box;
+	margin-bottom: 30px;
+	float: none;
+	vertical-align: top;
+	display: inline-block;
+	word-break: break-all;
+}
+.item img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 30px;
+    left: 30px;
+}
+.lst_recipe {
+    width: 1040px;
+    position: relative;
+    left: -16px;
+    overflow: hidden;
+    margin-bottom: 56px;
+}
+.lst_recipe>li {
+    width: 244px;
+    height: 390px;
+    margin: 0 0 16px 16px;
+    position: relative;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    float: left;
+    background-color: #fff;
+    margin: 0 0 16px 16px;
+}
+.lst_recipe li .call_recipe {
+    display: block;
+    margin: 4px;
+    position: relative;
+}
+.lst_recipe li .call_recipe img {
+    width: 234px;
+    height: 234px;
+    display: block;
+}
+.lst_recipe li .author {
+   	text-align: center;
+    width: 0;
+    z-index: 5;
+    display: block;
+    margin-top: -40px;
+    margin-left: 90px;
+    position: relative;
+}
+.lst_recipe li .author img {
+    width: 61px;
+    height: 61px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto 5px;
+}
+.lst_recipe li p {
+    text-align: center;
+    font-size: 15px;
+    font-family: Microsoft YaHei,'NSB';
+    line-height: 19px;
+    letter-spacing: -0.025em;
+    padding: 2px 20px 0;
+}
+.lst_recipe li p strong {
+    display: block;
+    overflow: hidden;
+    margin-top: 5px;
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+li.btn_add a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    background: #e36113 url(/assets/_img/mypage/add_my_recipe-81ca769….png) center 118px no-repeat;
+    color: #ffaa77;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 110px;
+    text-decoration: none;
+}
+.no-content {
+    font-size: 15px;
+    padding-top: 170px;
+    text-align: center
+}
+a{
+	text-decoration: none;
+}
+a:link{
+	color:black;
+}
+a:visited{
+	color:black;
+}
 </style>
 
 <body>
@@ -57,24 +256,7 @@
 		</ul>
 		</div>
 	</div>
-	<section class="ftco-section ftco-category ftco-no-pt">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                
-                </div>
-                 <div class="col-md-3">
-                
-                </div>
-                 <div class="col-md-3">
-                
-                </div>
-                 <div class="col-md-3">
-                
-                </div>
-                </div>
-                </div>
-                </section> 
+	
 	<div class="title" id = "myRecipe" style="margin: 0px 200px;">
 		<ul class="lst_recipe">
 			<c:if test="${loginNum==member.memNum}">
@@ -103,7 +285,9 @@
 					</a>
 				</span>
 				<p>
-					<a href=""><strong>${rcpList.title}</strong><p>${rcpList.subtitle}</p></a>
+					<a href="">
+						<br><strong>${rcpList.title}</strong><p>${rcpList.foodname}</p>
+					</a>
 				</p>
 			</li>
 			</c:forEach>
@@ -112,12 +296,12 @@
 	</div>
 	
 	<div class="title" id = "scrap" style = "display:none; margin: 0px 200px;">
-		<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;padding-top: 100px">아직 스크랩하신 레시피가 없습니다.</h1>
+		<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;padding-bottom: 100px">아직 스크랩하신 레시피가 없습니다.</h1>
 	</div>
 	
-	<div class="title" id = "follow" style = "display:none; margin: 0px 200px;">
+	<div class="title" id = "follow" style = "display:none; margin: 0px 200px;padding-bottom: 100px">
 		<c:if test="${followCount==0 }">
-			<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;padding-top: 100px">아직 팔로우 하신 유저가 없습니다.</h1>
+			<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;">아직 팔로우 하신 유저가 없습니다.</h1>
 		</c:if>
 		<ul class="itemcard-list">			
 			<c:if test="${followCount != 0 }">

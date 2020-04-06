@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="rcpList" parameterType="int" resultType="Rcp">
-		select r.thumbnail, r.title, r.subtitle, m.profile
+		select *
 		from Rcp r, member m
 		where r.memNum=m.memNum and r.memNum=#{memNum}
 	</select>

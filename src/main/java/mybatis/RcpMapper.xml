@@ -28,4 +28,21 @@
 		from category
 	</select>
 	
+	<select id="rcpAllList" resultType="Rcp">
+		select *
+		from Rcp r, member m
+		where r.memNum=m.memNum
+	</select>
+	
+	<select id="rcpAllCount"  resultType="int">
+		select count(*) 
+		from Rcp
+	</select>
+	
+	<select id="rcpContent" parameterType="int" resultType="Rcp">
+		select *
+		from Rcp r, member m
+		where r.memNum=m.memNum and rcpNum=#{rcpnum}
+	</select>
+	
 </mapper>

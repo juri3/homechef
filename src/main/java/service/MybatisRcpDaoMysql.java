@@ -91,4 +91,48 @@ public class MybatisRcpDaoMysql{
 
 		return category;
 	}
+	
+	public int rcpAllCount(){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		int count;
+		
+		try{
+			String statement=namespace+".rcpAllCount"; 
+			count=sqlSession.selectOne(statement);
+		}finally{
+			sqlSession.close();
+		}
+
+		return count;
+	}
+	
+	public List<Rcp> rcpAllList(){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Rcp> rcpAllList=null;
+		String statement;
+		
+		try{
+			statement=namespace+".rcpAllList";         
+			rcpAllList=sqlSession.selectList(statement);
+		}finally{
+			sqlSession.close();
+		}
+
+		return rcpAllList;
+	}
+	
+	public Rcp rcpContent(int rcpnum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		Rcp rcpContent=null;
+		String statement;
+		
+		try{
+			statement=namespace+".rcpContent";         
+			rcpContent=sqlSession.selectOne(statement, rcpnum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return rcpContent;
+	}
 }
