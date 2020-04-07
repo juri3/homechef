@@ -296,15 +296,10 @@ a:visited{
 	</div>
 	
 	<div class="title" id = "scrap" style = "display:none; margin: 0px 200px;">
+		<c:if test="${scrapCount==0}">				
+				<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;padding-bottom: 100px">아직 스크랩하신 레시피가 없습니다.</h1>			
+		</c:if>
 		<ul class="lst_recipe">			
-			<c:if test="${scrapCount==0}">
-			<li class="no-recipes">
-				<div class="no-content">
-					<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;padding-bottom: 100px">아직 스크랩하신 레시피가 없습니다.</h1>
-				</div>
-			</li>
-			</c:if>
-			
 			<c:if test="${scrapCount!=0}">
 			<c:forEach var="scarpList" items="${scarpList}">
 			<li>

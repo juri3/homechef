@@ -237,7 +237,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "scrap", method = RequestMethod.POST)
-	public String scrap(HttpServletRequest request, Scrap scrap, int rcpnum, Model m) throws Exception {
+	public String scrap(HttpServletRequest request, int scrapnum, Model m) throws Exception {
 		HttpSession session = request.getSession();
 		
 		int loginNum = 0;
@@ -248,12 +248,14 @@ public class MemberController {
 		} else {
 			loginNum = (int) session.getAttribute("memNum");
 		}
-	
+		
+		Scrap scrap=new Scrap();
 		scrap.setMemnum(loginNum);
+		scrap.setScrapnum(scrapnum);
 		int check = dbPro.insertScrap(scrap);
 		
 		m.addAttribute("check", check);
-		m.addAttribute("rcpnum", rcpnum);
+		m.addAttribute("rcpnum", scrap.getScrapnum());
 
 		return "mypage/scrap";
 	}

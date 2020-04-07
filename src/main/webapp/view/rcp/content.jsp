@@ -219,16 +219,14 @@ ol, ul {
                                                             <div class="btn_area">
                                                             <c:if test="${loginNum!=rcpContent.memnum}">
                                                             	<c:if test="${checkScrap==0}">
-                                                            	<form action="<%=request.getContextPath()%>/member/scrap" method="post">
-                                                                    <input type="hidden" name="scrapnum" value="${rcpContent.memnum}">
-                                                                    <input type="hidden" name="rcpnum" value="${rcpContent.rcpnum}">
+                                                            	<form action="<%=request.getContextPath()%>/member/scrap" method="post">                                                                    
+                                                                    <input type="hidden" name="scrapnum" value="${rcpContent.rcpnum}">
                                                                     <button type="submit" class="btn_scrap">스크랩</button>
                                                                 </form>
                                                             	</c:if>
                                                             	<c:if test="${checkScrap==1}">
-                                                            	<form action="<%=request.getContextPath()%>/member/delScrap" method="post">
-                                                                    <input type="hidden" name="scrapnum" value="${rcpContent.memnum}">
-                                                                    <input type="hidden" name="rcpnum" value="${rcpContent.rcpnum}">
+                                                            	<form action="<%=request.getContextPath()%>/member/delScrap" method="post">                                                                    
+                                                                    <input type="hidden" name="scrapnum" value="${rcpContent.rcpnum}">
                                                                     <button type="submit" class="btn_scrap">스크랩취소</button>
                                                                 </form>
                                                             	</c:if>
