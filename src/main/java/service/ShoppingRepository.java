@@ -99,7 +99,7 @@ public class ShoppingRepository{
 		}
 		
 	}
-	public int registjjim(int cartNum, String memNum){
+	public int registjjim(int cartNum, int memNum){
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		Cart cart = new Cart(); 
 		Jjim jjim = new Jjim();
@@ -113,6 +113,7 @@ public class ShoppingRepository{
 			Map map = new HashMap();
 			map.put("memNum", memNum);
 			map.put("productName", cart.getProductName());
+			System.out.println("map : "+map);
 			cknum = sqlSession.selectOne(namespace+".checkjjim", map);
 			System.out.println("cknum : "+cknum);
 			if(cknum>0){
@@ -122,7 +123,7 @@ public class ShoppingRepository{
 				jnum = sqlSession.selectOne(namespace+".insert_maxJjim");
 				
 				jjim.setJjimNum(jnum);
-				jjim.setMemNum(cart.getMemNum());
+				jjim.setMemNum(memNum);
 				jjim.setPrice(cart.getPrice());
 				jjim.setProductName(cart.getProductName());
 				System.out.println("dao_j : " + jjim.toString());
@@ -135,7 +136,7 @@ public class ShoppingRepository{
 					sqlSession.rollback();
 					System.out.println("rollback");
 				}	
-				return 0;
+				return 1;
 			}
 
 		}finally{

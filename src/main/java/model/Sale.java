@@ -4,11 +4,20 @@ import java.io.Serializable;
 
 public class Sale implements Serializable {
 	private int rcpNum;
+	private String thumbnail;
 	private String productname;
 	private int price;
 	private int stock;
 	private int sales;
 	
+	
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 	public int getRcpNum() {
 		return rcpNum;
 	}
@@ -43,8 +52,8 @@ public class Sale implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Sale [rcpNum=" + rcpNum + ", productname=" + productname + ", price=" + price + ", stock=" + stock
-				+ ", sales=" + sales + "]";
+		return "Sale [rcpNum=" + rcpNum + ", thumbnail=" + thumbnail + ", productname=" + productname + ", price="
+				+ price + ", stock=" + stock + ", sales=" + sales + "]";
 	}
 	
 	

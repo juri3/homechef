@@ -128,6 +128,15 @@ public class Rcp implements Serializable {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
+	@Override
+	public String toString() {
+		return "Rcp [rcpnum=" + rcpnum + ", title=" + title + ", subtitle=" + subtitle + ", cookingtime=" + cookingtime
+				+ ", foodname=" + foodname + ", memnum=" + memnum + ", reg_date=" + reg_date + ", thumbnail="
+				+ thumbnail + ", hashtag=" + hashtag + ", category=" + category + ", ingredient=" + ingredient
+				+ ", profile=" + profile + ", name=" + name + "]";
+	}
+	
 	
 	
 }

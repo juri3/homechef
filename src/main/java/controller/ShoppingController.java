@@ -44,16 +44,16 @@ public class ShoppingController {
       System.out.println("====================");
       //회원기능 머지 전이라 초기화
       //
-      String memNum =  (String) session.getAttribute("memNum");
-      if (memNum==null) {
-    	  memNum = "2";
-    	  session.setAttribute("memNum", "2");
+      int memNum =  (int) session.getAttribute("memNum");
+      if (memNum==0) {
+    	  memNum = 2;
+    	  session.setAttribute("memNum", 2);
 		}
       System.out.println(memNum);
+      
      
       
    }
-
 
    @RequestMapping(value = "list") // 맨끝단의 url만 가지고 옴, get방식으로 한다.
    public String reciptview(Model model) {
@@ -66,7 +66,6 @@ public class ShoppingController {
       System.out.println("price : "+sale);
       
       Rcp rcp = service.getRcp(rcpNum);
-      System.out.println("ingredient : " + rcp);
       model.addAttribute("recipt", rcp);
       model.addAttribute("ingredients", ingredients);
       model.addAttribute("sale", sale);
@@ -87,7 +86,7 @@ public class ShoppingController {
    public String addcart(Cart cart, HttpSession session, Model m) {
       // TODO Auto-generated method stub
       
-      int memNo = Integer.parseInt((String)session.getAttribute("memNum"));
+      int memNo = (int) session.getAttribute("memNum");
       cart.setMemNum(memNo);
       service.insertCart(cart);
       List<Cart> cartlist = service.getCart(memNo);
@@ -96,16 +95,16 @@ public class ShoppingController {
       return "redirect:/shopping/cartview";
       
    }
-   private boolean flag = false;
+  
    @RequestMapping(value = "cartview", method=RequestMethod.GET) // 맨끝단의 url만 가지고 옴, get방식으로 한다.
    public String cartview(HttpSession session, Model m){
       // TODO Auto-generated method stub
       
-      int memNo = Integer.parseInt((String)session.getAttribute("memNum"));
+      int memNo = (int) session.getAttribute("memNum");
       List<Cart> cartlist = service.getCart(memNo);
       System.out.println(memNo);
       System.out.println("getcart : "+cartlist);
-      m.addAttribute("flag", flag);
+     
       m.addAttribute("cartlist",cartlist);
       
       return "shopping/shoppingcartForm";
@@ -130,20 +129,18 @@ public class ShoppingController {
       // TODO Auto-generated method stub
       HttpSession session = request.getSession();
       
-      String[] values = request.getParameterValues("cart");
-      for(String str : values){
-         int check = service.registjjim(Integer.parseInt(cartNum_split(str)),(String)session.getAttribute("memNum"));
-         if(check == 1){
-            System.out.println( str+"-- 성공");
-            flag = true;
-         }else{
-            System.out.println( str+"-- 실패");
-         }
-      }
-      System.out.println(flag);
-      m.addAttribute("flag", flag);
+      String values = request.getParameter("rcpNum");
+     int check = service.registjjim(Integer.parseInt(values),(int)session.getAttribute("memNum"));
+     System.out.println("check " + check);
+     System.out.println("dddd : "+(int)session.getAttribute("memNum"));
+     if(check >= 1){
+        System.out.println( values+"-- 성공");
+     }else{
+        System.out.println( values+"-- 중복");
+     }
+      
 
-      return "redirect:/shopping/cartview";
+      return "redirect:/shopping/list";
    }
    
    @RequestMapping(value = "order", method=RequestMethod.POST) // 
@@ -161,7 +158,7 @@ public class ShoppingController {
 			System.out.println("str : " +str);
 			cartlist.add(service.getCartByNum(Integer.parseInt(cartNum_split(str))));
 		}
-		int memNum = Integer.parseInt((String)session.getAttribute("memNum"));
+		int memNum = (int) session.getAttribute("memNum");
 		mem = service.getMember(memNum);
 
 		
