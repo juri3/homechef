@@ -67,12 +67,22 @@ public class ShoppingController {
       
       Rcp rcp = service.getRcp(rcpNum);
       System.out.println("ingredient : " + rcp);
+      model.addAttribute("recipt", rcp);
       model.addAttribute("ingredients", ingredients);
       model.addAttribute("sale", sale);
 
       return "shopping/goodsview";
    }
-
+   
+   private String cartNum_split(String value){
+		String str = value;
+		String[] array = str.split(",");
+		for (String num : array) {
+			System.out.println("split : " + num);
+		}
+		return array[0];
+	}
+   
    @RequestMapping(value = "addcart", method=RequestMethod.POST) // 맨끝단의 url만 가지고 옴, get방식으로 한다.
    public String addcart(Cart cart, HttpSession session, Model m) {
       // TODO Auto-generated method stub
@@ -86,7 +96,7 @@ public class ShoppingController {
       return "redirect:/shopping/cartview";
       
    }
-
+   private boolean flag = false;
    @RequestMapping(value = "cartview", method=RequestMethod.GET) // 맨끝단의 url만 가지고 옴, get방식으로 한다.
    public String cartview(HttpSession session, Model m){
       // TODO Auto-generated method stub
@@ -95,6 +105,7 @@ public class ShoppingController {
       List<Cart> cartlist = service.getCart(memNo);
       System.out.println(memNo);
       System.out.println("getcart : "+cartlist);
+      m.addAttribute("flag", flag);
       m.addAttribute("cartlist",cartlist);
       
       return "shopping/shoppingcartForm";
@@ -107,7 +118,7 @@ public class ShoppingController {
       String[] values = request.getParameterValues("cart");
       for(String str : values){
          
-         int check = service.deleteCartvalue(Integer.parseInt(str));
+         int check = service.deleteCartvalue(Integer.parseInt(cartNum_split(str)));
          System.out.println(str+" : "+check);
       }
       
@@ -118,10 +129,10 @@ public class ShoppingController {
    public String regist_jjim(HttpServletRequest request, Model m) throws Exception {
       // TODO Auto-generated method stub
       HttpSession session = request.getSession();
-      boolean flag = false;
+      
       String[] values = request.getParameterValues("cart");
       for(String str : values){
-         int check = service.registjjim(Integer.parseInt(str),(String)session.getAttribute("memNum"));
+         int check = service.registjjim(Integer.parseInt(cartNum_split(str)),(String)session.getAttribute("memNum"));
          if(check == 1){
             System.out.println( str+"-- 성공");
             flag = true;
@@ -135,7 +146,7 @@ public class ShoppingController {
       return "redirect:/shopping/cartview";
    }
    
-   @RequestMapping(value = "order", method=RequestMethod.POST) // �ǳ����� url�� ������ ��, get������� �Ѵ�.
+   @RequestMapping(value = "order", method=RequestMethod.POST) // 
 	public String order(HttpServletRequest request, Model m){
 		// TODO Auto-generated method stub
 		List<Cart> cartlist = new ArrayList<>();
@@ -148,7 +159,7 @@ public class ShoppingController {
 		String[] values = request.getParameterValues("cart");
 		for(String str : values){
 			System.out.println("str : " +str);
-			cartlist.add(service.getCartByNum(Integer.parseInt(str)));
+			cartlist.add(service.getCartByNum(Integer.parseInt(cartNum_split(str))));
 		}
 		int memNum = Integer.parseInt((String)session.getAttribute("memNum"));
 		mem = service.getMember(memNum);

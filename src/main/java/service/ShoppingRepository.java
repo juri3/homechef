@@ -43,6 +43,7 @@ public class ShoppingRepository{
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		try{
 			String statement = namespace + ".getRcp";
+			
 			return (Rcp) sqlSession.selectOne(statement, rcpnum);
 		}finally{
 			sqlSession.close();
@@ -113,6 +114,7 @@ public class ShoppingRepository{
 			map.put("memNum", memNum);
 			map.put("productName", cart.getProductName());
 			cknum = sqlSession.selectOne(namespace+".checkjjim", map);
+			System.out.println("cknum : "+cknum);
 			if(cknum>0){
 				System.out.println(cknum);
 				return 0; 
@@ -133,7 +135,7 @@ public class ShoppingRepository{
 					sqlSession.rollback();
 					System.out.println("rollback");
 				}	
-				return 1;
+				return 0;
 			}
 
 		}finally{

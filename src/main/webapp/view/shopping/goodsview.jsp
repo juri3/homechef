@@ -42,7 +42,7 @@ a:hover {
 	</div>
 	<form name="select_ingredient" method="post"
 		action="${pageContext.request.contextPath}/shopping/addcart">
-		<input type="hidden" name="rcpNum" value="${recipt.rcpNum }">
+		<input type="hidden" name="rcpNum" value="${recipt.rcpnum }">
 		<input type="hidden" name="productName" value="${sale.productname }">
 		<input type="hidden" name="price" value="${sale.price }">
 		<section class="ftco-section">
@@ -136,7 +136,7 @@ a:hover {
 			</div>
 			<div class="view_step">
 				<div class="view_tag">
-			<c:forTokens items="${recipt.hashTag }" delims="#" var="item">
+			<c:forTokens items="${recipt.hashtag }" delims="#" var="item">
     <a href="#">#${item}</a>
    </c:forTokens>
 				
