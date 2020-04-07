@@ -1,6 +1,8 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,4 +137,55 @@ public class MybatisRcpDaoMysql{
 
 		return rcpContent;
 	}
+	
+	public List<RcpContent> rcpContent2(int rcpnum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<RcpContent> rcpContent2=null;
+		String statement;
+		
+		try{
+			statement=namespace+".rcpContent2";         
+			rcpContent2=sqlSession.selectList(statement, rcpnum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return rcpContent2;
+	}
+	
+	public List<Ingredient> rcpContent3(int rcpnum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Ingredient> rcpContent3=null;
+		String statement;
+		
+		try{
+			statement=namespace+".rcpContent3";         
+			rcpContent3=sqlSession.selectList(statement, rcpnum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return rcpContent3;
+	}
+	
+	public int checkScrap(int loginNum, int rcpnum){
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();	  		
+		int checkScrap=-1;		
+		
+		Map map=new HashMap();
+		map.put("memnum", loginNum);
+		map.put("scrapnum", rcpnum);
+		
+	        try
+	        {
+	            String statement = namespace + ".checkScrap";
+	            checkScrap=sqlSession.selectOne(statement, map);
+	        }
+	        finally
+	        {
+	            sqlSession.close();
+	        }
+	        return checkScrap;
+	}
+	
 }

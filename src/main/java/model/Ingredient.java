@@ -32,6 +32,11 @@ public class Ingredient implements Serializable {
 	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
+
+	@Override
+	public String toString() {
+		return "Ingredient [rcpNum=" + rcpNum + ", ingredient=" + ingredient + ", quantity=" + quantity + "]";
+	}
 	
 	
 }

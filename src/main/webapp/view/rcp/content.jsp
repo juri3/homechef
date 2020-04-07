@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -83,6 +84,29 @@ ol, ul {
     margin-top: 5px;
     line-height: 1.5;
 }
+.lst_step {
+    counter-reset: li;
+    position: relative;
+}
+.lst_step li {
+    width: 600px;
+    margin: 50px auto 0;
+    counter-increment: step;
+    position: relative;
+}
+.lst_step img {
+  	display: block;
+    width: 600px;
+    height: 340px;
+    margin: 0 auto 13px;
+}
+.lst_step p {
+    font-size: 16px;
+    color: #6d6e71;
+    font-family: Microsoft YaHei,'NS';
+    line-height: 22px;
+}
+
 </style>
 
 <body>
@@ -108,12 +132,11 @@ ol, ul {
                                                             <div class="carousel-item active">
                                                                 <img src="<%=request.getContextPath()%>/uploadRcpFile/${rcpContent.thumbnail}" class="d-block w-100" alt="...">
                                                             </div>
+                                                            <c:forEach var="rcpContent2" items="${rcpContent2}">
                                                             <div class="carousel-item">
-                                                                <img src="images/food2.jpeg" class="d-block w-100" alt="...">
+                                                                <img src="<%=request.getContextPath()%>/uploadRcpContentFile/${rcpContent2.fileName}" class="d-block w-100" alt="...">
                                                             </div>
-                                                            <div class="carousel-item">
-                                                                <img src="images/food1.png" class="d-block w-100" alt="...">
-                                                            </div>
+                                                            </c:forEach>                                                        
                                                         </div>
                                                         <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
                                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -126,13 +149,25 @@ ol, ul {
                                                         <!--/.Controls-->
                                                         <ol class="carousel-indicators">
                                                             <li data-target="#carousel-thumb" data-slide-to="0" class="active"> <img class="d-block w-100" src="<%=request.getContextPath()%>/uploadRcpFile/${rcpContent.thumbnail}" class="img-fluid"></li>
-                                                            <li data-target="#carousel-thumb" data-slide-to="1"><img class="d-block w-100" src="images/food2.jpeg" class="img-fluid"></li>
-                                                            <li data-target="#carousel-thumb" data-slide-to="2"><img class="d-block w-100" src="images/food1.png" class="img-fluid"></li>
+                                                            <c:forEach var="rcpContent2" items="${rcpContent2}" varStatus="status">                                                         
+                                                            <li data-target="#carousel-thumb" data-slide-to="${status.count}"><img class="d-block w-100" src="<%=request.getContextPath()%>/uploadRcpContentFile/${rcpContent2.fileName}" class="img-fluid"></li>
+                                                            </c:forEach>                                                         
                                                         </ol>
                                                     </div>
                                                     <h2>영양정보<span>(하루 적정섭취량, 1인분 기준)</span></h2>
                                                     <h2>태그 정보</h2>
                                                     <h2>레시피 정보</h2>
+                                                    <ol class="lst_step">
+                                                    	<c:forEach var="rcpContent2" items="${rcpContent2}" varStatus="status">
+                                                    	<li>
+                                                    		<div class="img_cover">
+                                                    			<img src="<%=request.getContextPath()%>/uploadRcpContentFile/${rcpContent2.fileName}">
+                                                    		</div>
+                                                    		<p>${rcpContent2.content}</p>
+                                                    	</li>
+                                                    	</c:forEach>
+                                                    </ol>
+                                                    
                                                     <section class="sec_comment">
 														<h2>한줄댓글</h2>
 														<form class="box_write">
@@ -182,11 +217,22 @@ ol, ul {
 
                                                             <!-- [D] 버튼영역 추가 150314 -->
                                                             <div class="btn_area">
-                                                                <form action="/bookmarks" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="JrdeLwIAsJoz2TbZWpLeD9W4Uni5B+173uSct89G4aXxaDw+MG/cEBaGB+8mp18r9xSbB/DEZsr19h3POOfebA==">
-                                                                    <input type="hidden" name="linked_model_type" value="Recipe">
-                                                                    <input type="hidden" name="linked_model_id" value="502">
+                                                            <c:if test="${loginNum!=rcpContent.memnum}">
+                                                            	<c:if test="${checkScrap==0}">
+                                                            	<form action="<%=request.getContextPath()%>/member/scrap" method="post">
+                                                                    <input type="hidden" name="scrapnum" value="${rcpContent.memnum}">
+                                                                    <input type="hidden" name="rcpnum" value="${rcpContent.rcpnum}">
                                                                     <button type="submit" class="btn_scrap">스크랩</button>
                                                                 </form>
+                                                            	</c:if>
+                                                            	<c:if test="${checkScrap==1}">
+                                                            	<form action="<%=request.getContextPath()%>/member/delScrap" method="post">
+                                                                    <input type="hidden" name="scrapnum" value="${rcpContent.memnum}">
+                                                                    <input type="hidden" name="rcpnum" value="${rcpContent.rcpnum}">
+                                                                    <button type="submit" class="btn_scrap">스크랩취소</button>
+                                                                </form>
+                                                            	</c:if>
+                                                            </c:if>                                                             
                                                             </div>
                                                             <!-- //버튼영역 추가 -->
                                                         </div>                                                      
@@ -198,16 +244,9 @@ ol, ul {
                                                             </div>
 
                                                             <ul class="lst_ingrd">
-                                                                <li><span>햄</span><em></em></li>
-                                                                <li><span>오뎅</span><em></em></li>
-                                                                <li><span>후추 약간</span><em></em></li>
-                                                                <li><span>만두</span><em></em></li>
-                                                                <li><span>청량고추</span><em></em></li>
-                                                                <li><span>&lt;양념장&gt;</span><em></em></li>
-                                                                <li><span>고추가루</span><em>1스푼</em></li>
-                                                                <li><span>고추장</span><em>1스푼</em></li>
-                                                                <li><span>다진마늘</span><em>1스푼</em></li>
-                                                                <li><span>맛술</span><em>1스푼</em></li>
+                                                            	<c:forEach var="rcpContent3" items="${rcpContent3}">
+                                                            	<li><span>${rcpContent3.ingredient}</span><em>${rcpContent3.quantity}</em></li>
+                                                            	</c:forEach>                                                               
                                                             </ul>
                                                         </div>
                                                     </div>

@@ -24,6 +24,7 @@ import exception.LoginFailException;
 import model.Follow;
 import model.Member;
 import model.Rcp;
+import model.Scrap;
 import model.User;
 import service.MybatisMemberDao;
 import util.JdbcUtil;
@@ -35,8 +36,8 @@ public class MemberController {
 	MybatisMemberDao dbPro;
 
 	/*public void initProcess(HttpServletRequest request,
-            HttpServletResponse response)
-    {   }*/    
+            HttpServletResponse response){		
+	}*/    
     
     @RequestMapping(value = "join", method = RequestMethod.GET)
     public String member_joinForm() throws Exception
@@ -156,11 +157,11 @@ public class MemberController {
 		int checkFollow = dbPro.checkFollow(loginNum, memNum);
 		int followCount = dbPro.followCount(memNum);
 		int followerCount = dbPro.followerCount(memNum);
-		List<Member> followList = dbPro.followList(memNum);
-		
+		List<Member> followList = dbPro.followList(memNum);		
 		int rcpCount = dbPro.rcpCount(memNum);
 		List<Rcp> rcpList=dbPro.rcpList(memNum);
-		System.out.println(rcpList.size());
+		int scrapCount=dbPro.scrapCount(memNum);
+		List<Rcp> scarpList=dbPro.scarpList(memNum);
 
 		m.addAttribute("loginNum", loginNum);
 
@@ -171,6 +172,8 @@ public class MemberController {
 		m.addAttribute("followList", followList);
 		m.addAttribute("rcpCount", rcpCount);
 		m.addAttribute("rcpList", rcpList);
+		m.addAttribute("scrapCount", scrapCount);
+		m.addAttribute("scarpList", scarpList);
 
 		return "mypage/mypage";
 	}
@@ -231,6 +234,39 @@ public class MemberController {
 		m.addAttribute("memNum", memNum);
 
 		return "mypage/unFollow";
+	}
+	
+	@RequestMapping(value = "scrap", method = RequestMethod.POST)
+	public String scrap(HttpServletRequest request, Scrap scrap, int rcpnum, Model m) throws Exception {
+		HttpSession session = request.getSession();
+		
+		int loginNum = 0;
+
+		if (session.getAttribute("memNum") == null) {
+			session.setAttribute("memNum", 0);
+			loginNum = (int) session.getAttribute("memNum");
+		} else {
+			loginNum = (int) session.getAttribute("memNum");
+		}
+	
+		scrap.setMemnum(loginNum);
+		int check = dbPro.insertScrap(scrap);
+		
+		m.addAttribute("check", check);
+		m.addAttribute("rcpnum", rcpnum);
+
+		return "mypage/scrap";
+	}
+	
+	@RequestMapping(value = "delScrap", method = RequestMethod.POST)
+	public String delScrap(HttpServletRequest request, Scrap scrap, int rcpnum, Model m) throws Exception {
+		HttpSession session = request.getSession();
+		int loginNum = (int) session.getAttribute("memNum");
+
+		scrap.setMemnum(loginNum);
+		dbPro.delScrap(scrap);
+
+		return "redirect:/rcp/content?rcpnum="+rcpnum;
 	}
 
 }

@@ -45,4 +45,22 @@
 		where r.memNum=m.memNum and rcpNum=#{rcpnum}
 	</select>
 	
+	<select id="rcpContent2" parameterType="int" resultType="RcpContent">
+		select *
+		from RcpContent
+		where rcpNum=#{rcpnum}
+	</select>
+	
+	<select id="rcpContent3" parameterType="int" resultType="Ingredient">
+		select *
+		from Ingredient
+		where rcpNum=#{rcpnum}
+	</select>
+	
+	<select id="checkScrap" parameterType="hashmap" resultType="int">
+		select NVL(count(*),0) 
+		from scrap 
+		where memnum=#{memnum} and scrapnum=#{scrapnum}
+	</select>
+	
 </mapper>

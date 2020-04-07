@@ -95,7 +95,7 @@ a:visited{
     font-size: 15px;
     padding: 8px 0;
     line-height: 1;
-    min-width: 1400px;
+    min-width: 1200px;
 }
 .search_cate .cate_list {
     font-size: 15px;
@@ -198,7 +198,7 @@ ol, ul {
 
 <body>
 
-<div class="inner">
+<div class="container">
 	<div class="search_cate">
 		<div class="cate_list">
 			<span>상황별</span>
@@ -274,157 +274,6 @@ ol, ul {
 		</c:if>		
 	</ul>	
 </div>
-
-<%-- <div class="container">
-	<div class="row">
-    <!-- Boxes de Acoes -->
-           <div class="col-xs-12 col-sm-6 col-lg-8">
-                <div class="box">
-                    <div class="icon">
-                        <div class="image"><i class="fa fa-soundcloud"></i></div>
-                        <div class="info">
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="primary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="slider_recipe">
-                                            <div class="modal-header modal-header-primary">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                <!-- <h1><i class="fa fa-bar-chart-o"></i> Client Reports</h1> -->
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="sec_detail">
-                                                    <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
-                                                        <div class="carousel-inner">
-                                                            <div class="carousel-item active">
-                                                                <img src="images/food1.png" class="d-block w-100" alt="...">
-                                                            </div>
-                                                            <div class="carousel-item">
-                                                                <img src="images/food2.jpeg" class="d-block w-100" alt="...">
-                                                            </div>
-                                                            <div class="carousel-item">
-                                                                <img src="images/food1.png" class="d-block w-100" alt="...">
-                                                            </div>
-                                                        </div>
-                                                        <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                        <a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                        <!--/.Controls-->
-                                                        <ol class="carousel-indicators">
-                                                            <li data-target="#carousel-thumb" data-slide-to="0" class="active"> <img class="d-block w-100" src="images/food1.png" class="img-fluid"></li>
-                                                            <li data-target="#carousel-thumb" data-slide-to="1"><img class="d-block w-100" src="images/food2.jpeg" class="img-fluid"></li>
-                                                            <li data-target="#carousel-thumb" data-slide-to="2"><img class="d-block w-100" src="images/food1.png" class="img-fluid"></li>
-                                                        </ol>
-                                                    </div>
-                                                    <h2>영양정보<span>(하루 적정섭취량, 1인분 기준)</span></h2>
-                                                    <h2>태그 정보</h2>
-                                                    <h2>레시피 정보</h2>
-                                                    <section class="sec_comment">
-														<h2>한줄댓글</h2>
-														<form class="box_write">
-															<textarea placeholder="한 줄 댓글을 남겨주세요." name="comment"></textarea>
-															<button type="submit">댓글남기기</button>
-														</form>
-														
-														<ul class="lst_comment">
-															<li>
-																<div class="img-cover">
-																	<img src="<%=request.getContextPath()%>/uploadFile/profile.png">
-																</div>
-																<strong>Test</strong>
-																<time>2015.02.02</time>
-																<p>Good</p>
-															</li>
-														</ul>
-													</section>
-                                                </div>
-                                                <section class="sec_info">
-                                                    <div class="aside">
-                                                        <div class="top">
-                                                            <div class="user">
-                                                                <div class="img-cover">
-                                                                    <a href="/profile/56">
-                                                                        <img class="img_user" alt="" src="https://cloudfront.haemukja.com/vh.php?url=https://d1hk7gw6lgygff.cloudfront.net/uploads/user/image_file/56/thumb_2.jpg&amp;convert=jpgmin&amp;rt=600">
-                                                                    </a>
-                                                                </div>
-                                                                <strong class="best"><a href="/profile/56">제이소다</a></strong>                                                               
-                                                            </div>
-
-                                                            <h1>
-                                                                부대찌개 맛있게 끓이는법~★
-                                                                <strong>부대찌개</strong>
-                                                            </h1>
-                                                            <dl class="info_basic">
-                                                                <dt class="time">조리시간</dt>
-                                                                <dd>30분</dd>
-                                                                <dt class="scrap">스크랩</dt>
-                                                                <dd id="scrap-cnt">596</dd>
-                                                                <!-- [D] 스크랩이 된 경우 :
-														  <dt class="scrap on"><a href="#">스크랩</a></dt><dd>1,230</dd>
-														  -->
-                                                                <dt class="cal">칼로리</dt>
-                                                                <dd>180.4 kcal</dd>
-                                                            </dl>
-
-                                                            <!-- [D] 버튼영역 추가 150314 -->
-                                                            <div class="btn_area">
-                                                                <form action="/bookmarks" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="JrdeLwIAsJoz2TbZWpLeD9W4Uni5B+173uSct89G4aXxaDw+MG/cEBaGB+8mp18r9xSbB/DEZsr19h3POOfebA==">
-                                                                    <input type="hidden" name="linked_model_type" value="Recipe">
-                                                                    <input type="hidden" name="linked_model_id" value="502">
-                                                                    <button type="submit" class="btn_scrap">스크랩</button>
-                                                                </form>
-                                                            </div>
-                                                            <!-- //버튼영역 추가 -->
-                                                        </div>
-                                                   
-                                                        <div class="btm" style="position: relative; top: 0px; left: 0px; margin-left: 0px;">
-                                                            <h2>재료리스트</h2>
-                                                            <div class="dropdown">
-                                                                2인 기준
-                                                            </div>
-
-                                                            <ul class="lst_ingrd">
-                                                                <li><span>햄</span><em></em></li>
-                                                                <li><span>오뎅</span><em></em></li>
-                                                                <li><span>후추 약간</span><em></em></li>
-                                                                <li><span>만두</span><em></em></li>
-                                                                <li><span>청량고추</span><em></em></li>
-                                                                <li><span>&lt;양념장&gt;</span><em></em></li>
-                                                                <li><span>고추가루</span><em>1스푼</em></li>
-                                                                <li><span>고추장</span><em>1스푼</em></li>
-                                                                <li><span>다진마늘</span><em>1스푼</em></li>
-                                                                <li><span>맛술</span><em>1스푼</em></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </section>
-                                            </div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- /.modal -->
-                            <!-- Modal -->
-                        </div>
-                    </div>
-                </div>
-                <div class="space"></div>
-            </div>
-        </div>
-        <!-- /Boxes de Acoes -->
-</div> --%>
 
 </body>
 </html>

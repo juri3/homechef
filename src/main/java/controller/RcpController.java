@@ -3,6 +3,8 @@ package controller;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ import service.MybatisRcpDaoMysql;
 public class RcpController {
 	
 	@Autowired
-	MybatisRcpDaoMysql dbPro;
+	MybatisRcpDaoMysql dbPro;	
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String rcp_list(Model m) throws Exception {
@@ -41,10 +43,29 @@ public class RcpController {
 	}
 	
 	@RequestMapping(value = "content", method = RequestMethod.GET)
-	public String rcp_content(int rcpnum, Model m) throws Exception {
+	public String rcp_content(HttpServletRequest request, int rcpnum, Model m) throws Exception {
+		HttpSession session = request.getSession();
+		
+		int loginNum = 0;
+
+		if (session.getAttribute("memNum") == null) {
+			session.setAttribute("memNum", 0);
+			loginNum = (int) session.getAttribute("memNum");
+		} else {
+			loginNum = (int) session.getAttribute("memNum");
+		}
+		
 		Rcp rcpContent=dbPro.rcpContent(rcpnum);
+		List<RcpContent> rcpContent2=dbPro.rcpContent2(rcpnum);
+		List<Ingredient> rcpContent3=dbPro.rcpContent3(rcpnum);
+		
+		int checkScrap = dbPro.checkScrap(loginNum, rcpnum);
 		
 		m.addAttribute("rcpContent", rcpContent);
+		m.addAttribute("rcpContent2", rcpContent2);
+		m.addAttribute("rcpContent3", rcpContent3);
+		m.addAttribute("checkScrap", checkScrap);
+		m.addAttribute("loginNum", loginNum);
 		
 		return "rcp/content";
 	}

@@ -44,5 +44,12 @@ public class RcpContent implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	@Override
+	public String toString() {
+		return "RcpContent [rcpNum=" + rcpNum + ", step=" + step + ", fileName=" + fileName + ", content=" + content
+				+ "]";
+	}
+	
 	
 }
