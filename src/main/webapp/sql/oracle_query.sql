@@ -118,9 +118,7 @@ addressnum int not null primary key,
 addrName varchar(50),
 memNum int not null,
 memName varchar(10),
-address1 varchar(128),
-address2 varchar(128),
-address3 varchar(128),
+address varchar(500),
 zipcode int
 );
 

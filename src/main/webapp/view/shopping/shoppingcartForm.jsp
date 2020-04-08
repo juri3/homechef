@@ -35,8 +35,8 @@
 						        <th><input type="checkbox" id="cart_all" checked ></th>
 						        <th>&nbsp;</th>
 						        <th>상 품 명</th>
-						        <th>가  격</th>
 						        <th>수  량</th>
+						        <th>가  격</th>
 						        <th>배 송 비</th>
 						      </tr>
 						    </thead>

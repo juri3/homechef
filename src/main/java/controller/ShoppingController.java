@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import model.Cart;
@@ -76,9 +77,6 @@ public class ShoppingController {
    private String cartNum_split(String value){
 		String str = value;
 		String[] array = str.split(",");
-		for (String num : array) {
-			System.out.println("split : " + num);
-		}
 		return array[0];
 	}
    
@@ -170,26 +168,45 @@ public class ShoppingController {
 		
 		m.addAttribute("memName", mem.getName());
 		m.addAttribute("cartlist", cartlist);
-		m.addAttribute("address", address);
+		m.addAttribute("reg_address", address);
 		
 		return "shopping/orderForm";
 	}
+   
+   private String address_split(String value, int index){
+		String str = value;
+		String[] array = str.split(",");
+		return array[index];
+	}
 	
 	@RequestMapping(value = "complete_order") 
-	public String payment(HttpServletRequest request, int[] nums, MemAddress memaddr, OrderInfo orderinfo, OrderProduct ordpro, Model m){
+	public String payment(HttpServletRequest request, @RequestParam("select")int select, @RequestParam(value="sel_address", required=false, defaultValue="-1")int sel_address,
+			int[] nums, MemAddress memaddr, OrderInfo orderinfo, OrderProduct ordpro, Model m){
 		// TODO Auto-generated method stub
-		String tot_addr = memaddr.getAddress1() +" "+ memaddr.getAddress2() + memaddr.getAddress3();
-		orderinfo.setAddress(tot_addr);
-		service.insertMemAddr(memaddr);
-		service.insertOrderForm(orderinfo, ordpro, nums);
+		System.out.println("select : " + select);
+		System.out.println("address : " + sel_address);
+		String addr = "";
+		if(select==0){
+			String[] array = memaddr.getAddress().split(",");
+			for(String str : array){
+				addr+=str+" ";
+			}
+			memaddr.setRecipient(address_split(memaddr.getRecipient(),select));
+			memaddr.setZipcode(address_split(memaddr.getZipcode(),select));
+		}else{
+			// 기존 배송지 일경우, 주문완료된 카트들 삭제..
+		}
+		memaddr.setAddress(addr);
+		System.out.println(memaddr.getRecipient());
+		System.out.println(memaddr.getZipcode());
+		System.out.println(addr);
+		//service.insertMemAddr(memaddr);
+		//service.insertOrderForm(orderinfo, ordpro, nums);
 		
 		System.out.println(nums[1]);
 		System.out.println(memaddr);
 		System.out.println(orderinfo);
 		System.out.println(ordpro);
-		//orderinfo, orderproduct, 
-		
-		
 		
 		
 		return "shopping/orderSuccess";

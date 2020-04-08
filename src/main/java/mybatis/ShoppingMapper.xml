@@ -74,7 +74,7 @@
 	</select>
 	
 	<insert id="insertMemaddr"	parameterType="MemAddress">
-		INSERT INTO mem_address VALUES(#{addressNum}, #{memNum}, #{memName}, #{address1}, #{address2}, #{address3}, #{zipcode}, #{recipient})
+		INSERT INTO mem_address VALUES(#{addressNum}, #{recipient}, #{memNum}, #{memName}, #{address}, #{zipcode})
 	</insert>
 	
 	<insert id="insertOrderProduct"	parameterType="OrderProduct">
