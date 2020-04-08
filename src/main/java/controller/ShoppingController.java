@@ -88,6 +88,7 @@ public class ShoppingController {
       
       int memNo = (int) session.getAttribute("memNum");
       cart.setMemNum(memNo);
+      
       service.insertCart(cart);
       List<Cart> cartlist = service.getCart(memNo);
       System.out.println("getcart : "+cartlist);

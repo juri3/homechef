@@ -7,10 +7,18 @@ public class Cart implements Serializable {
 
 	private int cartNum; 
 	private int memNum;
+	private String thumbnail;
 	private String productName;
 	private int qty;
 	private int price;
 	
+		
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 	public int getCartNum() {
 		return cartNum;
 	}
@@ -45,8 +53,8 @@ public class Cart implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Cart [cartNum=" + cartNum + ", memNum=" + memNum + ", productName=" + productName + ", qty=" + qty
-				+ ", price=" + price + "]";
+		return "Cart [cartNum=" + cartNum + ", memNum=" + memNum + ", thumbnail=" + thumbnail + ", productName="
+				+ productName + ", qty=" + qty + ", price=" + price + "]";
 	}
 	
 	

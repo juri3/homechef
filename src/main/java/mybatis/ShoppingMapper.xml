@@ -19,7 +19,7 @@
 	</select>
 	
 	<insert id="insertCart"	parameterType="Cart">
-		INSERT INTO cart VALUES(#{cartNum}, #{memNum}, #{productName}, #{qty}, #{price})
+		INSERT INTO cart VALUES(#{cartNum}, #{memNum}, #{thumbnail}, #{productName}, #{qty}, #{price})
 	</insert>
 	
 	<select id="getCart" parameterType="int" resultType="Cart">

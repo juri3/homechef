@@ -23,7 +23,7 @@ a:hover {
 </style>
 
 <body>
-	<div class="hero-wrap hero-bread sub_headbg"
+ 	<div class="hero-wrap hero-bread sub_headbg"
 		style="background-image: url('../images/bg_4.jpg');">
 		<div class="container">
 			<div
@@ -37,18 +37,19 @@ a:hover {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> 
 	<form name="select_ingredient" method="post">
 		<input type="hidden" name="rcpNum" value="${recipt.rcpnum }">
 		<input type="hidden" name="productName" value="${sale.productname }">
 		<input type="hidden" name="price" value="${sale.price }">
+		<input type="hidden" name="thumbnail" value="${sale.thumbnail }">
 		<section class="ftco-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 mb-5 ftco-animate">
-					<a href="../images/product-1.jpg" class="image-popup"><img
-						src="../images/product-1.jpg" class="img-fluid"
-						alt="Colorlib Template"></a>
+					<a class="image-popup">
+					<img src="${pageContext.request.contextPath }/img/${sale.thumbnail}" class="img-fluid">
+					</a>
 				</div>
 				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
 					<h3>${recipt.title }</h3>

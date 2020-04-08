@@ -86,6 +86,7 @@ sales int
 create table cart(
 cartnum int not null primary key,
 memNum int not null,
+thumbnail varchar2(50),
 productname varchar(128),
 qty int,
 price number 
