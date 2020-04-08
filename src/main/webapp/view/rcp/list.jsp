@@ -194,6 +194,15 @@ ol, ul {
     margin-top: 5px;
     line-height: 1.5;
 }
+.list_title {
+    font-size: 16px;
+    color: #333;
+    padding: 5px 0 20px 8px;
+}
+.list_title b {
+    color: #74b243;
+    font-size: 26px;
+}
 </style>
 
 <body>
@@ -205,7 +214,7 @@ ol, ul {
 			<c:forEach var="category" items="${category}">
 				<c:if test="${category.cateNum>=1}">
 				<c:if test="${category.cateNum<=7}">
-					<a href="">${category.cateName}</a>
+					<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${category.cateNum}">${category.cateName}</a>
 				</c:if>
 				</c:if>
 			</c:forEach>
@@ -215,14 +224,14 @@ ol, ul {
 			<c:forEach var="category" items="${category}">
 				<c:if test="${category.cateNum>=8}">
 				<c:if test="${category.cateNum<=15}">
-					<a href="">${category.cateName}</a>
+					<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${category.cateNum}">${category.cateName}</a>
 				</c:if>
 				</c:if>
 			</c:forEach>
 		</div>
 		<div class="cate_list">
 			<span>재료별</span>
-			<a href="">육류 요리</a>
+			<a href="<%=request.getContextPath()%>/rcp/list?cateNum=16">육류 요리</a>
 			<a href="">채소류 요리</a>
 			<a href="">해산물 요리</a>
 			<a href="">콩/두부 요리</a>
@@ -246,7 +255,11 @@ ol, ul {
 			<a href="">양념/소스/잼</a>
 			<a href="">음료/차/커피</a>
 		</div>
-	</div>	
+	</div>
+	
+	<div class="list_title">
+		총 <b>${rcpAllCount}</b>개의 레시피가 있습니다.
+	</div>
 	
 	<ul class="lst_recipe">			
 		<c:if test="${rcpAllCount==0}">

@@ -39,6 +39,27 @@
 		from Rcp
 	</select>
 	
+	<select id="rcpAllList2" parameterType="int" resultType="Rcp">
+		select *
+		from(
+		      Select rcpnum,thumbnail,r.memnum,profile,foodname,title, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp r, member m
+		      where r.memNum=m.memNum
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )
+		where lv!=lg and catenum=#{cateNum}
+	</select>
+	
+	<select id="rcpAllCount2"  parameterType="int" resultType="int">
+		select count(*)
+		from(
+		      Select rcp.*, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )
+		where lv!=lg and catenum=#{cateNum}
+	</select>
+	
 	<select id="rcpContent" parameterType="int" resultType="Rcp">
 		select *
 		from Rcp r, member m

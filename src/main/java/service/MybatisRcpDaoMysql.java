@@ -123,6 +123,35 @@ public class MybatisRcpDaoMysql{
 		return rcpAllList;
 	}
 	
+	public int rcpAllCount2(int cateNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		int count;
+		
+		try{
+			String statement=namespace+".rcpAllCount2"; 
+			count=sqlSession.selectOne(statement, cateNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return count;
+	}
+	
+	public List<Rcp> rcpAllList2(int cateNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Rcp> rcpAllList=null;
+		String statement;
+		
+		try{
+			statement=namespace+".rcpAllList2";         
+			rcpAllList=sqlSession.selectList(statement, cateNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return rcpAllList;
+	}
+	
 	public Rcp rcpContent(int rcpnum){
 		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		Rcp rcpContent=null;
