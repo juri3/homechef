@@ -6,6 +6,8 @@ public class Category implements Serializable {
 	private	int cateNum;
 	private String division;
 	private String cateName;
+	private int division_num;
+	private String division_name;
 	
 	public Category() {}
 
@@ -32,6 +34,29 @@ public class Category implements Serializable {
 	public void setCateName(String cateName) {
 		this.cateName = cateName;
 	}
+
+	public int getDivision_num() {
+		return division_num;
+	}
+
+	public void setDivision_num(int division_num) {
+		this.division_num = division_num;
+	}	
+
+	public String getDivision_name() {
+		return division_name;
+	}
+
+	public void setDivision_name(String division_name) {
+		this.division_name = division_name;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [cateNum=" + cateNum + ", division=" + division + ", cateName=" + cateName + ", division_num="
+				+ division_num + "]";
+	}	
+	
 	
 	
 }

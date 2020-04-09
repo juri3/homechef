@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Category;
+import model.Division;
 import model.Ingredient;
-import model.Member;
 import model.Rcp;
 import model.RcpContent;
 import mybatis.AbstractRepository;
@@ -94,6 +94,76 @@ public class MybatisRcpDaoMysql{
 		return category;
 	}
 	
+	public List<Category> getCategory2(int cateNum) {
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Category> category=null;
+		
+		try{
+			String statement=namespace+".getCategory2";         
+			category=sqlSession.selectList(statement, cateNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return category;
+	}
+	
+	public List<Category> getCategory3(int cateNum) {
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Category> category=null;
+		
+		try{
+			String statement=namespace+".getCategory3";         
+			category=sqlSession.selectList(statement, cateNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return category;
+	}
+	
+	public List<Division> getDivision() {
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Division> division=null;
+		
+		try{
+			String statement=namespace+".getDivision";         
+			division=sqlSession.selectList(statement);
+		}finally{
+			sqlSession.close();
+		}
+
+		return division;
+	}
+	
+	public List<Division> getDivision2(int cateNum) {
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Division> division=null;
+		
+		try{
+			String statement=namespace+".getDivision2";         
+			division=sqlSession.selectList(statement,cateNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return division;
+	}
+	
+	public List<Division> getDivision3(int cateNum) {
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Division> division=null;
+		
+		try{
+			String statement=namespace+".getDivision3";         
+			division=sqlSession.selectList(statement,cateNum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return division;
+	}
+	
 	public int rcpAllCount(){
 		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		int count;
@@ -152,6 +222,35 @@ public class MybatisRcpDaoMysql{
 		return rcpAllList;
 	}
 	
+	public int rcpAllCount3(int cateNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		int count;
+		
+		try{
+			String statement=namespace+".rcpAllCount3"; 
+			count=sqlSession.selectOne(statement, cateNum);
+		}finally{
+			sqlSession.close();
+		}
+		
+		return count;
+	}
+	
+	public List<Rcp> rcpAllList3(int cateNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Rcp> rcpAllList=null;
+		String statement;
+		
+		try{
+			statement=namespace+".rcpAllList3";         
+			rcpAllList=sqlSession.selectList(statement, cateNum);
+		}finally{
+			sqlSession.close();
+		}
+		
+		return rcpAllList;
+	}
+	
 	public Rcp rcpContent(int rcpnum){
 		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		Rcp rcpContent=null;
@@ -163,7 +262,7 @@ public class MybatisRcpDaoMysql{
 		}finally{
 			sqlSession.close();
 		}
-
+		
 		return rcpContent;
 	}
 	
@@ -215,6 +314,20 @@ public class MybatisRcpDaoMysql{
 	            sqlSession.close();
 	        }
 	        return checkScrap;
+	}
+	
+	public int scrapCount(int rcpnum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		int count;
+		
+		try{
+			String statement=namespace+".scrapCount"; 
+			count=sqlSession.selectOne(statement,rcpnum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return count;
 	}
 	
 }

@@ -270,8 +270,7 @@ public class MybatisMemberDao
 	}	
 	
 	public void delScrap(Scrap scrap){
-		 SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();	   
-		 
+		 SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 	        try
 	        {
 	            String statement = namespace + ".delScrap";

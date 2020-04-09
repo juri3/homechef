@@ -261,14 +261,16 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "delScrap", method = RequestMethod.POST)
-	public String delScrap(HttpServletRequest request, Scrap scrap, int rcpnum, Model m) throws Exception {
+	public String delScrap(HttpServletRequest request, int scrapnum, Model m) throws Exception {
 		HttpSession session = request.getSession();
 		int loginNum = (int) session.getAttribute("memNum");
 
+		Scrap scrap=new Scrap();
 		scrap.setMemnum(loginNum);
+		scrap.setScrapnum(scrapnum);
 		dbPro.delScrap(scrap);
 
-		return "redirect:/rcp/content?rcpnum="+rcpnum;
+		return "redirect:/rcp/content?rcpnum="+scrapnum;
 	}
 
 }

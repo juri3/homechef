@@ -1,4 +1,6 @@
 /controller/
-/service/
-/mybatis/
+/exception/
 /model/
+/mybatis/
+/service/
+/util/

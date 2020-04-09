@@ -207,7 +207,7 @@ ol, ul {
                                                                 <dt class="time">조리시간</dt>
                                                                 <dd>${rcpContent.cookingtime}분</dd>
                                                                 <dt class="scrap">스크랩</dt>
-                                                                <dd id="scrap-cnt">596</dd>
+                                                                <dd id="scrap-cnt">${scrapCount}</dd>
                                                                 <!-- [D] 스크랩이 된 경우 :
 														  <dt class="scrap on"><a href="#">스크랩</a></dt><dd>1,230</dd>
 														  -->

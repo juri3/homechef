@@ -28,6 +28,38 @@
 		from category
 	</select>
 	
+	<select id="getCategory2" parameterType="int" resultType="Category">
+		select *
+		from category
+		where DIVISION_NUM=(
+					select division_num
+					from category
+					where catenum=#{cateNum})
+	</select>
+	
+	<select id="getCategory3" parameterType="int" resultType="Category">
+		select *
+		from category
+		where DIVISION_NUM=#{cateNum}
+	</select>
+	
+	<select id="getDivision" resultType="Division">
+		select *
+		from division		
+	</select>
+	
+	<select id="getDivision2" parameterType="int" resultType="Division">
+		select *
+		from category c, division d
+		where c.DIVISION_NUM=d.DIVISION_NUM and catenum=#{cateNum}
+	</select>
+	
+	<select id="getDivision3" parameterType="int" resultType="Division">
+		select *
+		from division
+		where division_num=#{cateNum}
+	</select>
+	
 	<select id="rcpAllList" resultType="Rcp">
 		select *
 		from Rcp r, member m
@@ -60,6 +92,28 @@
 		where lv!=lg and catenum=#{cateNum}
 	</select>
 	
+	<select id="rcpAllList3" parameterType="int" resultType="Rcp">
+		select *
+		from(
+		      Select rcpnum,thumbnail,r.memnum,profile,foodname,title, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp r, member m
+		      where r.memNum=m.memNum
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )r, category c
+		where r.catenum=c.catenum and lv!=lg and division_num=#{cateNum}
+	</select>
+	
+	<select id="rcpAllCount3"  parameterType="int" resultType="int">
+		select count(*)
+		from(
+		      Select rcpnum,thumbnail,r.memnum,profile,foodname,title, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp r, member m
+		      where r.memNum=m.memNum
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )r, category c
+		where r.catenum=c.catenum and lv!=lg and division_num=#{cateNum}
+	</select>
+	
 	<select id="rcpContent" parameterType="int" resultType="Rcp">
 		select *
 		from Rcp r, member m
@@ -82,6 +136,12 @@
 		select NVL(count(*),0) 
 		from scrap 
 		where memnum=#{memnum} and scrapnum=#{scrapnum}
+	</select>
+	
+	<select id="scrapCount" parameterType="int" resultType="int">
+		select count(*) 
+		from scrap
+		where scrapnum=#{rcpnum}
 	</select>
 	
 </mapper>

@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.Category;
+import model.Division;
 import model.Ingredient;
 import model.Rcp;
 import model.RcpContent;
@@ -33,19 +33,34 @@ public class RcpController {
 	public String rcp_list(int cateNum, Model m) throws Exception {
 		int rcpAllCount;
 		List<Rcp> rcpAllList;
-		List<Category> category = dbPro.getCategory();
+		List<Category> category;
+		List<Division> division;
 		
 		if(cateNum==0){
 			rcpAllCount = dbPro.rcpAllCount();
 			rcpAllList=dbPro.rcpAllList();
+			category=dbPro.getCategory();
+			division=dbPro.getDivision();
 		}else{
-			rcpAllCount=dbPro.rcpAllCount2(cateNum);
-			rcpAllList=dbPro.rcpAllList2(cateNum);
+			if(cateNum<100){
+				rcpAllCount=dbPro.rcpAllCount2(cateNum);
+				rcpAllList=dbPro.rcpAllList2(cateNum);
+				category=dbPro.getCategory2(cateNum);
+				division=dbPro.getDivision2(cateNum);
+			}else{
+				rcpAllCount=dbPro.rcpAllCount3(cateNum);
+				rcpAllList=dbPro.rcpAllList3(cateNum);
+				category=dbPro.getCategory3(cateNum);
+				division=dbPro.getDivision3(cateNum);
+			}
+			
 		}		
 		
 		m.addAttribute("rcpAllCount", rcpAllCount);
 		m.addAttribute("rcpAllList", rcpAllList);
 		m.addAttribute("category", category);
+		m.addAttribute("division", division);
+		m.addAttribute("cateNum", cateNum);
 
 		return "rcp/list";
 	}
@@ -68,11 +83,13 @@ public class RcpController {
 		List<Ingredient> rcpContent3=dbPro.rcpContent3(rcpnum);
 		
 		int checkScrap = dbPro.checkScrap(loginNum, rcpnum);
+		int scrapCount = dbPro.scrapCount(rcpnum);
 		
 		m.addAttribute("rcpContent", rcpContent);
 		m.addAttribute("rcpContent2", rcpContent2);
 		m.addAttribute("rcpContent3", rcpContent3);
 		m.addAttribute("checkScrap", checkScrap);
+		m.addAttribute("scrapCount", scrapCount);
 		m.addAttribute("loginNum", loginNum);
 		
 		return "rcp/content";
