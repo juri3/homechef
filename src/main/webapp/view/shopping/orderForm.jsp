@@ -6,12 +6,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script
-	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <title>Insert title here</title>
 <style>
@@ -53,7 +52,7 @@ div.right {
 
 	<section class="ftco-section">
 	<form method="post"	action="${pageContext.request.contextPath}/shopping/complete_order" 
-	name="orderform" onsubmit="return check_info();">
+	id="orderform" >
 		<div class="container">
 			<div class="row justify-content-center">
 				<div>
@@ -105,9 +104,9 @@ div.right {
 				<div class="col-xl-7 ftco-animate">
 
 
-					<input type="hidden" name="memNum" value="${memNum }"> <input
-						type="hidden" name="memName" value="${memName }">
-					<h3 class="mb-4 billing-heading">주문자 정보 - ${memName }</h3>
+					<input type="hidden" name="memNum" value="${memNum }">
+					<input type="hidden" name="memName" value="${member.name }">
+					<h3 class="mb-4 billing-heading">주문자 정보 - ${member.name }</h3>
 					<h3 class="mb-4 billing-heading">배송지 정보</h3>
 					<div class="row align-items-end">
 
@@ -127,33 +126,33 @@ div.right {
 							새로운거<br>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" name="recipient" placeholder="수령인">
+									<input type="text" name="recipient" placeholder="수령인" autocomplete="off">
 								</div>
 							</div>
 							<div class="w-100"></div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<input type="text" id="postcode" name="zipcode"
-										placeholder="우편번호">
+										placeholder="우편번호" autocomplete="off">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<input type="button" class="btn btn-primary py-3 px-4"
-										onclick="postnum_click()" value="우편번호 찾기">
+										onclick="postnum_click()" value="우편번호 찾기" autocomplete="off">
 								</div>
 							</div>
 							<div class="w-100"></div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<input type="text" id="address" class="form-control"
-										name="address" placeholder="도로명주소">
+										name="address" placeholder="도로명주소" autocomplete="off">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<input type="text" class="form-control" id="detailAddress"
-										name="address" placeholder="상세주소">
+										name="address" placeholder="상세주소" autocomplete="off">
 								</div>
 							</div>
 							<div class="w-100"></div>
@@ -167,7 +166,7 @@ div.right {
 							<div class="col-md-12">
 								<div class="form-group">
 									<input type="text" class="form-control" id="memo" name="memo"
-										placeholder="배송메모" autocomplete="off">
+										placeholder="배송메모" >
 								</div>
 							</div>
 							<div class="w-100"></div>
@@ -184,8 +183,7 @@ div.right {
 							이전에거<br>
 							<div>
 								<c:forEach var="addr" items="${reg_address }">
-									<input type="radio" name="sel_address"
-										value="${addr.addressNum}" onclick="div_address(this.value);">${addr.recipient }
+									<input type="radio" name="sel_address"	value="${addr.addressNum}" onclick="div_address(this.value);">${addr.recipient }
 								</c:forEach>
 							</div>
 							<c:forEach var="addr" items="${reg_address }">
@@ -193,10 +191,10 @@ div.right {
 
 									${addr.recipient }<br> ${addr.zipcode }<br>
 									<c:set var="addre" value="${addr.address}" />
-									${addr.address} <input type="hidden" name="recipient"
-										value="${addr.recipient }"> <input type="hidden"
-										name="zipcode" value="${addr.zipcode }"> <input
-										type="hidden" name="address" value="${addr.address}">
+									${addr.address}
+									<input type="hidden" name="recipient" value="${addr.recipient }"> 
+									<input type="hidden" name="zipcode" value="${addr.zipcode }"> 
+									<input type="hidden" name="address" value="${addr.address}">
 								</div>
 							</c:forEach>
 
@@ -221,13 +219,15 @@ div.right {
 
 								<hr>
 								<p class="d-flex total-price">
-									<span>Total</span> <span> <c:if
-											test="${totalpay >= 50000 }">
-											<c:set var="amount" value="${totalpay}" />
-										</c:if> <c:if test="${totalpay < 50000 }">
-											<c:set var="amount" value="${totalpay+2500}" />
-										</c:if> ${amount } <input type="hidden" name="amount"
-										value="${amount }">
+									<span>Total</span> <span> 
+									<c:if test="${totalpay >= 50000 }">
+										<c:set var="amount" value="${totalpay}" />
+									</c:if> 
+									<c:if test="${totalpay < 50000 }">
+										<c:set var="amount" value="${totalpay+2500}" />
+									</c:if>
+									 ${amount } 
+									<input type="hidden" name="amount" value="${amount }">
 									</span>
 								</p>
 							</div>
@@ -238,40 +238,35 @@ div.right {
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="radio">
-											<label><input type="radio" name="howtopay"
-												value="kakaopay" class="mr-2"> 페이결제</label>
+											<label><input type="radio" name="howtopay" value="kakaopay" class="mr-2"> 페이결제</label>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="radio">
-											<label><input type="radio" name="howtopay"
-												value="card" class="mr-2"> 카드결제</label>
+											<label><input type="radio" name="howtopay" value="card" class="mr-2"> 카드결제</label>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="radio">
-											<label><input type="radio" name="howtopay"
-												value="banktransfer" class="mr-2"> 실시간계좌이체</label>
+											<label><input type="radio" name="howtopay" value="banktransfer" class="mr-2"> 실시간계좌이체</label>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="radio">
-											<label><input type="radio" name="howtopay"
-												value="phonepay" class="mr-2"> 핸드폰결제</label>
+											<label><input type="radio" name="howtopay" value="phonepay" class="mr-2"> 핸드폰결제</label>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-md-12">
 										<div class="radio">
-											<label><input type="radio" name="howtopay"
-												value="deposit" class="mr-2"> 무통장입금</label>
+											<label><input type="radio" name="howtopay"	value="deposit" class="mr-2"> 무통장입금</label>
 										</div>
 									</div>
 								</div>
@@ -283,7 +278,7 @@ div.right {
 									</div>
 								</div>
 								<p>
-									<input type="submit" class="btn btn-primary py-3 px-4" value="결제하기">
+									<input type="button" id="paying" class="btn btn-primary py-3 px-4" value="결제하기" >
 								</p>
 							</div>
 						</div>
@@ -302,47 +297,56 @@ div.right {
 </body>
 <script>
 	function check_info(){
-		
 		var chk_count = 0;
 	    var selected = document.getElementsByName('select');
-	    if(selected[0].checked == true){
-	    	if(!($("input[name=recipient]").val())){
-				alert("수령인을 입력하세요.");
-				$("input[name=recipient]").focus();
-				return false;
+	    var sel_count = 0;
+	    for(var i=0;i<selected.length;i++){
+			if(selected[i].checked == true){ 
+				sel_count++;
 			}
-			if(!($("input[name=zipcode]").val())){
-				alert("우편번호를 입력하세요.");
-				$("input[name=zipcode]").focus();
-				return false;
-			}
-			if(!($("input[name=address]").eq(0).val())){
-				alert("도로명주소를 입력하세요.");
-				$("input[name=address]").eq(0).focus();
-				return false;
-			}
-			if(!($("input[name=address]").eq(1).val())){
-				alert("상세주소를 입력하세요.");
-				$("input[name=address]").eq(1).focus();
-				return false;
-			}
-			chk_count++;
-	    }else{
-	    	var chk_radio = document.getElementsByName('sel_address');
-			var sel_type = 0;
-			for(var i=0;i<chk_radio.length;i++){
-				if(chk_radio[i].checked == true){ 
-					sel_type++;
+		}
+	    if(sel_count < 1){
+            alert("배송지를 선택해주세요"); 
+			return false;
+		}else{	
+			if(selected[0].checked == true){
+		    	if(!($("input[name=recipient]").val())){
+					alert("수령인을 입력하세요.");
+					$("input[name=recipient]").focus();
+					return false;
 				}
-			}
-			if(sel_type<1){
-	            alert("주소를 선택해주세요"); 
-				return false;
-			}else{
+				if(!($("input[name=zipcode]").val())){
+					alert("우편번호를 입력하세요.");
+					$("input[name=zipcode]").focus();
+					return false;
+				}
+				if(!($("input[name=address]").eq(0).val())){
+					alert("도로명주소를 입력하세요.");
+					$("input[name=address]").eq(0).focus();
+					return false;
+				}
+				if(!($("input[name=address]").eq(1).val())){
+					alert("상세주소를 입력하세요.");
+					$("input[name=address]").eq(1).focus();
+					return false;
+				}
 				chk_count++;
-			}
-	    }
-	    alert("--a");
+		    }else{
+		    	var chk_radio = document.getElementsByName('sel_address');
+				var sel_type = 0;
+				for(var i=0;i<chk_radio.length;i++){
+					if(chk_radio[i].checked == true){ 
+						sel_type++;
+					}
+				}
+				if(sel_type<1){
+		            alert("주소를 선택해주세요"); 
+					return false;
+				}else{
+					chk_count++;
+				}
+		    }
+		}
 	    var pay = document.getElementsByName('howtopay');
 	    var paycount = 0;
 	    for(var i=0; i<pay.length; i++){
@@ -362,31 +366,77 @@ div.right {
 	    	return false;
 	    }
  	}
-
-/* $(function() {    //화면 다 뜨면 시작
-    var searchSource = ["경비실에 맡겨주세요.", "부재시, 경비실에 맡겨주세요. ", "부재시, 전화주세요.", "부재시, 문자 주세요." ]; // 배열 형태로 
-    $("#memo").autocomplete({  //오토 컴플릿트 시작
-        source : searchSource,    // source 는 자동 완성 대상
-        select : function(event, ui) {    //아이템 선택시
-            console.log(ui.item);
-        },
-        focus : function(event, ui) {    //포커스 가면
-            return false;//한글 에러 잡기용도로 사용됨
-        },
-        minLength: 1,// 최소 글자수
-        autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-        classes: {    //잘 모르겠음
-            "ui-autocomplete": "highlight"
-        },
-        delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-//        disabled: true, //자동완성 기능 끄기
-        position: { my : "right top", at: "right bottom" },    //잘 모르겠음
-        close : function(event){    //자동완성창 닫아질때 호출
-            console.log(event);
-        }
+	var success_pay = false;
+    function paying(){
+    	var IMP = window.IMP; // 생략가능
+        IMP.init('imp89691835'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+        var msg;
+       
+        IMP.request_pay({
+            pg : 'kakaopay',
+            pay_method : 'card',
+            merchant_uid : 'merchant_' + new Date().getTime(),
+            name : 'Home chef 주문 결제',
+            amount : ${totalpay},
+            buyer_email : '${member.email}',
+            buyer_name : '${member.name}',
+            buyer_tel : '01093529429',
+            buyer_addr : '경기도 의정부시',
+            buyer_postcode : '123-456',
+            //m_redirect_url : 'http://www.naver.com'
+        }, function(rsp) {
+        	if ( rsp.success ) {
+        		jQuery.ajax({
+                    url: "/shopping/complete_order", //cross-domain error가 발생하지 않도록 주의해주세요
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        imp_uid : rsp.imp_uid
+                        //여기서부터 고고
+                        //기타 필요한 데이터가 있으면 추가 전달
+                    }
+                }).done(function(data) {
+                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+                    if ( everythings_fine ) {
+                        msg = '결제가 완료되었습니다.';
+                        msg += '\n고유ID : ' + rsp.imp_uid;
+                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+                        msg += '\결제 금액 : ' + rsp.paid_amount;
+                        msg += '카드 승인번호 : ' + rsp.apply_num;
+                        
+                        alert(msg);
+                    } else {
+                        //[3] 아직 제대로 결제가 되지 않았습니다.
+                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+                    }
+                
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+            }
+            
+        });
+    }
+	
+     $("#paying").click(function(){
+    	alert("ddd");
+    	if(check_info()==false){
+    		return false;
+    	}
+        paying();
+        
+        
     });
-    
-}); */
+	/* $(function() {    //화면 다 뜨면 시작
+	    var searchSource = ["경비실에 맡겨주세요.", "부재시, 경비실에 맡겨주세요. ", "부재시, 전화주세요.", "부재시, 문자 주세요." ]; // 배열 형태로 
+	    $("#memo").autocomplete({  //오토 컴플릿트 시작
+	        source : searchSource,    // source 는 자동 완성 대상
+	        select: function(event, ui) {
+	            console.log(ui.item);
+	        }
+	    });
+	}); */
 
 	function div_Change(value){
 		 // 라디오 버튼 value 값 조건 비교
@@ -407,8 +457,8 @@ div.right {
 		 </c:forEach>
 		
 		 for(var i = 0; i<arr.length; i++){
-			 alert("value : "+value+", addressNum : "+arr[i]);
-			 console.log("value : "+value+", addressNum : "+arr[i]);
+			// alert("value : "+value+", addressNum : "+arr[i]);
+			// console.log("value : "+value+", addressNum : "+arr[i]);
 			 document.getElementById(arr[i]).style.display = "none"; // 숨김
 			 if(value == arr[i]){
 				 document.getElementById(arr[i]).style.display = "block"; // 보여줌

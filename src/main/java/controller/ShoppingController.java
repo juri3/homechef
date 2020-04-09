@@ -161,7 +161,7 @@ public class ShoppingController {
 		System.out.println(cartlist);
 		System.out.println(address);
 		
-		m.addAttribute("memName", mem.getName());
+		m.addAttribute("member", mem);
 		m.addAttribute("cartlist", cartlist);
 		m.addAttribute("reg_address", address);
 		
