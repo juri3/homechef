@@ -144,4 +144,18 @@
 		where scrapnum=#{rcpnum}
 	</select>
 	
+	<select id="searchCount" parameterType="String" resultType="int">
+		select count(*)
+		from Rcp r, member m, ingredient i
+		where r.memNum=m.memNum and r.rcpnum=i.rcpnum and 
+			(foodname like '%'||#{keyword}||'%' or ingredient like '%'||#{keyword}||'%')
+	</select>
+	
+	<select id="searchList"  parameterType="String" resultType="Rcp">
+		select *
+		from Rcp r, member m, ingredient i
+		where r.memNum=m.memNum and r.rcpnum=i.rcpnum and 
+			(foodname like '%'||#{keyword}||'%' or ingredient like '%'||#{keyword}||'%')
+	</select>
+	
 </mapper>

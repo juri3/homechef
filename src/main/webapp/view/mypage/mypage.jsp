@@ -123,7 +123,7 @@ ol, ul {
     left: 30px;
 }
 .lst_recipe {
-    width: 1040px;
+    width: 1500px;
     position: relative;
     left: -16px;
     overflow: hidden;

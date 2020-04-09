@@ -330,4 +330,33 @@ public class MybatisRcpDaoMysql{
 		return count;
 	}
 	
+	public int searchCount(String keyword){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		int count;
+		
+		try{
+			String statement=namespace+".searchCount"; 
+			count=sqlSession.selectOne(statement, keyword);
+		}finally{
+			sqlSession.close();
+		}
+
+		return count;
+	}
+	
+	public List<Rcp> searchList(String keyword){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Rcp> searchList=null;
+		String statement;
+		System.out.println(11111);
+		try{
+			statement=namespace+".searchList";         
+			searchList=sqlSession.selectList(statement, keyword);
+		}finally{
+			sqlSession.close();
+		}
+		System.out.println(222222);
+		return searchList;
+	}
+	
 }

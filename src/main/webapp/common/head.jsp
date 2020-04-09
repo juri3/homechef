@@ -46,10 +46,11 @@
                 <div class="col-lg-12 d-block">
                     <div class="row d-flex">
                         <div class="col-md pr-4 d-flex topper align-items-center">
-                            <form action="#" class="search-form">
+                            <form action="<%=request.getContextPath()%>/rcp/list" class="search-form">
                                 <div class="form-group">
                                     <span class="icon ion-ios-search"></span>
-                                    <input type="text" class="form-control" placeholder="음식명, 재료명으로 검색해주세요.">
+                                    <input type="hidden" name="cateNum" value="0">
+                                    <input type="text" class="form-control" name="keyword" placeholder="음식명, 재료명으로 검색해주세요." autocomplete="off">
                                 </div>
                             </form>
                         </div>
