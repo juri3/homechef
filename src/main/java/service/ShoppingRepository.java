@@ -149,7 +149,7 @@ public class ShoppingRepository{
 		Cart cart = new Cart(); 
 		try{
 			cart = sqlSession.selectOne(namespace+".getCartintoJjim", cartNum);
-			System.out.println("dao_c : " + cart.toString());
+			//System.out.println("dao_c : " + cart.toString());
 			return cart;
 		}finally{
 			sqlSession.close();
@@ -189,8 +189,16 @@ public class ShoppingRepository{
 		}finally{
 			sqlSession.close();
 		}
-
+	}
+	public MemAddress getAddress1(int addressNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		
+		try{
+			String statement=namespace+".getAddress1";         
+			return sqlSession.selectOne(statement, addressNum);
+		}finally{
+			sqlSession.close();
+		}
 	}
 
 	public void insertMemAddr(MemAddress memaddr) {
@@ -229,25 +237,6 @@ public class ShoppingRepository{
 		
 		int ordpronum = 0;
 		try{
-			for(int i : nums){
-				cart = getCartByNum(i);
-				ordpro.setProductName(cart.getProductName());
-				ordpro.setQty(cart.getQty());
-				ordpro.setPrice(cart.getQty()*cart.getPrice());
-				ordpronum = sqlSession.selectOne(namespace+".insert_maxOP");
-				ordpro.setProductNum(ordpronum);
-				System.out.println(ordpro);
-				String statement = namespace + ".insertOrderProduct";
-				int result = sqlSession.insert(statement, ordpro);
-				if(result > 0){
-					sqlSession.commit();
-					System.out.println("commit_ordpro");
-				}else{
-					sqlSession.rollback();
-					System.out.println("rollback_ordpro");
-				}
-			}
-			
 			String statement = namespace + ".insertOrderInfo";
 			int result = sqlSession.insert(statement, orderinfo);
 			if(result > 0){
@@ -257,13 +246,48 @@ public class ShoppingRepository{
 				sqlSession.rollback();
 				System.out.println("rollback_orderinfo");
 			}
-						
+			
+			for(int i : nums){
+				cart = getCartByNum(i);
+				ordpro.setProductName(cart.getProductName());
+				ordpro.setQty(cart.getQty());
+				ordpro.setPrice(cart.getQty()*cart.getPrice());
+				ordpronum = sqlSession.selectOne(namespace+".insert_maxOP");
+				ordpro.setProductNum(ordpronum);
+				System.out.println(ordpro);
+				statement = namespace + ".insertOrderProduct";
+				result = sqlSession.insert(statement, ordpro);
+				if(result > 0){
+					sqlSession.commit();
+					System.out.println("commit_ordpro");
+				}else{
+					sqlSession.rollback();
+					System.out.println("rollback_ordpro");
+				}
+				try {
+					//주문완료된 카트 종료
+					deleteCartvalue(i);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
 			
 		}finally{
 			sqlSession.close();
 		}
 	}
-
+	
+	public int getCountCart(int memNum) {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try{
+			String statement = namespace + ".getCountCart";
+			return sqlSession.selectOne(statement, memNum);
+		}finally{
+			sqlSession.close();
+		}
+	}
 	
 
 }

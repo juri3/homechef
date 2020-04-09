@@ -41,18 +41,13 @@ public class ShoppingController {
    ShoppingRepository service;
    
    @ModelAttribute
-   public void initProcess(HttpSession session) {
+   public void initProcess(HttpSession session, Model model) {
       System.out.println("====================");
       //회원기능 머지 전이라 초기화
       //
-      int memNum =  (int) session.getAttribute("memNum");
-      if (memNum==0) {
-    	  memNum = 2;
-    	  session.setAttribute("memNum", 2);
-		}
-      System.out.println(memNum);
+      System.out.println("memNum : "+session.getAttribute("memNum"));
       
-     
+	  System.out.println("====================");
       
    }
 
@@ -180,35 +175,56 @@ public class ShoppingController {
 	}
 	
 	@RequestMapping(value = "complete_order") 
-	public String payment(HttpServletRequest request, @RequestParam("select")int select, @RequestParam(value="sel_address", required=false, defaultValue="-1")int sel_address,
+	public String payment(HttpServletRequest request, @RequestParam("select")int select, @RequestParam(value="sel_address", required=false, defaultValue="-1")int sel_address, @RequestParam(value="addradd", required=false, defaultValue="0")int addradd,
 			int[] nums, MemAddress memaddr, OrderInfo orderinfo, OrderProduct ordpro, Model m){
 		// TODO Auto-generated method stub
+		MemAddress getmemA = new MemAddress();
 		System.out.println("select : " + select);
 		System.out.println("address : " + sel_address);
+		System.out.println("address : " + memaddr.getAddress());
+		System.out.println("addr_add : "+addradd);
 		String addr = "";
 		if(select==0){
 			String[] array = memaddr.getAddress().split(",");
-			for(String str : array){
-				addr+=str+" ";
+			for(int i = 0; i < 2 ; i++){
+				addr+=array[i]+" ";
 			}
+			memaddr.setAddress(addr);
 			memaddr.setRecipient(address_split(memaddr.getRecipient(),select));
 			memaddr.setZipcode(address_split(memaddr.getZipcode(),select));
+			orderinfo.setAddress(addr);
+			orderinfo.setRecipient(address_split(memaddr.getRecipient(),select));
+			orderinfo.setZipcode(address_split(memaddr.getZipcode(),select));
+			
+			if(addradd==1){
+				//service.insertMemAddr(memaddr);
+			}
 		}else{
 			// 기존 배송지 일경우, 주문완료된 카트들 삭제..
+			//getmemA = service.getAddress1(sel_address);
+			orderinfo.setAddress(getmemA.getAddress());
+			orderinfo.setRecipient(getmemA.getRecipient());
+			orderinfo.setZipcode(getmemA.getZipcode());
+
 		}
-		memaddr.setAddress(addr);
-		System.out.println(memaddr.getRecipient());
-		System.out.println(memaddr.getZipcode());
 		System.out.println(addr);
-		//service.insertMemAddr(memaddr);
+		
 		//service.insertOrderForm(orderinfo, ordpro, nums);
 		
-		System.out.println(nums[1]);
+		
 		System.out.println(memaddr);
 		System.out.println(orderinfo);
 		System.out.println(ordpro);
 		
 		
 		return "shopping/orderSuccess";
+	}
+	
+	@RequestMapping("pay") // 맨끝단의 url만 가지고 옴, get방식으로 한다.
+	public String paying(@ModelAttribute("name")String name, @ModelAttribute("email")String email, @ModelAttribute("phone")String phone, @ModelAttribute("address")String address, @ModelAttribute("price")int price) {
+	      // TODO Auto-generated method stub
+			System.out.println(name+", "+email+", "+phone+", "+address+", "+price);
+	      return "shopping/pay";
+	      
 	}
 }

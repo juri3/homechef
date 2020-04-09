@@ -30,6 +30,14 @@
 		<!-- ORDER BY cartNum DESC; -->
 	</select>
 	
+	<select id="getCountCart" parameterType="int" resultType="int">
+		SELECT
+			count(*)
+		FROM Cart
+		WHERE memNum = #{memNum}
+		<!-- ORDER BY cartNum DESC; -->
+	</select>
+	
 	<select id="getCartintoJjim" parameterType="int" resultType="Cart">
 		SELECT
 			*
@@ -73,6 +81,12 @@
 		where memNum=#{memNum}
 	</select>
 	
+	<select id="getAddress1" parameterType="int" resultType="MemAddress">
+		select * 
+		from mem_address
+		where addressNum=#{addressNum}
+	</select>
+	
 	<insert id="insertMemaddr"	parameterType="MemAddress">
 		INSERT INTO mem_address VALUES(#{addressNum}, #{recipient}, #{memNum}, #{memName}, #{address}, #{zipcode})
 	</insert>
@@ -84,8 +98,6 @@
 	<insert id="insertOrderInfo"	parameterType="OrderInfo">
 		INSERT INTO order_info VALUES(#{orderNum}, #{memNum}, sysdate , #{amount}, #{memName}, #{recipient}, #{address}, #{zipcode}, #{memo}, #{howtopay})
 	</insert>
-	
-	
 	
 	
 	
