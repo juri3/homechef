@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import model.Brand;
 import model.Cart;
 import model.Jjim;
+import model.Member;
 import model.Rcp;
 import model.Sale;
 import mybatis.AbstractRepository;
@@ -24,7 +25,20 @@ public class BrandRepository{
 	public AbstractRepository opendb;
 	
 	
-	
+	public String selectById(String id) 
+    {
+        SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+        try
+        {
+            String statement = namespace + ".selectById";
+            return sqlSession.selectOne(statement, id);
+          
+        }
+        finally
+        {  System.out.println(id);
+            sqlSession.close();
+        }
+    }
 	
 	public int insertBrand(Brand Brand){
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
@@ -49,15 +63,22 @@ public class BrandRepository{
 		}
 	}
 
-	public List<Brand> getBrand() {
+	public Brand getBrand(String id) {
 		// TODO Auto-generated method stub
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		Brand brand=null;
+		
+		
 		try{
 			String statement = namespace + ".getBrand";
-			return sqlSession.selectList(statement);
+			brand=sqlSession.selectOne(statement, id);
+			
+			
+		
 		}finally{
 			sqlSession.close();
 		}
+		return brand;
 	}
 	
 	public int deleteCartvalue(int cartNum) throws Exception{

@@ -42,7 +42,7 @@ cateName varchar2(40)
 
 
 /* member */
-
+select * from brand_member;
 create table brand_member(
   brand varchar(60) not null,
   name varchar(10) not null,	
@@ -78,10 +78,11 @@ price number not null,
 stock int,
 sales int
 );
-
+drop table cart;
 create table cart(
 cartnum int not null primary key,
 memNum int not null,
+thumbnail varchar2(50),
 productname varchar(128),
 qty int,
 price number 
@@ -127,5 +128,5 @@ price number,
 regist_date date
 );
 
-insert into RCP values(1,'¹éÁ¾¿ø µÎºÎºÎÄ§', 'µÎºÎ¿¡ °è¶õÀÔÇô ºÎÄ§', '5ºÐ', 'µÎºÎºÎÄ§', 1, sysdate,'uu', 'µÎºÎ#°è¶õ#½Ä¿äÀ¯#', '¹éÁ¾¿ø#µÎºÎºÎÄ§#°£´Ü¿ä¸®#°£´Ü¹ÝÂù#¹ä¹ÝÂù' );
-insert into sale values(1,'¹éÁ¾¿øÀÇ µÎºÎÁ¶¸²', 5000, 10,0);
+insert into RCP values(1,'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÎºÎºï¿½Ä§', 'ï¿½ÎºÎ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä§', '5ï¿½ï¿½', 'ï¿½ÎºÎºï¿½Ä§', 1, sysdate,'uu', 'ï¿½Îºï¿½#ï¿½ï¿½ï¿½#ï¿½Ä¿ï¿½ï¿½ï¿½#', 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½#ï¿½ÎºÎºï¿½Ä§#ï¿½ï¿½ï¿½Ü¿ä¸®#ï¿½ï¿½ï¿½Ü¹ï¿½ï¿½ï¿½#ï¿½ï¿½ï¿½ï¿½ï¿½' );
+insert into sale values(1,'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½', 5000, 10,0);

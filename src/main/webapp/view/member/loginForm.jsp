@@ -27,14 +27,14 @@
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
 					
-						<input type="text" name="email" value="${param.email}"class="input100 "  autocomplete="off"  placeholder="이메일주소">
+						<input type="text" name="email" value="${param.email}"class="input100 "  autocomplete="off"  placeholder="<spring:message code="form.email" />">
 						<c:if test="${errors.email }">ID를 입력하세요</c:if>
 						
 					</div>
 					
 					
 					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-					   <input type="password" name="passwd" class="input100" placeholder="비밀번호">
+					   <input type="password" name="passwd" class="input100" placeholder="<spring:message code="form.password" />">
 						  <c:if test="${errors.passwd }">암호를 입력하세요</c:if>
 					</div>
 					
@@ -58,7 +58,7 @@
 
 					<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn" type="submit" value="로그인">
-							Login
+							<spring:message code="login" />
 						</button>
 					</div>
 

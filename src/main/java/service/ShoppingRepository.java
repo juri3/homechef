@@ -260,7 +260,16 @@ public class ShoppingRepository{
 			sqlSession.close();
 		}
 	}
-
+	public int getCountCart(int memNum) {
+	      // TODO Auto-generated method stub
+	      SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+	      try{
+	         String statement = namespace + ".getCountCart";
+	         return sqlSession.selectOne(statement, memNum);
+	      }finally{
+	         sqlSession.close();
+	      }
+	   }
 	
 
 }

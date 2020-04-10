@@ -9,19 +9,7 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <title>Insert title here</title>
 </head>
-<style>
-i {
-	font-size: 30px;
-}
 
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-</style>
 
 <body>
 

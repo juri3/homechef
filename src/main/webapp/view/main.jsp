@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <section id="home-section" class="hero">
+   <section id="home-section" class="hero">
         <div class="home-slider owl-carousel">
             <div class="slider-item" style="background-image: url(images/bg_1.jpg);">
                 <div class="overlay"></div>
@@ -16,9 +16,9 @@
                     <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
 
                         <div class="col-md-12 ftco-animate text-center">
-                            <h1 class="mb-2">집에 있는 재료로 &amp; 쉽게 만드는 레시피</h1>
+                            <h1 class="mb-2"><!-- 집에 있는 재료로 &amp; 쉽게 만드는 레시피 --> <spring:message code="mainslidetitle" />   </h1>
                             <h2 class="subheading mb-4">We deliver organic vegetables &amp; fruits</h2>
-                            <p><a href="#" class="btn btn-primary">View Details</a></p>
+                            <p><a href="#" class="btn btn-primary"><spring:message code="viewdetail" /></a></p>
                         </div>
 
                     </div>
@@ -41,7 +41,6 @@
             </div>
         </div>
     </section>
-
     <section class="ftco-section">
         <div class="container">
             <div class="row no-gutters ftco-services">
