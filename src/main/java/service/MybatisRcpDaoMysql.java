@@ -361,14 +361,14 @@ public class MybatisRcpDaoMysql {
 		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		List<Rcp> searchList=null;
 		String statement;
-		System.out.println(11111);
+		
 		try{
 			statement=namespace+".searchList";         
 			searchList=sqlSession.selectList(statement, keyword);
 		}finally{
 			sqlSession.close();
 		}
-		System.out.println(222222);
+		
 		return searchList;
 	}
 	
