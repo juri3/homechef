@@ -10,7 +10,7 @@
 	
 	<insert id="insert1" parameterType="Rcp">
 		insert into Rcp 
-		values(#{rcpnum},#{title},#{foodname},#{subtitle},#{cookingtime},#{memnum},sysdate,#{thumbnail},#{hashtag},#{category})
+		values(#{rcpnum},#{title},#{foodname},#{subtitle},#{cookingtime},#{memnum},sysdate,#{thumbnail},#{hashtag},#{category},#{readcount})
 	</insert>
 	
 	<insert id="insertIngredient" parameterType="Ingredient">
@@ -126,7 +126,7 @@
 		where rcpNum=#{rcpnum}
 	</select>
 	
-	<select id="rcpContent3" parameterType="int" resultType="Ingredient">
+	<select id="rcpContent3" parameterType="int" resultType="Ingredient"> <!-- *로 모든 데이터를 다 받아옴 -->
 		select *
 		from Ingredient
 		where rcpNum=#{rcpnum}
@@ -143,5 +143,20 @@
 		from scrap
 		where scrapnum=#{rcpnum}
 	</select>
+
+	<update id="addReadcount" parameterType="int">
+		update Rcp set readcount = nvl(readcount, 0) +1 where rcpnum = #{rcpnum}
+	</update>
 	
+	
+	<select id="getReadcount" parameterType="int" resultType="int">
+	<!-- 데이터를 하나만 받아옴 readcount가 int이고 select문이므로 결과값을 받아오는 resultType이 있어야한다. -->
+		<!-- select count(*) 
+		from readcount
+		where rcpnum=#{rcpnum} -->
+		select readcount from rcp where rcpnum=#{rcpnum}
+	</select>
+	
+	
+
 </mapper>

@@ -85,6 +85,7 @@ public class RcpController {
 		int checkScrap = dbPro.checkScrap(loginNum, rcpnum);
 		int scrapCount = dbPro.scrapCount(rcpnum);
 		
+		
 		m.addAttribute("rcpContent", rcpContent);
 		m.addAttribute("rcpContent2", rcpContent2);
 		m.addAttribute("rcpContent3", rcpContent3);
