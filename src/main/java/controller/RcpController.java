@@ -66,6 +66,7 @@ public class RcpController {
 		m.addAttribute("category", category);
 		m.addAttribute("division", division);
 		m.addAttribute("cateNum", cateNum);
+		m.addAttribute("keyword", keyword);
 
 		return "rcp/list";
 	}

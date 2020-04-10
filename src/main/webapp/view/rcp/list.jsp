@@ -279,7 +279,7 @@ a {
 			<c:forEach var="division" items="${division}">
 				<c:if test="${division.division_num>=101}">
 				<c:if test="${division.division_num<=107}">
-					<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${division.division_num}">${division.division_name}</a>
+					<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${division.division_num}">${division.division_name}</a>
 				</c:if>
 				</c:if>
 			</c:forEach>
@@ -289,7 +289,7 @@ a {
 			<c:forEach var="division" items="${division}">
 				<c:if test="${division.division_num>=108}">
 				<c:if test="${division.division_num<=115}">
-					<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${division.division_num}">${division.division_name}</a>
+					<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${division.division_num}">${division.division_name}</a>
 				</c:if>
 				</c:if>
 			</c:forEach>
@@ -299,7 +299,7 @@ a {
 			<c:forEach var="division" items="${division}">
 				<c:if test="${division.division_num>=116}">
 				<c:if test="${division.division_num<=125}">
-					<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${division.division_num}">${division.division_name}</a>
+					<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${division.division_num}">${division.division_name}</a>
 				</c:if>
 				</c:if>
 			</c:forEach>
@@ -308,7 +308,7 @@ a {
 			<span>조리법별</span>
 			<c:forEach var="division" items="${division}">
 				<c:if test="${division.division_num>=126}">
-					<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${division.division_num}">${division.division_name}</a>
+					<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${division.division_num}">${division.division_name}</a>
 				</c:if>
 			</c:forEach>
 		</div>
@@ -317,20 +317,20 @@ a {
 		<c:if test="${cateNum!=0}">
 		<div class="category_tag">
 			<div class="tag_tit">
-				<a href="<%=request.getContextPath()%>/rcp/list?cateNum=0">전체</a>>
+				<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=0">전체</a>>
 				<c:forEach var="division" items="${division}">
-				<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${division.division_num}">${division.division_name}</a>
+				<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${division.division_num}">${division.division_name}</a>
 				</c:forEach>
 				<c:forEach var="category" items="${category}">
 				<c:if test="${cateNum==category.cateNum}">
-				><a href="<%=request.getContextPath()%>/rcp/list?cateNum=${category.cateNum}">${category.cateName}</a>
+				><a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${category.cateNum}">${category.cateName}</a>
 				</c:if>
 				</c:forEach>
 			</div>
 			<ul class="tag_cont">
 				<c:forEach var="category" items="${category}">
 				<li>
-					<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${category.cateNum}">${category.cateName}</a>
+					<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${category.cateNum}">${category.cateName}</a>
 				</li>
 				</c:forEach>
 			</ul>
@@ -342,27 +342,27 @@ a {
 	<script>
 		window.onload = function() {
 			var atag = document.querySelectorAll(".sorting");
-			var url = document.location.href.split("/");
-			if (url[url.length - 1] == "list?cateNum=0") {
+			var url = document.location.href.split("?")[location.href.split("?").length - 1].split("&");
+			if (url[0] == "sorting=latest") {
 				atag[0].className += " selected";
-			} else if (url[url.length - 1] == "list?cateNum=1") {
+			} else if (url[0] == "cateNum=1") {
 				atag[1].className += " selected";
 			}
 		}		
 	</script>
 	<div class="list_title">
-		총 <b>${rcpAllCount}</b>개의 레시피가 있습니다.
+		총 <b>${rcpAllCount}</b>개의 레시피가 있습니다.	
 		<ul class="sort">
 			<li class="sorting">
-				<a href="<%=request.getContextPath()%>/rcp/list?cateNum=0">최신순</a>
+				<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${cateNum}">최신순</a>
 			</li>
 			<li class="sorting">
-				<a href="<%=request.getContextPath()%>/rcp/list?cateNum=1">조회순</a>
+				<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${cateNum}">조회순</a>
 			</li>
 		</ul>
 	</div>
 	
-	<ul class="lst_recipe">			
+	<ul class="lst_recipe">		
 		<c:if test="${rcpAllCount==0}">
 			<h1 style="font-size: 50px">등록된 레시피가 없습니다.</h1>
 		</c:if>

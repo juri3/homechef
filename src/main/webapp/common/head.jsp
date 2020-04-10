@@ -49,6 +49,7 @@
                             <form action="<%=request.getContextPath()%>/rcp/list" class="search-form">
                                 <div class="form-group">
                                     <span class="icon ion-ios-search"></span>
+                                    <input type="hidden" name="sorting" value="latest">
                                     <input type="hidden" name="cateNum" value="0">
                                     <input type="text" class="form-control" name="keyword" placeholder="음식명, 재료명으로 검색해주세요." autocomplete="off">
                                 </div>
@@ -90,7 +91,7 @@
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active"><a href="${pageContext.request.contextPath }/main" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="<%=request.getContextPath()%>/rcp/list?cateNum=0" class="nav-link">레시피</a></li>
+                    <li class="nav-item"><a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=0" class="nav-link">레시피</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
