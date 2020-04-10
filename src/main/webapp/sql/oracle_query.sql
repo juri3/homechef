@@ -9,7 +9,8 @@ memnum int,
 reg_date date,
 thumbnail varchar2(50),
 hashtag varchar2(1000),
-category varchar2(1000)
+category varchar2(1000),
+readcount int
 );
 
 create table ingredient (
@@ -35,9 +36,15 @@ content varchar2(1000)
 );
 
 create table category(
-cateNum number(2) primary key,
+cateNum number primary key,
 division varchar2(40),
-cateName varchar2(40)
+cateName varchar2(40),
+division_num number
+);
+
+create table division(
+division_num number primary key,
+division_name varchar2(40)
 );
 
 
@@ -72,8 +79,7 @@ create table scrap(
   scrapnum varchar(50)
 );
 
-/*shopping*/
-
+/*shopping */
 create table sale(
 rcpNum int not null primary key,
 thumbnail varchar2(50) not null,
@@ -97,7 +103,7 @@ ordernum number not null primary key,
 memNum int not null,
 orderdate varchar(25) not null,
 amount number,
-memName varchar(10),
+orderName varchar(10),
 Recipient varchar(30),
 address varchar(128) not null,
 zipcode varchar(20) not null,
@@ -115,7 +121,7 @@ price number
 
 create table mem_address(
 addressnum int not null primary key,
-addrName varchar(50),
+recipient varchar(50),
 memNum int not null,
 memName varchar(10),
 address varchar(500),
@@ -130,8 +136,12 @@ price number,
 regist_date date
 );
 
-insert into RCP values(1,'¹éÁ¾¿ø µÎºÎºÎÄ§', 'µÎºÎ¿¡ °è¶õÀÔÇô ºÎÄ§', 'µÎºÎºÎÄ§','5ºĞ',  1, sysdate,'1.png', 'µÎºÎ#°è¶õ#½Ä¿äÀ¯#', '¹éÁ¾¿ø#µÎºÎºÎÄ§#°£´Ü¿ä¸®#°£´Ü¹İÂù#¹ä¹İÂù' );
-insert into sale values(1,'¹éÁ¾¿øÀÇ µÎºÎÁ¶¸²', 5000, 10,0);
-commit
+insert into RCP values(1,'ë°±ì¢…ì› ë‘ë¶€ë¶€ì¹¨', 'ë‘ë¶€ì— ê³„ë€ì…í˜€ ë¶€ì¹¨', 'ë‘ë¶€ë¶€ì¹¨','5ë¶„',  1, sysdate,'1.png', 'ë‘ë¶€#ê³„ë€#ì‹ìš”ìœ #', '/4', 0);
+
+insert into sale values(1,'ë°±ì¢…ì›ì˜ ë‘ë¶€ì¡°ë¦¼', 5000, 10, 0);
+
+commit;
+
+
 
 SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
