@@ -48,7 +48,7 @@
     z-index: 5;
     display: block;
     margin-top: -40px;
-    margin-left: 90px;
+    margin-left: 100px;
     position: relative;
 }
 .lst_recipe li .author img {
