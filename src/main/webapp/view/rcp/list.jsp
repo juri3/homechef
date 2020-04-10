@@ -351,6 +351,7 @@ a {
 		}		
 	</script>
 	<div class="list_title">
+		<c:if test="${keyword==null}">
 		총 <b>${rcpAllCount}</b>개의 레시피가 있습니다.	
 		<ul class="sort">
 			<li class="sorting">
@@ -360,6 +361,10 @@ a {
 				<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${cateNum}">조회순</a>
 			</li>
 		</ul>
+		</c:if>
+		<c:if test="${keyword!=null}">
+		<b style="color: black">'${keyword}'</b> 검색결과  <b>${rcpAllCount}</b>개의 레시피가 검색되었습니다.
+		</c:if>
 	</div>
 	
 	<ul class="lst_recipe">		

@@ -156,9 +156,12 @@
 	
 	<select id="searchList"  parameterType="String" resultType="Rcp">
 		select *
-		from Rcp r, member m, ingredient i
-		where r.memNum=m.memNum and r.rcpnum=i.rcpnum and 
-			(foodname like '%'||#{keyword}||'%' or ingredient like '%'||#{keyword}||'%')
+		from Rcp r, member m
+		where r.memNum=m.memNum and 
+		      (foodname like '%'||#{keyword}||'%' or rcpnum in (
+													      select rcpnum 
+													      from ingredient 
+													      where ingredient like '%'||#{keyword}||'%'))
 	</select>
 	
 </mapper>
