@@ -12,13 +12,7 @@
     <include-coda>/common/footer.jsp</include-coda>
   </jsp-property-group>
   </jsp-config>
-<!--  <jsp-config>
-  <jsp-property-group>
-  <url-pattern>/view/*</url-pattern>
-  <include-prelude>/common/footer.jsp</include-prelude>
-  </jsp-property-group>
-  </jsp-config> -->
-	<!-- 디스패쳐 서블릿, 캐릭터set encoding, jsp-servlet -->
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

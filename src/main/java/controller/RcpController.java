@@ -3,6 +3,7 @@ package controller;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import model.Category;
+import model.Division;
 import model.Ingredient;
 import model.Rcp;
 import model.RcpContent;
@@ -25,12 +27,78 @@ import service.MybatisRcpDaoMysql;
 public class RcpController {
 	
 	@Autowired
-	MybatisRcpDaoMysql dbPro;
+	MybatisRcpDaoMysql dbPro;	
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
-	public String rcp_list() throws Exception {
+	public String rcp_list(int cateNum, String keyword, Model m) throws Exception {
+		int rcpAllCount;
+		List<Rcp> rcpAllList;
+		List<Category> category;
+		List<Division> division;
+		
+		if(cateNum==0){
+			if(keyword!=null){
+				rcpAllCount = dbPro.searchCount(keyword);
+				rcpAllList=dbPro.searchList(keyword);
+			}else{
+				rcpAllCount = dbPro.rcpAllCount();
+				rcpAllList=dbPro.rcpAllList();
+			}			
+			category=dbPro.getCategory();
+			division=dbPro.getDivision();
+		}else{
+			if(cateNum<100){
+				rcpAllCount=dbPro.rcpAllCount2(cateNum);
+				rcpAllList=dbPro.rcpAllList2(cateNum);
+				category=dbPro.getCategory2(cateNum);
+				division=dbPro.getDivision2(cateNum);
+			}else{
+				rcpAllCount=dbPro.rcpAllCount3(cateNum);
+				rcpAllList=dbPro.rcpAllList3(cateNum);
+				category=dbPro.getCategory3(cateNum);
+				division=dbPro.getDivision3(cateNum);
+			}
+			
+		}		
+		
+		m.addAttribute("rcpAllCount", rcpAllCount);
+		m.addAttribute("rcpAllList", rcpAllList);
+		m.addAttribute("category", category);
+		m.addAttribute("division", division);
+		m.addAttribute("cateNum", cateNum);
+		m.addAttribute("keyword", keyword);
 
 		return "rcp/list";
+	}
+	
+	@RequestMapping(value = "content", method = RequestMethod.GET)
+	public String rcp_content(HttpServletRequest request, int rcpnum, Model m) throws Exception {
+		HttpSession session = request.getSession();
+		
+		int loginNum = 0;
+
+		if (session.getAttribute("memNum") == null) {
+			session.setAttribute("memNum", 0);
+			loginNum = (int) session.getAttribute("memNum");
+		} else {
+			loginNum = (int) session.getAttribute("memNum");
+		}
+		
+		Rcp rcpContent=dbPro.rcpContent(rcpnum);
+		List<RcpContent> rcpContent2=dbPro.rcpContent2(rcpnum);
+		List<Ingredient> rcpContent3=dbPro.rcpContent3(rcpnum);
+		
+		int checkScrap = dbPro.checkScrap(loginNum, rcpnum);
+		int scrapCount = dbPro.scrapCount(rcpnum);
+		
+		m.addAttribute("rcpContent", rcpContent);
+		m.addAttribute("rcpContent2", rcpContent2);
+		m.addAttribute("rcpContent3", rcpContent3);
+		m.addAttribute("checkScrap", checkScrap);
+		m.addAttribute("scrapCount", scrapCount);
+		m.addAttribute("loginNum", loginNum);
+		
+		return "rcp/content";
 	}
 
 	@RequestMapping(value = "writeForm", method = RequestMethod.GET)

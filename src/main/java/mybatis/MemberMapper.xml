@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="rcpList" parameterType="int" resultType="Rcp">
-		select r.thumbnail, r.title, r.subtitle, m.profile
+		select *
 		from Rcp r, member m
 		where r.memNum=m.memNum and r.memNum=#{memNum}
 	</select>
@@ -87,6 +87,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) 
 		from Rcp
 		where memNum=#{memNum}
+	</select>
+	
+	<insert id="insertScrap" parameterType="Scrap">
+		insert into scrap values (#{memnum},#{scrapnum})
+	</insert>	
+	
+	<delete id="delScrap" parameterType="Scrap">
+		delete from scrap where memnum=#{memnum} and scrapnum=#{scrapnum}
+	</delete>
+	
+	<select id="scrapCount" parameterType="int" resultType="int">
+		select count(*) 
+		from scrap
+		where memNum=#{memnum}
+	</select>
+	
+	<select id="scarpList" parameterType="int" resultType="Rcp">
+		select *
+		from Rcp r, member m, scrap s
+		where r.memNum=m.memNum and r.rcpnum=s.scrapnum and s.memnum=#{memnum}
 	</select>
 
 </mapper>
