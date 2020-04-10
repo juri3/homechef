@@ -30,15 +30,20 @@ public class RcpController {
 	MybatisRcpDaoMysql dbPro;	
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
-	public String rcp_list(int cateNum, Model m) throws Exception {
+	public String rcp_list(int cateNum, String keyword, Model m) throws Exception {
 		int rcpAllCount;
 		List<Rcp> rcpAllList;
 		List<Category> category;
 		List<Division> division;
 		
 		if(cateNum==0){
-			rcpAllCount = dbPro.rcpAllCount();
-			rcpAllList=dbPro.rcpAllList();
+			if(keyword!=null){
+				rcpAllCount = dbPro.searchCount(keyword);
+				rcpAllList=dbPro.searchList(keyword);
+			}else{
+				rcpAllCount = dbPro.rcpAllCount();
+				rcpAllList=dbPro.rcpAllList();
+			}			
 			category=dbPro.getCategory();
 			division=dbPro.getDivision();
 		}else{
@@ -60,6 +65,7 @@ public class RcpController {
 		m.addAttribute("rcpAllList", rcpAllList);
 		m.addAttribute("category", category);
 		m.addAttribute("division", division);
+		m.addAttribute("keyword", keyword);
 		m.addAttribute("cateNum", cateNum);
 
 		return "rcp/list";
