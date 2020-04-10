@@ -15,6 +15,7 @@ public class Rcp implements Serializable {
 	private String thumbnail; // thumbNail varchar(30),
 	private String hashtag; // HashTag varchar(1000)
 	private String category;
+	private String readcount;
 	
 	private String ingredient;	
 	
@@ -128,14 +129,25 @@ public class Rcp implements Serializable {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	
+
+	public String getReadcount() {
+		return readcount;
+	}
+
+	public void setReadcount(String readcount) {
+		this.readcount = readcount;
+	}
 
 	@Override
 	public String toString() {
 		return "Rcp [rcpnum=" + rcpnum + ", title=" + title + ", subtitle=" + subtitle + ", cookingtime=" + cookingtime
 				+ ", foodname=" + foodname + ", memnum=" + memnum + ", reg_date=" + reg_date + ", thumbnail="
-				+ thumbnail + ", hashtag=" + hashtag + ", category=" + category + ", ingredient=" + ingredient
-				+ ", profile=" + profile + ", name=" + name + "]";
+				+ thumbnail + ", hashtag=" + hashtag + ", category=" + category + ", readcount=" + readcount
+				+ ", ingredient=" + ingredient + ", profile=" + profile + ", name=" + name + "]";
 	}
+
+	
 	
 	
 	

@@ -123,7 +123,7 @@ ol, ul {
     left: 30px;
 }
 .lst_recipe {
-    width: 1040px;
+    width: 1500px;
     position: relative;
     left: -16px;
     overflow: hidden;
@@ -250,8 +250,8 @@ a:visited{
 	<div class="data-tab">
 		<div class="inner">
 		<ul class = "tab-list">
-			<li class = "active" onclick = "openTitle('myRecipe')"><a href = "#">마이레시피</a></li>
-			<li onclick = "openTitle('scrap')"><a href = "#">스크랩</a></li>
+			<li class = "active" onclick = "openTitle('myRecipe')"><a href = "#">마이레시피(${rcpCount})</a></li>
+			<li onclick = "openTitle('scrap')"><a href = "#">스크랩(${scrapCount})</a></li>
 			<li onclick = "openTitle('follow')"><a href = "#">팔로우(${followCount})</a></li>
 		</ul>
 		</div>
@@ -276,16 +276,16 @@ a:visited{
 			<c:if test="${rcpCount!=0}">
 			<c:forEach var="rcpList" items="${rcpList}">
 			<li>
-				<a href="" class="call_recipe">
+				<a href="<%=request.getContextPath()%>/rcp/content?rcpnum=${rcpList.rcpnum}" class="call_recipe">
 					<img src="<%=request.getContextPath()%>/uploadRcpFile/${rcpList.thumbnail}">
 				</a>
 				<span class="author">
-					<a href="">
+					<a href="<%=request.getContextPath()%>/member/mypage?memNum=${rcpList.memnum}">
 						<img src="<%=request.getContextPath()%>/uploadFile/${rcpList.profile}">
 					</a>
 				</span>
 				<p>
-					<a href="">
+					<a href="<%=request.getContextPath()%>/rcp/content?rcpnum=${rcpList.rcpnum}">
 						<br><strong>${rcpList.title}</strong><p>${rcpList.foodname}</p>
 					</a>
 				</p>
@@ -296,7 +296,30 @@ a:visited{
 	</div>
 	
 	<div class="title" id = "scrap" style = "display:none; margin: 0px 200px;">
-		<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;padding-bottom: 100px">아직 스크랩하신 레시피가 없습니다.</h1>
+		<c:if test="${scrapCount==0}">				
+				<h1 style="text-align: center;color: #b7b7b7;font-size: 20px;padding-bottom: 100px">아직 스크랩하신 레시피가 없습니다.</h1>			
+		</c:if>
+		<ul class="lst_recipe">			
+			<c:if test="${scrapCount!=0}">
+			<c:forEach var="scarpList" items="${scarpList}">
+			<li>
+				<a href="<%=request.getContextPath()%>/rcp/content?rcpnum=${scarpList.rcpnum}" class="call_recipe">
+					<img src="<%=request.getContextPath()%>/uploadRcpFile/${scarpList.thumbnail}">
+				</a>
+				<span class="author">
+					<a href="<%=request.getContextPath()%>/member/mypage?memNum=${scarpList.memnum}">
+						<img src="<%=request.getContextPath()%>/uploadFile/${scarpList.profile}">
+					</a>
+				</span>
+				<p>
+					<a href="<%=request.getContextPath()%>/rcp/content?rcpnum=${scarpList.rcpnum}">
+						<br><strong>${scarpList.title}</strong><p>${scarpList.foodname}</p>
+					</a>
+				</p>
+			</li>
+			</c:forEach>
+			</c:if>		
+		</ul>		
 	</div>
 	
 	<div class="title" id = "follow" style = "display:none; margin: 0px 200px;padding-bottom: 100px">

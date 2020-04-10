@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import model.Follow;
 import model.Member;
 import model.Rcp;
+import model.Scrap;
 import mybatis.AbstractRepository;
 
 @Component
@@ -244,5 +245,70 @@ public class MybatisMemberDao
 		}
 
 		return rcpList;
+	}
+	
+	public int insertScrap(Scrap scrap){
+		 SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();	   
+		 int check;
+		 
+	        try
+	        {
+	        	if(scrap.getMemnum()==0){
+	        		check=0;
+	        	}else{
+	        		String statement = namespace + ".insertScrap";
+		            sqlSession.insert(statement, scrap);
+		            sqlSession.commit();
+		            check=1;
+	        	}	            
+	        }
+	        finally
+	        {
+	            sqlSession.close();
+	        }
+	        return check;
+	}	
+	
+	public void delScrap(Scrap scrap){
+		 SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+	        try
+	        {
+	            String statement = namespace + ".delScrap";
+	            sqlSession.delete(statement, scrap);
+	            sqlSession.commit();
+	        }
+	        finally
+	        {
+	            sqlSession.close();
+	        }
+	}
+	
+	public int scrapCount(int memnum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		int count;
+		
+		try{
+			String statement=namespace+".scrapCount"; 
+			count=sqlSession.selectOne(statement, memnum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return count;
+	}
+	
+	public List<Rcp> scarpList(int memnum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
+		List<Rcp> scarpList=null;
+		String statement;
+		
+		try{
+			statement=namespace+".scarpList";         
+			scarpList=sqlSession.selectList(statement, memnum);
+		}finally{
+			sqlSession.close();
+		}
+
+		return scarpList;
 	}
 }
