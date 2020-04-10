@@ -10,7 +10,7 @@
 	
 	<insert id="insert1" parameterType="Rcp">
 		insert into Rcp 
-		values(#{rcpnum},#{title},#{foodname},#{subtitle},#{cookingtime},#{memnum},sysdate,#{thumbnail},#{hashtag},#{category})
+		values(#{rcpnum},#{title},#{foodname},#{subtitle},#{cookingtime},#{memnum},sysdate,#{thumbnail},#{hashtag},#{category},#{readcount})
 	</insert>
 	
 	<insert id="insertIngredient" parameterType="Ingredient">
@@ -28,10 +28,43 @@
 		from category
 	</select>
 	
+	<select id="getCategory2" parameterType="int" resultType="Category">
+		select *
+		from category
+		where DIVISION_NUM=(
+					select division_num
+					from category
+					where catenum=#{cateNum})
+	</select>
+	
+	<select id="getCategory3" parameterType="int" resultType="Category">
+		select *
+		from category
+		where DIVISION_NUM=#{cateNum}
+	</select>
+	
+	<select id="getDivision" resultType="Division">
+		select *
+		from division		
+	</select>
+	
+	<select id="getDivision2" parameterType="int" resultType="Division">
+		select *
+		from category c, division d
+		where c.DIVISION_NUM=d.DIVISION_NUM and catenum=#{cateNum}
+	</select>
+	
+	<select id="getDivision3" parameterType="int" resultType="Division">
+		select *
+		from division
+		where division_num=#{cateNum}
+	</select>
+	
 	<select id="rcpAllList" resultType="Rcp">
 		select *
 		from Rcp r, member m
 		where r.memNum=m.memNum
+		order by reg_date desc
 	</select>
 	
 	<select id="rcpAllCount"  resultType="int">
@@ -39,10 +72,100 @@
 		from Rcp
 	</select>
 	
+	<select id="rcpAllList2" parameterType="int" resultType="Rcp">
+		select *
+		from(
+		      Select rcpnum,thumbnail,r.memnum,profile,foodname,title,reg_date, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp r, member m
+		      where r.memNum=m.memNum
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )
+		where lv!=lg and catenum=#{cateNum}
+		order by reg_date desc
+	</select>
+	
+	<select id="rcpAllCount2"  parameterType="int" resultType="int">
+		select count(*)
+		from(
+		      Select rcp.*, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )
+		where lv!=lg and catenum=#{cateNum}
+	</select>
+	
+	<select id="rcpAllList3" parameterType="int" resultType="Rcp">
+		select *
+		from(
+		      Select rcpnum,thumbnail,r.memnum,profile,foodname,title,reg_date, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp r, member m
+		      where r.memNum=m.memNum
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )r, category c
+		where r.catenum=c.catenum and lv!=lg and division_num=#{cateNum}
+		order by reg_date desc
+	</select>
+	
+	<select id="rcpAllCount3"  parameterType="int" resultType="int">
+		select count(*)
+		from(
+		      Select rcpnum,thumbnail,r.memnum,profile,foodname,title, Regexp_Substr(category,'[^/]+', 1, Level) as catenum, level as lv, lag(level,1,0) over(partition by rcpnum order by level) as lg
+		      From rcp r, member m
+		      where r.memNum=m.memNum
+		      Connect By Regexp_Substr(category, '[^/]+', 1, Level) Is Not Null
+		    )r, category c
+		where r.catenum=c.catenum and lv!=lg and division_num=#{cateNum}
+	</select>
+	
 	<select id="rcpContent" parameterType="int" resultType="Rcp">
 		select *
 		from Rcp r, member m
 		where r.memNum=m.memNum and rcpNum=#{rcpnum}
+	</select>
+	
+	<select id="rcpContent2" parameterType="int" resultType="RcpContent">
+		select *
+		from RcpContent
+		where rcpNum=#{rcpnum}
+	</select>
+	
+	<select id="rcpContent3" parameterType="int" resultType="Ingredient"> <!-- *로 모든 데이터를 다 받아옴 -->
+		select *
+		from Ingredient
+		where rcpNum=#{rcpnum}
+	</select>
+	
+	<select id="checkScrap" parameterType="hashmap" resultType="int">
+		select NVL(count(*),0) 
+		from scrap 
+		where memnum=#{memnum} and scrapnum=#{scrapnum}
+	</select>
+	
+	<select id="scrapCount" parameterType="int" resultType="int">
+		select count(*) 
+		from scrap
+		where scrapnum=#{rcpnum}
+	</select>
+
+	<update id="addReadcount" parameterType="int">
+		update Rcp set readcount = nvl(readcount, 0) +1 where rcpnum = #{rcpnum}
+	</update>
+	
+	<select id="searchCount" parameterType="String" resultType="int">
+		select count(*)
+		from Rcp r, member m, ingredient i
+		where r.memNum=m.memNum and r.rcpnum=i.rcpnum and 
+			(foodname like '%'||#{keyword}||'%' or ingredient like '%'||#{keyword}||'%')
+	</select>
+	
+	<select id="searchList"  parameterType="String" resultType="Rcp">
+		select *
+		from Rcp r, member m
+		where r.memNum=m.memNum and 
+		      (foodname like '%'||#{keyword}||'%' or rcpnum in (
+													      select rcpnum 
+													      from ingredient 
+													      where ingredient like '%'||#{keyword}||'%'))
 	</select>
 	
 </mapper>

@@ -39,7 +39,6 @@ a:hover {
 		</div>
 	</div> 
 	<form name="select_ingredient" method="post">
-		<input type="hidden" name="rcpNum" value="${recipt.rcpnum }">
 		<input type="hidden" name="productName" value="${sale.productname }">
 		<input type="hidden" name="price" value="${sale.price }">
 		<input type="hidden" name="thumbnail" value="${sale.thumbnail }">
@@ -52,7 +51,7 @@ a:hover {
 					</a>
 				</div>
 				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
-					<h3>${recipt.title }</h3>
+					<h3>${sale.productname }</h3>
 					<div class="rating d-flex">
 						<p class="text-left mr-4">
 							<a href="#" class="mr-2">5.0</a> <a href="#"><span
@@ -135,7 +134,7 @@ a:hover {
 			</div>
 			<div class="view_step">
 				<div class="view_tag">
-			<c:forTokens items="${recipt.hashtag }" delims="#" var="item">
+			<c:forTokens items="${sale.hashtag }" delims="#" var="item">
     <a href="#">#${item}</a>
    </c:forTokens>
 				

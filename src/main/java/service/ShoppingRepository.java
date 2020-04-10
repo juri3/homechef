@@ -19,6 +19,7 @@ import model.OrderInfo;
 import model.OrderProduct;
 import model.Rcp;
 import model.Sale;
+import model.Salecategory;
 import mybatis.AbstractRepository;
 
 @Component
@@ -29,27 +30,6 @@ public class ShoppingRepository{
 	@Autowired
 	public AbstractRepository opendb;
 	
-	
-	public List<Ingredient> getIngredient(int rcpNum){
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try{
-			String statement = namespace + ".getIngredient";
-			return sqlSession.selectList(statement, rcpNum);
-		}finally{
-			sqlSession.close();
-		}
-	}
-	public Rcp getRcp(int rcpnum) {
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try{
-			String statement = namespace + ".getRcp";
-			
-			return (Rcp) sqlSession.selectOne(statement, rcpnum);
-		}finally{
-			sqlSession.close();
-		}
-	}
-
 	
 	public int insertCart(Cart cart){
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
@@ -156,6 +136,17 @@ public class ShoppingRepository{
 		}
 	}
 	
+	public List<Sale> getSale() {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try{
+			String statement = namespace + ".getSale_nonParam";
+			return sqlSession.selectList(statement);
+		}finally{
+			sqlSession.close();
+		}
+	}
+	
 	public Sale getSale(int rcpNum) {
 		// TODO Auto-generated method stub
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
@@ -166,6 +157,19 @@ public class ShoppingRepository{
 			sqlSession.close();
 		}
 	}
+	
+	public List<Salecategory> getSaleCategory() {
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		String SIDX = "asc";
+		try{
+			String statement = namespace + ".getSalecategory";
+			return sqlSession.selectList(statement,SIDX);
+		}finally{
+			sqlSession.close();
+		}
+	}
+	
+	
 	public Member getMember(int memNum){
 		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		Member member=null;
@@ -288,6 +292,18 @@ public class ShoppingRepository{
 			sqlSession.close();
 		}
 	}
+	
+	public int getCountSale() {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try{
+			String statement = namespace + ".getCountSale";
+			return sqlSession.selectOne(statement);
+		}finally{
+			sqlSession.close();
+		}
+	}
+
 	
 
 }

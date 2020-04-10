@@ -4,19 +4,6 @@
 	
 <mapper namespace="mybatis.dao.ShoppingMapper">
 	<cache />
-	<select id="getIngredient" parameterType="int" resultType="Ingredient">
-		SELECT
-			*
-		FROM Ingredient
-		WHERE rcpnum = #{rcpnum}
-	</select>
-	
-	<select id="getRcp" parameterType="int" resultType="Rcp">
-		SELECT
-			*
-		FROM Rcp
-		WHERE rcpnum = #{rcpnum}
-	</select>
 	
 	<insert id="insertCart"	parameterType="Cart">
 		INSERT INTO cart VALUES(#{cartNum}, #{memNum}, #{thumbnail}, #{productName}, #{qty}, #{price})
@@ -62,11 +49,29 @@
 		WHERE cartNum = #{cartNum}
 	</delete>
 	
+	<select id="getSale_nonParam" resultType="Sale">
+		SELECT
+			*
+		FROM sale
+	</select>
+	
+	<select id="getCountSale" resultType="int">
+		SELECT
+			count(*)
+		FROM sale
+	</select>
+	
 	<select id="getSale" parameterType="int" resultType="Sale">
 		SELECT
 			*
 		FROM sale
-		WHERE rcpNum = #{rcpNum}
+		WHERE saleNum = #{saleNum}
+	</select>
+	
+	<select id="getSalecategory" resultType="Salecategory">
+		SELECT
+			*
+		FROM sale_category 
 	</select>
 		
 	<select id="getMember" parameterType="int" resultType="Member">

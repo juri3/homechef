@@ -14,6 +14,7 @@
 		<typeAlias type="model.OrderProduct" alias="OrderProduct" />
 		<typeAlias type="model.MemAddress" alias="MemAddress" />
 		<typeAlias type="model.Sale" alias="Sale" />
+		<typeAlias type="model.Salecategory" alias="Salecategory" />
 		<typeAlias type="model.Jjim" alias="Jjim" />
 		<typeAlias type="model.Brand" alias="Brand" />
 		<typeAlias type="model.Member" alias="Member" />

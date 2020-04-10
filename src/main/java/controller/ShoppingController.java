@@ -29,6 +29,7 @@ import model.OrderInfo;
 import model.OrderProduct;
 import model.Rcp;
 import model.Sale;
+import model.Salecategory;
 import service.MybatisRcpDaoMysql;
 import service.ShoppingRepository;
 
@@ -52,18 +53,15 @@ public class ShoppingController {
    }
 
    @RequestMapping(value = "list") // 맨끝단의 url만 가지고 옴, get방식으로 한다.
-   public String reciptview(Model model) {
+   public String reciptview(@RequestParam("saleNum")int saleNum, Model model) {
       // TODO Auto-generated method stub
       
-      int rcpNum = 1;// 나중에 get값으로 받음
+      Sale sale = service.getSale(saleNum);
       
-      List<Ingredient> ingredients = service.getIngredient(rcpNum);
-      Sale sale = service.getSale(rcpNum);
-      System.out.println("price : "+sale);
       
-      Rcp rcp = service.getRcp(rcpNum);
-      model.addAttribute("recipt", rcp);
-      model.addAttribute("ingredients", ingredients);
+      System.out.println("sale : "+sale);
+      
+      
       model.addAttribute("sale", sale);
 
       return "shopping/goodsview";
@@ -93,7 +91,9 @@ public class ShoppingController {
    @RequestMapping(value = "cartview", method=RequestMethod.GET) // 맨끝단의 url만 가지고 옴, get방식으로 한다.
    public String cartview(HttpSession session, Model m){
       // TODO Auto-generated method stub
-      
+      if(session.getAttribute("memNum")==null){
+    	  return "redirect:/member/login";
+      }
       int memNo = (int) session.getAttribute("memNum");
       List<Cart> cartlist = service.getCart(memNo);
       System.out.println(memNo);
@@ -120,6 +120,23 @@ public class ShoppingController {
    
    @RequestMapping(value = "regist_jjim", method=RequestMethod.POST)
    public String regist_jjim(HttpServletRequest request, Model m) throws Exception {
+      // TODO Auto-generated method stub
+      HttpSession session = request.getSession();
+      
+      String values = request.getParameter("rcpNum");
+     int check = service.registjjim(Integer.parseInt(values),(int)session.getAttribute("memNum"));
+     System.out.println("check " + check);
+     System.out.println("dddd : "+(int)session.getAttribute("memNum"));
+     if(check >= 1){
+        System.out.println( values+"-- 성공");
+     }else{
+        System.out.println( values+"-- 중복");
+     }
+      return "redirect:/shopping/list";
+   }
+   
+   @RequestMapping(value = "jjim_list", method=RequestMethod.POST)
+   public String jjim_list(HttpServletRequest request, Model m) throws Exception {
       // TODO Auto-generated method stub
       HttpSession session = request.getSession();
       
