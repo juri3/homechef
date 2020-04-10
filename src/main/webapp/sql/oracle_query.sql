@@ -45,9 +45,9 @@ cateName varchar2(40)
 
 create table brand_member(
   brand varchar(60) not null,
-  name varchar(10) not null,	
+  name varchar(10) not null,   
   tel varchar(12) not null,
-  email varchar(60) not null,	
+  email varchar(60) not null,   
   selfIntroduction varchar(200),
   inquiry varchar(200) ,
   id varchar(50) primary key
@@ -55,8 +55,8 @@ create table brand_member(
 
 create table member(
   memNum int UNIQUE,
-  email varchar(60) primary key,	
-  name varchar(10) not null,	
+  email varchar(60) primary key,   
+  name varchar(10) not null,   
   passwd varchar(12) not null,
   profile varchar(50),
   selfIntroduction varchar(200)
@@ -67,12 +67,16 @@ create table follow(
   followNum varchar(50)
 );
 
-
+create table scrap(
+  memnum varchar(50),
+  scrapnum varchar(50)
+);
 
 /*shopping*/
 
 create table sale(
 rcpNum int not null primary key,
+thumbnail varchar2(50) not null,
 productname varchar(128) not null,
 price number not null,
 stock int,
@@ -82,6 +86,7 @@ sales int
 create table cart(
 cartnum int not null primary key,
 memNum int not null,
+thumbnail varchar2(50),
 productname varchar(128),
 qty int,
 price number 
@@ -113,9 +118,7 @@ addressnum int not null primary key,
 addrName varchar(50),
 memNum int not null,
 memName varchar(10),
-address1 varchar(128),
-address2 varchar(128),
-address3 varchar(128),
+address varchar(500),
 zipcode int
 );
 
@@ -127,5 +130,8 @@ price number,
 regist_date date
 );
 
-insert into RCP values(1,'백종원 두부부침', '두부에 계란입혀 부침', '5분', '두부부침', 1, sysdate,'uu', '두부#계란#식요유#', '백종원#두부부침#간단요리#간단반찬#밥반찬' );
+insert into RCP values(1,'백종원 두부부침', '두부에 계란입혀 부침', '두부부침','5분',  1, sysdate,'1.png', '두부#계란#식요유#', '백종원#두부부침#간단요리#간단반찬#밥반찬' );
 insert into sale values(1,'백종원의 두부조림', 5000, 10,0);
+commit
+
+SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;

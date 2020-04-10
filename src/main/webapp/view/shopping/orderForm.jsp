@@ -1,298 +1,446 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<title>Insert title here</title>
-	<style>
-	    div.all {
-	        width: 100%;
-	        height: 300px;
-	        
-	    }
-	    div.left {
-	        width: 50%;
-	        float: left;
-	        box-sizing: border-box;
-	        
-	    }
-	    div.right {
-	        width: 50%;
-	        float: right;
-	        box-sizing: border-box;
-	        padding-right: 5%;
-	    }
-	    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script	src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<title>Insert title here</title>
+<style>
+div.all {
+	width: 100%;
+	height: 300px;
+}
+
+div.left {
+	width: 50%;
+	float: left;
+	box-sizing: border-box;
+}
+
+div.right {
+	width: 50%;
+	float: right;
+	box-sizing: border-box;
+	padding-right: 5%;
+}
+</style>
 </head>
 <body>
 
-    <div class="hero-wrap hero-bread" style="background-image: url('../images/bg_1.jpg');">
-        <div class="container">
-            <div class="row no-gutters slider-text align-items-center justify-content-center">
-                <div class="col-md-9 ftco-animate text-center">
-                    <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Checkout</span></p>
-                    <h1 class="mb-0 bread">Checkout</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section class="ftco-section">
-        <div class="container">
-	        <div class="row justify-content-center">
-		        <div>
-				<h3 class="mb-4 billing-heading">상품목록</h3>
-				<div>
-				<table border="1">
-					<thead>
-						<tr>
-							<td>상 품 명</td> <td>수량</td> <td>가격</td> <td>배송비</td> 
-						</tr>
-					</thead>
-					<tbody>
-						<c:set var="count" value="0"/>
-						<c:set var="totalpay" value="0"/>
-						<c:forEach var="list" items="${cartlist }">
-							<c:set var="count" value="${count+1}"/><!-- 표 셀합치기 -->
-							<tr>
-								<td>${list.productName }</td>
-								<td>${list.qty }</td>
-								<td>${list.price * list.qty}</td>
-								<c:set var="totalpay" value="${totalpay+ list.price * list.qty }"/>
-								<c:if test="${count == 1}">
-									<td rowspan="${fn:length(cartlist)}"><span id="shipping">2,500원<br>(5만원 이상 구매시 배송비 무료)</span></td>
-								</c:if>
-							</tr>
-						</c:forEach>
-					</tbody>			
-				</table>
+	<div class="hero-wrap hero-bread"
+		style="background-image: url('../images/bg_1.jpg');">
+		<div class="container">
+			<div 
+				class="row no-gutters slider-text align-items-center justify-content-center">
+				<div class="col-md-9 ftco-animate text-center">
+					<p class="breadcrumbs">
+						<span class="mr-2"><a href="index.html">Home</a></span> <span>Checkout</span>
+					</p>
+					<h1 class="mb-0 bread">Checkout</h1>
 				</div>
-		
+			</div>
 		</div>
-	        </div>
-            <div class="row justify-content-center">
-                <div class="col-xl-7 ftco-animate">
-                
-                
-                
-                    <form method="post" action="${pageContext.request.contextPath}/shopping/complete_order">
-                    <input type="hidden" name="memNum" value="${memNum }">
-					<input type="hidden" name="memName" value="${memName }">
-                        <h3 class="mb-4 billing-heading">배송지 정보</h3>
-                        <div class="row align-items-end">
-                         <div class="col-md-12">
-                                <div class="form-group mt-4">
-                                    <div class="radio">
-                                        <label><input type="radio"name="selectNewOrOld" value="1" onclick="div_Change(this.value,'addr_Newform');"> 신규배송지  </label>
-                                        <label><input type="radio" name="selectNewOrOld" value="2" onclick="div_Change(this.value,'addr_Oldform');"> 기존배송지</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="firstname">Firt Name</label>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="lastname">Last Name</label>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="w-100"></div>
-                           <div class="col-md-12">
-                                <div class="form-group mt-4">
-                                    <div class="radio">
-                                        <label class="mr-3"><input type="checkbox" name="addr_default">기본배송지설정  </label>
-                                        <label><input type="checkbox" name="addr_add">배송지목록에 추가</label>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="w-100"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="streetaddress">Street Address</label>
-                                    <input type="text" class="form-control" id="address" placeholder="도로명주소">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="detailAddress" placeholder="상세주소">
-                                </div>
-                            </div>
-                            <div class="w-100"></div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="shippingMemo" placeholder="배송메모">
-                                </div>
-                            </div>
-                           
-                            <div class="w-100"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="emailaddress">Email Address</label>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="w-100"></div>
-                           
-                        </div>
-                    </form>
-                    <!-- END -->
-                </div>
-                <div class="col-xl-5">
-                    <div class="row mt-5 pt-3">
-                        <div class="col-md-12 d-flex mb-5">
-                            <div class="cart-detail cart-total p-3 p-md-4">
-                                <h3 class="billing-heading mb-4">Cart Total</h3>
-                                <p class="d-flex">
-                                    <span>Subtotal</span>
-                                    <span>${totalpay}</span>
-                                </p>
-                                <p class="d-flex">
-                                    <span>배송비</span>
-                                    <span id="shipping2">2,500</span>
-                                </p>
-                                
-                                <hr>
-                                <p class="d-flex total-price">
-                                    <span>Total</span>
-                                    <span>
-	                                    <c:if test="${totalpay >= 50000 }">
-											<c:set var="amount" value="${totalpay}"/>
+	</div>
+
+	<section class="ftco-section">
+	<form method="post"	action="${pageContext.request.contextPath}/shopping/complete_order" 
+	id="orderform" >
+		<div class="container">
+			<div class="row justify-content-center">
+				<div>
+					<h3 class="mb-4 billing-heading">상품목록</h3>
+					<div class="cart-list">
+						<table class="table">
+							<thead class="thead-primary">
+								<tr class="text-center">
+									<th>&nbsp;</th>
+									<th>상 품 명</th>
+									<th>수 량</th>
+									<th>가 격</th>
+									<th>배 송 비</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:set var="count" value="0" />
+								<c:set var="totalpay" value="0" />
+								<c:forEach var="list" items="${cartlist }">
+									<c:set var="count" value="${count+1}" />
+									<tr class="text-center">
+										<td class="image-prod"><div class="img"
+												style="background-image:url(${pageContext.request.contextPath}/img/${list.thumbnail });"></div></td>
+
+										<td class="product-name">
+											<h3>${list.productName }</h3>
+										</td>
+										<td class="quantity">${list.qty }</td>
+
+										<td class="price">${list.price * list.qty}</td>
+										<c:set var="totalpay"
+											value="${totalpay+ list.price * list.qty }" />
+										<c:if test="${count == 1}">
+											<td rowspan="${fn:length(cartlist)}"><span id="shipping">2,500원
+													<br>(5만원 이상 구매시 배송비 무료)
+											</span></td>
 										</c:if>
-										<c:if test="${totalpay < 50000 }">
-											<c:set var="amount" value="${totalpay+2500}"/>
-										</c:if>
-										${amount }
-										<input type="hidden" name="amount" value="${amount }">
+
+									</tr>
+									<!-- END TR-->
+									<input type="hidden" name="nums" value="${list.cartNum }">
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-xl-7 ftco-animate">
+
+
+					<input type="hidden" name="memNum" value="${memNum }">
+					<input type="hidden" name="memName" value="${member.name }">
+					<h3 class="mb-4 billing-heading">주문자 정보 - ${member.name }</h3>
+					<h3 class="mb-4 billing-heading">배송지 정보</h3>
+					<div class="row align-items-end">
+
+						<div class="col-md-12">
+							<div class="form-group mt-4">
+								<div class="radio">
+									<input type="radio" name="select" value="0"
+										onclick="div_Change(this.value,'addr_Newform');">
+									신규배송지 <input type="radio" name="select" value="1"
+										onclick="div_Change(this.value,'addr_Oldform');">
+									기존배송지
+								</div>
+							</div>
+						</div>
+						<div id="addr_Newform">
+							<!-- style="display:none;" -->
+							새로운거<br>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="text" name="recipient" placeholder="수령인" autocomplete="off">
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="text" id="postcode" name="zipcode"
+										placeholder="우편번호" autocomplete="off">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="button" class="btn btn-primary py-3 px-4"
+										onclick="postnum_click()" value="우편번호 찾기" autocomplete="off">
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="text" id="address" class="form-control"
+										name="address" placeholder="도로명주소" autocomplete="off">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="text" class="form-control" id="detailAddress"
+										name="address" placeholder="상세주소" autocomplete="off">
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="text" class="form-control" id="extraAddress"
+										name="address" placeholder="참고항목" disabled>
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="text" class="form-control" id="memo" name="memo"
+										placeholder="배송메모" >
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="checkbox" name="addradd" value="1">배송지목록에
+									추가
+								</div>
+							</div>
+
+
+						</div>
+						<div id="addr_Oldform" style="display: none;">
+							이전에거<br>
+							<div>
+								<c:forEach var="addr" items="${reg_address }">
+									<input type="radio" name="sel_address"	value="${addr.addressNum}" onclick="div_address(this.value);">${addr.recipient }
+								</c:forEach>
+							</div>
+							<c:forEach var="addr" items="${reg_address }">
+								<div id="${addr.addressNum }" style="display: none;">
+
+									${addr.recipient }<br> ${addr.zipcode }<br>
+									<c:set var="addre" value="${addr.address}" />
+									${addr.address}
+									<input type="hidden" name="recipient" value="${addr.recipient }"> 
+									<input type="hidden" name="zipcode" value="${addr.zipcode }"> 
+									<input type="hidden" name="address" value="${addr.address}">
+								</div>
+							</c:forEach>
+
+						</div>
+
+
+					</div>
+
+					<!-- END -->
+				</div>
+				<div class="col-xl-5">
+					<div class="row mt-5 pt-3">
+						<div class="col-md-12 d-flex mb-5">
+							<div class="cart-detail cart-total p-3 p-md-4">
+								<h3 class="billing-heading mb-4">Order Total</h3>
+								<p class="d-flex">
+									<span>Subtotal</span> <span>${totalpay}</span>
+								</p>
+								<p class="d-flex">
+									<span>배송비</span> <span id="shipping2">2,500</span>
+								</p>
+
+								<hr>
+								<p class="d-flex total-price">
+									<span>Total</span> <span> 
+									<c:if test="${totalpay >= 50000 }">
+										<c:set var="amount" value="${totalpay}" />
+									</c:if> 
+									<c:if test="${totalpay < 50000 }">
+										<c:set var="amount" value="${totalpay+2500}" />
+									</c:if>
+									 ${amount } 
+									<input type="hidden" name="amount" value="${amount }">
 									</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="cart-detail p-3 p-md-4">
-                                <h3 class="billing-heading mb-4">결제정보</h3>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="radio">
-                                            <label><input type="radio" name="howtopay" value="pay" class="mr-2">  페이결제</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="radio">
-                                            <label><input type="radio"name="howtopay" value="card" class="mr-2"> 카드결제</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="radio">
-                                            <label><input type="radio"  name="howtopay" value="banktransfer"  class="mr-2"> 실시간계좌이체</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="radio">
-                                            <label><input type="radio" name="howtopay" value="phonepay" class="mr-2"> 핸드폰결제</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="radio">
-                                            <label><input type="radio" name="howtopay" value="deposit"  class="mr-2"> 무통장입금</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p><input type="submit"class="btn btn-primary py-3 px-4">Place an order</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- .col-md-8 -->
-            </div>
-        </div>
-    </section>
-    <!-- .section -->
-	
-    <section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
-        <div class="container py-4">
-            <div class="row d-flex justify-content-center py-5">
-                <div class="col-md-6">
-                    <h2 style="font-size: 22px;" class="mb-0">Subcribe to our Newsletter</h2>
-                    <span>Get e-mail updates about our latest shops and special offers</span>
-                </div>
-                <div class="col-md-6 d-flex align-items-center">
-                    <form action="#" class="subscribe-form">
-                        <div class="form-group d-flex">
-                            <input type="text" class="form-control" placeholder="Enter email address">
-                            <input type="submit" value="Subscribe" class="submit px-3">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-<div>
-	
-		
-		
-		<!-- 배송지 정보(주소등록) -->
-		<div>
-			<h3>배송지 정보</h3>
-			<div>
-				<input type="radio" name="selectNewOrOld" value="1" onclick="div_Change(this.value,'addr_Newform');"> 신규배송지  
-				<input type="radio" name="selectNewOrOld" value="2" onclick="div_Change(this.value,'addr_Oldform');"> 기존배송지
-			</div>
-			<div id="addr_Newform">
-				새로운거<br>
-				
-					<input type="text" id="postcode" placeholder="우편번호">
-					<input type="button" onclick="postnum_click()" value="우편번호 찾기"><br>
-					<input type="text" id="address" placeholder="도로명주소">
-					<input type="text" id="detailAddress" placeholder="상세주소">
-					<input type="text" id="extraAddress" placeholder="참고항목">
-					<input type="checkbox" name="addr_default">기본배송지설정
-					<input type="checkbox" name="addr_add">배송지목록에 추가<br>
-					<input type="text" id="shippingMemo" placeholder="배송메모">
-				
-			</div>
-			<div id="addr_Oldform">
-				이전에거<br>
-				<input type="text" id="shippingMemo" placeholder="배송메모">
+								</p>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="cart-detail p-3 p-md-4">
+								<h3 class="billing-heading mb-4">결제정보</h3>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="howtopay" value="kakaopay" class="mr-2"> 페이결제</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="howtopay" value="card" class="mr-2"> 카드결제</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="howtopay" value="banktransfer" class="mr-2"> 실시간계좌이체</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="howtopay" value="phonepay" class="mr-2"> 핸드폰결제</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" name="howtopay"	value="deposit" class="mr-2"> 무통장입금</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="checkbox">
+											<!-- <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label> -->
+										</div>
+									</div>
+								</div>
+								<p>
+									<input type="button" id="paying" class="btn btn-primary py-3 px-4" value="결제하기" >
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- .col-md-8 -->
 			</div>
 		</div>
-		
 	</form>
-</div>
+	<a herf="#"
+		onClick="window.open('${pageContext.request.contextPath}/shopping/pay?price=${totalpay }&email=wnfl7052@daum.net&name=${memName }&phone=01093529429&address=${addre}','결제창','width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">결제?</a>
+	</section>
+	<!-- .section -->
+
+
 </body>
 <script>
+	function check_info(){
+		var chk_count = 0;
+	    var selected = document.getElementsByName('select');
+	    var sel_count = 0;
+	    for(var i=0;i<selected.length;i++){
+			if(selected[i].checked == true){ 
+				sel_count++;
+			}
+		}
+	    if(sel_count < 1){
+            alert("배송지를 선택해주세요"); 
+			return false;
+		}else{	
+			if(selected[0].checked == true){
+		    	if(!($("input[name=recipient]").val())){
+					alert("수령인을 입력하세요.");
+					$("input[name=recipient]").focus();
+					return false;
+				}
+				if(!($("input[name=zipcode]").val())){
+					alert("우편번호를 입력하세요.");
+					$("input[name=zipcode]").focus();
+					return false;
+				}
+				if(!($("input[name=address]").eq(0).val())){
+					alert("도로명주소를 입력하세요.");
+					$("input[name=address]").eq(0).focus();
+					return false;
+				}
+				if(!($("input[name=address]").eq(1).val())){
+					alert("상세주소를 입력하세요.");
+					$("input[name=address]").eq(1).focus();
+					return false;
+				}
+				chk_count++;
+		    }else{
+		    	var chk_radio = document.getElementsByName('sel_address');
+				var sel_type = 0;
+				for(var i=0;i<chk_radio.length;i++){
+					if(chk_radio[i].checked == true){ 
+						sel_type++;
+					}
+				}
+				if(sel_type<1){
+		            alert("주소를 선택해주세요"); 
+					return false;
+				}else{
+					chk_count++;
+				}
+		    }
+		}
+	    var pay = document.getElementsByName('howtopay');
+	    var paycount = 0;
+	    for(var i=0; i<pay.length; i++){
+	        if(pay[i].checked == true){ 
+	           paycount++;
+	        }
+	    }
+	    if(paycount<1){
+            alert("결제방법을 선택해주세요"); 
+			return false;
+		}else{
+			chk_count++;
+		}
+	    if(chk_count>=2){
+	    	return true;
+	    }else{
+	    	return false;
+	    }
+ 	}
+	var success_pay = false;
+    function paying(){
+    	var IMP = window.IMP; // 생략가능
+        IMP.init('imp89691835'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+        var msg;
+       
+        IMP.request_pay({
+            pg : 'kakaopay',
+            pay_method : 'card',
+            merchant_uid : 'merchant_' + new Date().getTime(),
+            name : 'Home chef 주문 결제',
+            amount : ${totalpay},
+            buyer_email : '${member.email}',
+            buyer_name : '${member.name}',
+            buyer_tel : '01093529429',
+            buyer_addr : '경기도 의정부시',
+            buyer_postcode : '123-456',
+            //m_redirect_url : 'http://www.naver.com'
+        }, function(rsp) {
+        	if ( rsp.success ) {
+        		jQuery.ajax({
+                    url: "/shopping/complete_order", //cross-domain error가 발생하지 않도록 주의해주세요
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        imp_uid : rsp.imp_uid
+                        //여기서부터 고고
+                        //기타 필요한 데이터가 있으면 추가 전달
+                    }
+                }).done(function(data) {
+                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+                    if ( everythings_fine ) {
+                        msg = '결제가 완료되었습니다.';
+                        msg += '\n고유ID : ' + rsp.imp_uid;
+                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+                        msg += '\결제 금액 : ' + rsp.paid_amount;
+                        msg += '카드 승인번호 : ' + rsp.apply_num;
+                        
+                        alert(msg);
+                    } else {
+                        //[3] 아직 제대로 결제가 되지 않았습니다.
+                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+                    }
+                
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+            }
+            
+        });
+    }
+	
+     $("#paying").click(function(){
+    	alert("ddd");
+    	if(check_info()==false){
+    		return false;
+    	}
+        paying();
+        
+        
+    });
+	/* $(function() {    //화면 다 뜨면 시작
+	    var searchSource = ["경비실에 맡겨주세요.", "부재시, 경비실에 맡겨주세요. ", "부재시, 전화주세요.", "부재시, 문자 주세요." ]; // 배열 형태로 
+	    $("#memo").autocomplete({  //오토 컴플릿트 시작
+	        source : searchSource,    // source 는 자동 완성 대상
+	        select: function(event, ui) {
+	            console.log(ui.item);
+	        }
+	    });
+	}); */
+
 	function div_Change(value){
 		 // 라디오 버튼 value 값 조건 비교
-		 if(value == "2"){
+		 if(value == "1"){
 		 	document.getElementById('addr_Oldform').style.display = "block"; // 보여줌
 		 	document.getElementById('addr_Newform').style.display = "none"; // 숨김
 		 }else{
@@ -304,20 +452,20 @@
 	function div_address(value){
 		 // 라디오 버튼 value 값 조건 비교
 		 var arr = new Array();
-		 <c:forEach items="${address}" var="item1">
+		 <c:forEach items="${reg_address}" var="item1">
 		 arr.push("${item1.addressNum}");
 		 </c:forEach>
 		
 		 for(var i = 0; i<arr.length; i++){
-			 alert(value+" "+arr[i]);
-			 document.getElementById(value).style.display = "none"; // 숨김 
-		 }
-		 for(var i = 0; i<arr.length; i++){
-			if(value == arr[i]){
-			 	document.getElementById(value).style.display = ""; // 보여줌
+			// alert("value : "+value+", addressNum : "+arr[i]);
+			// console.log("value : "+value+", addressNum : "+arr[i]);
+			 document.getElementById(arr[i]).style.display = "none"; // 숨김
+			 if(value == arr[i]){
+				 document.getElementById(arr[i]).style.display = "block"; // 보여줌
 			}
-			
 		 }
+			
+			
 	}
 
 	

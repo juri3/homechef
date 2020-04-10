@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet"	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <title>Insert title here</title>
 </head>
 <style>
@@ -24,8 +23,7 @@ a:hover {
 </style>
 
 <body>
-
-	<div class="hero-wrap hero-bread sub_headbg"
+ 	<div class="hero-wrap hero-bread sub_headbg"
 		style="background-image: url('../images/bg_4.jpg');">
 		<div class="container">
 			<div
@@ -39,19 +37,19 @@ a:hover {
 				</div>
 			</div>
 		</div>
-	</div>
-	<form name="select_ingredient" method="post"
-		action="${pageContext.request.contextPath}/shopping/addcart">
-		<input type="hidden" name="rcpNum" value="${recipt.rcpNum }">
+	</div> 
+	<form name="select_ingredient" method="post">
+		<input type="hidden" name="rcpNum" value="${recipt.rcpnum }">
 		<input type="hidden" name="productName" value="${sale.productname }">
 		<input type="hidden" name="price" value="${sale.price }">
+		<input type="hidden" name="thumbnail" value="${sale.thumbnail }">
 		<section class="ftco-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 mb-5 ftco-animate">
-					<a href="../images/product-1.jpg" class="image-popup"><img
-						src="../images/product-1.jpg" class="img-fluid"
-						alt="Colorlib Template"></a>
+					<a class="image-popup">
+					<img src="${pageContext.request.contextPath }/img/${sale.thumbnail}" class="img-fluid">
+					</a>
 				</div>
 				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
 					<h3>${recipt.title }</h3>
@@ -69,7 +67,7 @@ a:hover {
 								style="color: #bbb;">Rating</span></a>
 						</p>
 						<p class="text-left">
-							<a href="#" class="mr-2" style="color: #000;">500 <span
+							<a href="#" class="mr-2" style="color: #000;">${sale.stock } <span
 								style="color: #bbb;">Sold</span></a>
 						</p>
 					</div>
@@ -122,9 +120,10 @@ a:hover {
 					</div>
 					<div class="btn_choice_box">
                                 <div>
-                                    <button type="submit" id="cartBtn" class="btn_add_cart"><img src="//recipe1.ezmember.co.kr/img/mobile/icon_basket.png" width="24" style="margin:-4px 5px 0 0; vertical-align: middle;">장바구니</button>
-                                    <button type="button" id="wishBtn" class="btn_add_wish"><img src="//recipe1.ezmember.co.kr/img/mobile/icon_scrap3.png" width="26" style="margin:-4px 5px 0 0; vertical-align: middle;">찜하기</button>
-                                   
+                                    <button type="submit" id="cartBtn" class="btn_add_cart" formaction="${pageContext.request.contextPath}/shopping/addcart"><img src="//recipe1.ezmember.co.kr/img/mobile/icon_basket.png" width="24" style="margin:-4px 5px 0 0; vertical-align: middle;">장바구니</button>
+                                    <button type="submit" id="wishBtn" class="btn_add_wish" formaction="${pageContext.request.contextPath}/shopping/regist_jjim" onclick="jjim();">
+                                    <img src="//recipe1.ezmember.co.kr/img/mobile/icon_scrap3.png" width="26" style="margin:-4px 5px 0 0; vertical-align: middle;" >찜하기</button>
+                                  
                                 </div>
                             </div>
 				<!-- 	<p class="bag_box">
@@ -136,7 +135,7 @@ a:hover {
 			</div>
 			<div class="view_step">
 				<div class="view_tag">
-			<c:forTokens items="${recipt.hashTag }" delims="#" var="item">
+			<c:forTokens items="${recipt.hashtag }" delims="#" var="item">
     <a href="#">#${item}</a>
    </c:forTokens>
 				
@@ -296,49 +295,15 @@ a:hover {
 		</div>
 		</section>
 	</form>
-	<%--   <form name="select_ingredient" method="post" action="${pageContext.request.contextPath}/shopping/addcart" >
-   <!-- 임의로 만든 페이지 이 부분 지영언니꺼로 교체-->
-   <input type="hidden" name="rcpNum" value="${recipt.rcpNum }">
-   <input type="hidden" name="productName" value="${sale.productname }">
-   <input type="hidden" name="price" value="${sale.price }">
-   <table>
-      <thead>
-      <tr>
-         <td>${recipt.rcpNum }. ${recipt.title }  </td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-         <td>오늘의 요리</td>
-         <td>${recipt.foodName }</td>
-      </tr>
-      <tr>
-         <td>재료</td>
-      </tr>
-      <c:forEach var="ingredient" items="${ingredients}">
-      <tr>
-         <td>${ingredient}</td>
-      </tr>
-      </c:forEach>
-      <tr>
-         <td>해시태그</td>
-         <td>${recipt.hashTag }</td>
-      </tr>
-      <tr>
-         <td>가   격</td>
-         <td>${sale.price } 원</td>
-      </tr>
-      </tbody>
-      </table>
-      <input type="button" value="-" onclick="count_qty('-')"/>
-      <input type="text" id="qty_value" name="qty" value="0"/>
-      <input type="button" onclick="count_qty('+')" value="+"/>
-      <span id="total"></span>
-      <input type="submit"><i class="material-icons" style="font-size: 30px;">add_shopping_cart</i>장바구니담기
-   </form>
-    --%>
+	
+	
+	
 </body>
 <script type="text/javascript">
+function jjim(){
+	alert("찜목록에 등록 되었습니다.");
+}
+
 function count_qty(mark){
    
    var num = document.getElementById('qty_value').value;

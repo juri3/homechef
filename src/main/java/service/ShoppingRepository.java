@@ -43,6 +43,7 @@ public class ShoppingRepository{
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		try{
 			String statement = namespace + ".getRcp";
+			
 			return (Rcp) sqlSession.selectOne(statement, rcpnum);
 		}finally{
 			sqlSession.close();
@@ -98,7 +99,7 @@ public class ShoppingRepository{
 		}
 		
 	}
-	public int registjjim(int cartNum, String memNum){
+	public int registjjim(int cartNum, int memNum){
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		Cart cart = new Cart(); 
 		Jjim jjim = new Jjim();
@@ -112,7 +113,9 @@ public class ShoppingRepository{
 			Map map = new HashMap();
 			map.put("memNum", memNum);
 			map.put("productName", cart.getProductName());
+			System.out.println("map : "+map);
 			cknum = sqlSession.selectOne(namespace+".checkjjim", map);
+			System.out.println("cknum : "+cknum);
 			if(cknum>0){
 				System.out.println(cknum);
 				return 0; 
@@ -120,7 +123,7 @@ public class ShoppingRepository{
 				jnum = sqlSession.selectOne(namespace+".insert_maxJjim");
 				
 				jjim.setJjimNum(jnum);
-				jjim.setMemNum(cart.getMemNum());
+				jjim.setMemNum(memNum);
 				jjim.setPrice(cart.getPrice());
 				jjim.setProductName(cart.getProductName());
 				System.out.println("dao_j : " + jjim.toString());
@@ -146,7 +149,7 @@ public class ShoppingRepository{
 		Cart cart = new Cart(); 
 		try{
 			cart = sqlSession.selectOne(namespace+".getCartintoJjim", cartNum);
-			System.out.println("dao_c : " + cart.toString());
+			//System.out.println("dao_c : " + cart.toString());
 			return cart;
 		}finally{
 			sqlSession.close();
@@ -186,8 +189,16 @@ public class ShoppingRepository{
 		}finally{
 			sqlSession.close();
 		}
-
+	}
+	public MemAddress getAddress1(int addressNum){
+		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		
+		try{
+			String statement=namespace+".getAddress1";         
+			return sqlSession.selectOne(statement, addressNum);
+		}finally{
+			sqlSession.close();
+		}
 	}
 
 	public void insertMemAddr(MemAddress memaddr) {
@@ -226,25 +237,6 @@ public class ShoppingRepository{
 		
 		int ordpronum = 0;
 		try{
-			for(int i : nums){
-				cart = getCartByNum(i);
-				ordpro.setProductName(cart.getProductName());
-				ordpro.setQty(cart.getQty());
-				ordpro.setPrice(cart.getQty()*cart.getPrice());
-				ordpronum = sqlSession.selectOne(namespace+".insert_maxOP");
-				ordpro.setProductNum(ordpronum);
-				System.out.println(ordpro);
-				String statement = namespace + ".insertOrderProduct";
-				int result = sqlSession.insert(statement, ordpro);
-				if(result > 0){
-					sqlSession.commit();
-					System.out.println("commit_ordpro");
-				}else{
-					sqlSession.rollback();
-					System.out.println("rollback_ordpro");
-				}
-			}
-			
 			String statement = namespace + ".insertOrderInfo";
 			int result = sqlSession.insert(statement, orderinfo);
 			if(result > 0){
@@ -254,13 +246,48 @@ public class ShoppingRepository{
 				sqlSession.rollback();
 				System.out.println("rollback_orderinfo");
 			}
-						
+			
+			for(int i : nums){
+				cart = getCartByNum(i);
+				ordpro.setProductName(cart.getProductName());
+				ordpro.setQty(cart.getQty());
+				ordpro.setPrice(cart.getQty()*cart.getPrice());
+				ordpronum = sqlSession.selectOne(namespace+".insert_maxOP");
+				ordpro.setProductNum(ordpronum);
+				System.out.println(ordpro);
+				statement = namespace + ".insertOrderProduct";
+				result = sqlSession.insert(statement, ordpro);
+				if(result > 0){
+					sqlSession.commit();
+					System.out.println("commit_ordpro");
+				}else{
+					sqlSession.rollback();
+					System.out.println("rollback_ordpro");
+				}
+				try {
+					//주문완료된 카트 종료
+					deleteCartvalue(i);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
 			
 		}finally{
 			sqlSession.close();
 		}
 	}
-
+	
+	public int getCountCart(int memNum) {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try{
+			String statement = namespace + ".getCountCart";
+			return sqlSession.selectOne(statement, memNum);
+		}finally{
+			sqlSession.close();
+		}
+	}
 	
 
 }

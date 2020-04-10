@@ -19,12 +19,20 @@
 	</select>
 	
 	<insert id="insertCart"	parameterType="Cart">
-		INSERT INTO cart VALUES(#{cartNum}, #{memNum}, #{productName}, #{qty}, #{price})
+		INSERT INTO cart VALUES(#{cartNum}, #{memNum}, #{thumbnail}, #{productName}, #{qty}, #{price})
 	</insert>
 	
 	<select id="getCart" parameterType="int" resultType="Cart">
 		SELECT
 			*
+		FROM Cart
+		WHERE memNum = #{memNum}
+		<!-- ORDER BY cartNum DESC; -->
+	</select>
+	
+	<select id="getCountCart" parameterType="int" resultType="int">
+		SELECT
+			count(*)
 		FROM Cart
 		WHERE memNum = #{memNum}
 		<!-- ORDER BY cartNum DESC; -->
@@ -73,8 +81,14 @@
 		where memNum=#{memNum}
 	</select>
 	
+	<select id="getAddress1" parameterType="int" resultType="MemAddress">
+		select * 
+		from mem_address
+		where addressNum=#{addressNum}
+	</select>
+	
 	<insert id="insertMemaddr"	parameterType="MemAddress">
-		INSERT INTO mem_address VALUES(#{addressNum}, #{memNum}, #{memName}, #{address1}, #{address2}, #{address3}, #{zipcode}, #{recipient})
+		INSERT INTO mem_address VALUES(#{addressNum}, #{recipient}, #{memNum}, #{memName}, #{address}, #{zipcode})
 	</insert>
 	
 	<insert id="insertOrderProduct"	parameterType="OrderProduct">
@@ -84,8 +98,6 @@
 	<insert id="insertOrderInfo"	parameterType="OrderInfo">
 		INSERT INTO order_info VALUES(#{orderNum}, #{memNum}, sysdate , #{amount}, #{memName}, #{recipient}, #{address}, #{zipcode}, #{memo}, #{howtopay})
 	</insert>
-	
-	
 	
 	
 	
