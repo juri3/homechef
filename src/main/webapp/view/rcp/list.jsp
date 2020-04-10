@@ -345,7 +345,7 @@ a {
 			var url = document.location.href.split("?")[location.href.split("?").length - 1].split("&");
 			if (url[0] == "sorting=latest") {
 				atag[0].className += " selected";
-			} else if (url[0] == "cateNum=1") {
+			} else if (url[0] == "sorting=readCount") {
 				atag[1].className += " selected";
 			}
 		}		
@@ -358,7 +358,7 @@ a {
 				<a href="<%=request.getContextPath()%>/rcp/list?sorting=latest&cateNum=${cateNum}">최신순</a>
 			</li>
 			<li class="sorting">
-				<a href="<%=request.getContextPath()%>/rcp/list?cateNum=${cateNum}">조회순</a>
+				<a href="<%=request.getContextPath()%>/rcp/list?sorting=readCount&cateNum=${cateNum}">조회순</a>
 			</li>
 		</ul>
 		</c:if>

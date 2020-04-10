@@ -30,36 +30,63 @@ public class RcpController {
 	MybatisRcpDaoMysql dbPro;	
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
-	public String rcp_list(int cateNum, String keyword, Model m) throws Exception {
+	public String rcp_list(int cateNum, String keyword, String sorting, Model m) throws Exception {
 		int rcpAllCount;
 		List<Rcp> rcpAllList;
 		List<Category> category;
 		List<Division> division;
-		
-		if(cateNum==0){
-			if(keyword!=null){
-				rcpAllCount = dbPro.searchCount(keyword);
-				rcpAllList=dbPro.searchList(keyword);
+		System.out.println(sorting);
+		if(sorting=="latest"){
+			if(cateNum==0){
+				if(keyword!=null){
+					rcpAllCount = dbPro.searchCount(keyword);
+					rcpAllList=dbPro.searchList(keyword);
+					System.out.println("1"+sorting);
+				}else{
+					rcpAllCount = dbPro.rcpAllCount();
+					rcpAllList=dbPro.rcpAllList();
+				}			
+				category=dbPro.getCategory();
+				division=dbPro.getDivision();
 			}else{
-				rcpAllCount = dbPro.rcpAllCount();
-				rcpAllList=dbPro.rcpAllList();
-			}			
-			category=dbPro.getCategory();
-			division=dbPro.getDivision();
-		}else{
-			if(cateNum<100){
-				rcpAllCount=dbPro.rcpAllCount2(cateNum);
-				rcpAllList=dbPro.rcpAllList2(cateNum);
-				category=dbPro.getCategory2(cateNum);
-				division=dbPro.getDivision2(cateNum);
-			}else{
-				rcpAllCount=dbPro.rcpAllCount3(cateNum);
-				rcpAllList=dbPro.rcpAllList3(cateNum);
-				category=dbPro.getCategory3(cateNum);
-				division=dbPro.getDivision3(cateNum);
+				if(cateNum<100){
+					rcpAllCount=dbPro.rcpAllCount2(cateNum);
+					rcpAllList=dbPro.rcpAllList2(cateNum);
+					category=dbPro.getCategory2(cateNum);
+					division=dbPro.getDivision2(cateNum);
+				}else{
+					rcpAllCount=dbPro.rcpAllCount3(cateNum);
+					rcpAllList=dbPro.rcpAllList3(cateNum);
+					category=dbPro.getCategory3(cateNum);
+					division=dbPro.getDivision3(cateNum);					
+				}				
 			}
-			
-		}		
+		}else{
+			if(cateNum==0){
+				if(keyword!=null){
+					rcpAllCount = dbPro.searchCount(keyword);
+					rcpAllList=dbPro.searchList(keyword);					
+				}else{
+					rcpAllCount = dbPro.rcpAllCount();
+					rcpAllList=dbPro.readCountList();
+					System.out.println("2"+sorting);
+				}			
+				category=dbPro.getCategory();
+				division=dbPro.getDivision();
+			}else{
+				if(cateNum<100){
+					rcpAllCount=dbPro.rcpAllCount2(cateNum);
+					rcpAllList=dbPro.readCountList2(cateNum);
+					category=dbPro.getCategory2(cateNum);
+					division=dbPro.getDivision2(cateNum);
+				}else{
+					rcpAllCount=dbPro.rcpAllCount3(cateNum);
+					rcpAllList=dbPro.readCountList3(cateNum);
+					category=dbPro.getCategory3(cateNum);
+					division=dbPro.getDivision3(cateNum);					
+				}				
+			}
+		}				
 		
 		m.addAttribute("rcpAllCount", rcpAllCount);
 		m.addAttribute("rcpAllList", rcpAllList);
