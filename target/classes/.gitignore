@@ -1,10 +1,2 @@
-/controller/
-/exception/
-/model/
-<<<<<<< HEAD
 /mybatis/
 /service/
-=======
-/exception/
->>>>>>> refs/heads/shopping_juri
-/util/
