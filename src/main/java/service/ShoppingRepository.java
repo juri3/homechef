@@ -53,7 +53,7 @@ public class ShoppingRepository{
 			sqlSession.close();
 		}
 	}
-
+	
 	public List<Cart> getCart(int memNum) {
 		// TODO Auto-generated method stub
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
@@ -364,6 +364,8 @@ public class ShoppingRepository{
 			sqlSession.close();
 		}
 	}
+
+	
 
 	
 	

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -36,7 +37,7 @@
             	<c:forEach var="sale" items="${sales}">
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
-                        <a href="${pageContext.request.contextPath }/shopping/list?saleNum=${sale.saleNum}" class="img-prod">
+                        <a id=jjim href="${pageContext.request.contextPath }/shopping/list?saleNum=${sale.saleNum}" class="img-prod" >
                         	<img class="img-fluid" src="${pageContext.request.contextPath }/img/${sale.thumbnail}" alt="Colorlib Template">
                             <div class="overlay"></div>
                         </a>
@@ -49,7 +50,7 @@
                             </div>
                             <div class="bottom-area d-flex px-2">
                                 <div class="m-auto d-flex">
-                                    <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                    <a href="${pageContext.request.contextPath}/shopping/addcart?&price=${sale.price}&productName=${sale.productname}&thumbnail=${sale.thumbnail}" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                         <span><i class="ion-ios-cart"></i></span>
                                     </a>
                                     <a href="${pageContext.request.contextPath}/shopping/regist_jjim?saleNum=${sale.saleNum}" class="heart d-flex justify-content-center align-items-center ">
@@ -82,4 +83,15 @@
         </div>
     </section>
 </body>
+<script>
+$('#jjim').click(function(){
+	if(${memNum == null}){
+		alert("로그인 해주세요")
+	}
+	if(${memNum != null}){
+		alert("찜목록에 등록 되었습니다.");	
+	}
+	
+})
+</script>
 </html>

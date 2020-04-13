@@ -88,6 +88,24 @@ public class ShoppingController {
       return "redirect:/shopping/cartview";
       
    }
+   
+   @RequestMapping(value = "addcart") // 맨끝단의 url만 가지고 옴, get방식으로 한다.
+   public String addcart_get(@RequestParam("price")int price, @RequestParam("productName")String productName, @RequestParam("thumbnail")String thumbnail, HttpSession session, Model m) {
+      // TODO Auto-generated method stub
+	   if(session.getAttribute("memNum")==null){
+	    	  return "redirect:/member/login";
+	      }
+	   Cart cart = new Cart(); 
+      int memNo = (int) session.getAttribute("memNum");
+      cart.setMemNum(memNo);
+      cart.setPrice(price);
+      cart.setProductName(productName);
+      cart.setThumbnail(thumbnail);
+      cart.setQty(1);
+      service.insertCart(cart);
+      return "redirect:/shopping/cartview";
+      
+   }
   
    @RequestMapping(value = "cartview", method=RequestMethod.GET) // 맨끝단의 url만 가지고 옴, get방식으로 한다.
    public String cartview(HttpSession session, Model m){
@@ -148,7 +166,7 @@ public class ShoppingController {
      }else{
         System.out.println( saleNum+"-- 중복");
      }
-      return "redirect:/shop";
+      return "redirect:/shopping/jjimlist";
    }
    
    

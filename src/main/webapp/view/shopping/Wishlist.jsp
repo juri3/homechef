@@ -26,6 +26,7 @@
     	<form name="cartlist" method="post" >
 			<div class="container">
 				<div class="row">
+				<h2>Wish List</h2>
     			<div class="col-md-12 ftco-animate">
     				
     				<div class="cart-list">
@@ -41,7 +42,7 @@
 						    <tbody>
 							<c:forEach var="list" items="${jjimlist }">
 						      <tr class="text-center">
-						        <td><input type="checkbox" class="chk" name="jjim" value="${list.jjimNum }" checked onclick="itemSum();" >
+						        <td><input type="checkbox" class="chk" name="jjim" value="${list.jjimNum }" checked >
 						         <td class="image-prod"><div class="img" style="background-image:url(${pageContext.request.contextPath}/img/${list.thumbnail });"></div></td>						        
 						        <td class="product-name">
 						        	<h3>${list.productName }</h3>
