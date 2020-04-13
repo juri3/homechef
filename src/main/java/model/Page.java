@@ -8,6 +8,7 @@ public class Page implements Serializable {
 	private int currentPage; 
 	private int startRow; 
 	private int endRow; 
+	private int count;
 	private int pageSize; 
 	private int number; 
 	private int bottomLine; 
@@ -16,6 +17,13 @@ public class Page implements Serializable {
 	private int pageCount;
 	
 	
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getCurrentPage() {
 		return currentPage;
 	}
@@ -75,9 +83,9 @@ public class Page implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Page [currentPage=" + currentPage + ", startRow=" + startRow + ", endRow=" + endRow + ", pageSize="
-				+ pageSize + ", number=" + number + ", bottomLine=" + bottomLine + ", startPage=" + startPage
-				+ ", endPage=" + endPage + ", pageCount=" + pageCount + "]";
+		return "Page [currentPage=" + currentPage + ", startRow=" + startRow + ", endRow=" + endRow + ", count=" + count
+				+ ", pageSize=" + pageSize + ", number=" + number + ", bottomLine=" + bottomLine + ", startPage="
+				+ startPage + ", endPage=" + endPage + ", pageCount=" + pageCount + "]";
 	} 
 	
 	

@@ -79,20 +79,30 @@ public class ShoppingRepository{
 		}
 		
 	}
-	public int registjjim(int cartNum, int memNum){
+	public List<Jjim> getJjimlist(int memNum) {
+		// TODO Auto-generated method stub
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		Cart cart = new Cart(); 
+		try{
+			String statement = namespace + ".getJjimlist";
+			return sqlSession.selectList(statement, memNum);
+		}finally{
+			sqlSession.close();
+		}
+	}
+	public int registjjim(int saleNum, int memNum){
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		Sale sale = new Sale(); 
 		Jjim jjim = new Jjim();
 		int jnum = 0;
 		int cknum = 0;
 		int result = 0;
 		try{
-			cart = sqlSession.selectOne(namespace+".getCartintoJjim", cartNum);
-			System.out.println("dao_c : " + cart.toString());
+			sale = sqlSession.selectOne(namespace+".getSaleintoJjim", saleNum);
+			System.out.println("dao_sale : " + sale.toString());
 			
 			Map map = new HashMap();
 			map.put("memNum", memNum);
-			map.put("productName", cart.getProductName());
+			map.put("productName", sale.getProductname());
 			System.out.println("map : "+map);
 			cknum = sqlSession.selectOne(namespace+".checkjjim", map);
 			System.out.println("cknum : "+cknum);
@@ -104,8 +114,9 @@ public class ShoppingRepository{
 				
 				jjim.setJjimNum(jnum);
 				jjim.setMemNum(memNum);
-				jjim.setPrice(cart.getPrice());
-				jjim.setProductName(cart.getProductName());
+				jjim.setThumbnail(sale.getThumbnail());
+				jjim.setPrice(sale.getPrice());
+				jjim.setProductName(sale.getProductname());
 				System.out.println("dao_j : " + jjim.toString());
 				String statement = namespace + ".insertjjim";
 				result = sqlSession.insert(statement, jjim);
@@ -124,6 +135,22 @@ public class ShoppingRepository{
 		}
 	}
 	
+	public int deletejjimvalue(int jjimNum) {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try{
+			
+			String statement = namespace + ".deleteJjimvalue";
+			sqlSession.delete(statement, jjimNum);
+			System.out.println("repository : "+jjimNum);
+			sqlSession.commit();
+			return 1;
+		}finally{
+			sqlSession.close();
+		}
+	}
+
+	
 	public Cart getCartByNum(int cartNum){
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		Cart cart = new Cart(); 
@@ -136,12 +163,33 @@ public class ShoppingRepository{
 		}
 	}
 	
-	public List<Sale> getSale() {
+	public List<Sale> getSale(int startRow, int endRow) {
 		// TODO Auto-generated method stub
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		System.out.println(startRow+" : "+endRow);
+		System.out.println("1 = "+startRow+" : "+endRow);
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
 		try{
 			String statement = namespace + ".getSale_nonParam";
-			return sqlSession.selectList(statement);
+			return sqlSession.selectList(statement, map);
+		}finally{
+			sqlSession.close();
+		}
+	}
+	
+	public List<Sale> getSale_cate(int startRow, int endRow, int category) {
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		System.out.println(startRow+" : "+endRow);
+		System.out.println("1 = "+startRow+" : "+endRow);
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("category", category);
+		try{
+			String statement = namespace + ".getSale_nonParam_Cate";
+			return sqlSession.selectList(statement, map);
 		}finally{
 			sqlSession.close();
 		}
@@ -296,6 +344,7 @@ public class ShoppingRepository{
 	public int getCountSale() {
 		// TODO Auto-generated method stub
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		
 		try{
 			String statement = namespace + ".getCountSale";
 			return sqlSession.selectOne(statement);
@@ -304,6 +353,21 @@ public class ShoppingRepository{
 		}
 	}
 
+	public int getCountSale_cate(int category) {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		
+		try{
+			String statement = namespace + ".getCountSale_cate";
+			return sqlSession.selectOne(statement, category);
+		}finally{
+			sqlSession.close();
+		}
+	}
+
 	
+	
+
+
 
 }

@@ -120,7 +120,7 @@ a:hover {
 					<div class="btn_choice_box">
                                 <div>
                                     <button type="submit" id="cartBtn" class="btn_add_cart" formaction="${pageContext.request.contextPath}/shopping/addcart"><img src="//recipe1.ezmember.co.kr/img/mobile/icon_basket.png" width="24" style="margin:-4px 5px 0 0; vertical-align: middle;">장바구니</button>
-                                    <button type="submit" id="wishBtn" class="btn_add_wish" formaction="${pageContext.request.contextPath}/shopping/regist_jjim" onclick="jjim();">
+                                    <button type="submit" id="wishBtn" class="btn_add_wish" formaction="${pageContext.request.contextPath}/shopping/regist_jjim?saleNum=${sale.saleNum}" onclick="jjim();">
                                     <img src="//recipe1.ezmember.co.kr/img/mobile/icon_scrap3.png" width="26" style="margin:-4px 5px 0 0; vertical-align: middle;" >찜하기</button>
                                   
                                 </div>
@@ -300,7 +300,12 @@ a:hover {
 </body>
 <script type="text/javascript">
 function jjim(){
-	alert("찜목록에 등록 되었습니다.");
+	if(${memNum == null}){
+		alert("로그인 해주세요")
+	}else{
+		alert("찜목록에 등록 되었습니다.");	
+	}
+	
 }
 
 function count_qty(mark){

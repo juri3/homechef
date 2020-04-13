@@ -7,10 +7,19 @@ public class Jjim implements Serializable {
 
 	private int jjimNum; 
 	private int memNum;
+	private String thumbnail;
 	private String productName;
 	private int price;
 	private Date regist_date;
 	
+	
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 	public Date getRegist_date() {
 		return regist_date;
 	}
@@ -43,8 +52,8 @@ public class Jjim implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Jjim [jjimNum=" + jjimNum + ", memNum=" + memNum + ", productName=" + productName + ", price=" + price
-				+ ", regist_date=" + regist_date + "]";
+		return "Jjim [jjimNum=" + jjimNum + ", memNum=" + memNum + ", thumbnail=" + thumbnail + ", productName="
+				+ productName + ", price=" + price + ", regist_date=" + regist_date + "]";
 	}
 	
 	

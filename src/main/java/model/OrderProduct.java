@@ -6,11 +6,20 @@ import java.util.Date;
 public class OrderProduct implements Serializable {
 
 	private int productNum;
-	private Long orderNum; 
+	private Long orderNum;
+	private String thumbnail;
 	private String productName;
 	private int qty;
 	private int price;
 	
+	
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 	public int getProductNum() {
 		return productNum;
 	}
@@ -44,8 +53,8 @@ public class OrderProduct implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "OrderProduct [productNum=" + productNum + ", orderNum=" + orderNum + ", productName=" + productName
-				+ ", qty=" + qty + ", price=" + price + "]";
+		return "OrderProduct [productNum=" + productNum + ", orderNum=" + orderNum + ", thumbnail=" + thumbnail
+				+ ", productName=" + productName + ", qty=" + qty + ", price=" + price + "]";
 	}
 	
 	

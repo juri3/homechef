@@ -16,13 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import model.Cart;
 import model.Ingredient;
+import model.Jjim;
 import model.MemAddress;
 import model.Member;
 import model.OrderInfo;
@@ -58,9 +61,7 @@ public class ShoppingController {
       
       Sale sale = service.getSale(saleNum);
       
-      
       System.out.println("sale : "+sale);
-      
       
       model.addAttribute("sale", sale);
 
@@ -119,39 +120,60 @@ public class ShoppingController {
    }
    
    @RequestMapping(value = "regist_jjim", method=RequestMethod.POST)
-   public String regist_jjim(HttpServletRequest request, Model m) throws Exception {
+   public String regist_jjim(HttpSession session, @RequestParam("saleNum")int saleNum , Model m) throws Exception {
       // TODO Auto-generated method stub
-      HttpSession session = request.getSession();
-      
-      String values = request.getParameter("rcpNum");
-     int check = service.registjjim(Integer.parseInt(values),(int)session.getAttribute("memNum"));
+	if(session.getAttribute("memNum")==null){
+	    	  return "redirect:/member/login";
+	   }
+     int check = service.registjjim(saleNum, (int)session.getAttribute("memNum"));
      System.out.println("check " + check);
      System.out.println("dddd : "+(int)session.getAttribute("memNum"));
      if(check >= 1){
-        System.out.println( values+"-- 성공");
+        System.out.println( saleNum+"-- 성공");
      }else{
-        System.out.println( values+"-- 중복");
+        System.out.println( saleNum+"-- 중복");
      }
-      return "redirect:/shopping/list";
+      return "redirect:/shopping/list?saleNum="+saleNum;
    }
    
-   @RequestMapping(value = "jjim_list", method=RequestMethod.POST)
-   public String jjim_list(HttpServletRequest request, Model m) throws Exception {
+   @RequestMapping(value = "regist_jjim")
+   public String regist_jjim_get(HttpSession session, @RequestParam("saleNum")int saleNum , Model m) throws Exception {
       // TODO Auto-generated method stub
-      HttpSession session = request.getSession();
-      
-      String values = request.getParameter("rcpNum");
-     int check = service.registjjim(Integer.parseInt(values),(int)session.getAttribute("memNum"));
-     System.out.println("check " + check);
-     System.out.println("dddd : "+(int)session.getAttribute("memNum"));
+	if(session.getAttribute("memNum")==null){
+	    	  return "redirect:/member/login";
+	   }
+     int check = service.registjjim(saleNum, (int)session.getAttribute("memNum"));
      if(check >= 1){
-        System.out.println( values+"-- 성공");
+        System.out.println( saleNum+"-- 성공");
      }else{
-        System.out.println( values+"-- 중복");
+        System.out.println( saleNum+"-- 중복");
      }
+      return "redirect:/shop";
+   }
+   
+   
+   @RequestMapping(value = "jjimlist")
+   public String jjimlist(HttpSession session, Model m) throws Exception {
+      // TODO Auto-generated method stub
       
+	 List<Jjim> jjimlist = service.getJjimlist((int)session.getAttribute("memNum"));
+	 m.addAttribute("jjimlist", jjimlist);
 
-      return "redirect:/shopping/list";
+      return "/shopping/Wishlist";
+   }
+   
+   @RequestMapping(value = "jjim_delete", method=RequestMethod.POST)
+   public String jjim_delete(HttpServletRequest request) throws Exception {
+      // TODO Auto-generated method stub
+      
+      String[] values = request.getParameterValues("jjim");
+      for(String str : values){
+         
+         int check = service.deletejjimvalue(Integer.parseInt(str));
+         System.out.println(str+" : "+check);
+      }
+      
+      return "redirect:/shopping/jjimlist";
    }
    
    @RequestMapping(value = "order", method=RequestMethod.POST) // 
@@ -192,7 +214,7 @@ public class ShoppingController {
 	}
 	
 	@RequestMapping(value = "complete_order") 
-	public String payment(HttpServletRequest request, @RequestParam("select")int select, @RequestParam(value="sel_address", required=false, defaultValue="-1")int sel_address, @RequestParam(value="addradd", required=false, defaultValue="0")int addradd,
+	public String payment(@RequestParam("select")int select, @RequestParam(value="sel_address", required=false, defaultValue="-1")int sel_address, @RequestParam(value="addradd", required=false, defaultValue="0")int addradd,
 			int[] nums, MemAddress memaddr, OrderInfo orderinfo, OrderProduct ordpro, Model m){
 		// TODO Auto-generated method stub
 		MemAddress getmemA = new MemAddress();
@@ -235,6 +257,21 @@ public class ShoppingController {
 		
 		
 		return "shopping/orderSuccess";
+	}
+	
+	@RequestMapping(value = "complete", method=RequestMethod.POST)
+	@ResponseBody
+	public String pa(@RequestParam("select")int select, Model m){
+
+		System.out.println("complete!");
+		System.out.println(select);
+		//System.out.println(memaddr);
+		//System.out.println(orderinfo);
+		//System.out.println(ordpro);
+		
+		
+		return "shopping/orderSuccess";
+
 	}
 	
 	@RequestMapping("pay") // 맨끝단의 url만 가지고 옴, get방식으로 한다.

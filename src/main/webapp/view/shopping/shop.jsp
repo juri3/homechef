@@ -25,7 +25,8 @@
                 <div class="col-md-10 mb-5 text-center">
                     <ul class="product-category">
                     <c:forEach var="cate" items="${cate}">
-                        <li><a href="#" ${cate.cateNum==0?'class="active"':'' }>${cate.cateName}</a></li>
+                        <li><a href="${pageContext.request.contextPath }/shop?category=${cate.cateNum}" class=${cate.cateNum==category?'active':''}>${cate.cateName}</a></li>
+                        <c:set var="catenum" value="${cate.cateNum==category?category:0}"/>
                     </c:forEach>
                         
                     </ul>
@@ -51,7 +52,7 @@
                                     <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                         <span><i class="ion-ios-cart"></i></span>
                                     </a>
-                                    <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                                    <a href="${pageContext.request.contextPath}/shopping/regist_jjim?saleNum=${sale.saleNum}" class="heart d-flex justify-content-center align-items-center ">
                                         <span><i class="ion-ios-heart"></i></span>
                                     </a>
                                 </div>
@@ -65,13 +66,15 @@
                 <div class="col text-center">
                     <div class="block-27">
                         <ul>
-                            <li><a href="#">&lt;</a></li>
-                            <li class="active"><span>1</span></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&gt;</a></li>
+                        	<c:if test="${page.startPage >= page.bottomLine}">
+                            <li><a href="${pageContext.request.contextPath }/shop?pageNum=${page.startPage - page.bottomLine}">&lt;</a></li>
+                            </c:if>
+                            <c:forEach var="i" begin="${page.startPage}"  end="${page.endPage}">
+							  <li class=${i==pageNum?'active':''}> <a href="${pageContext.request.contextPath }/shop?pageNum=${i}&category=${catenum}">${i}</a></li>
+							</c:forEach>
+                            <c:if test="${page.endPage < page.pageCount}">
+                            <li><a href="${pageContext.request.contextPath }/shop?pageNum=${page.startPage + page.bottomLine}">&gt;</a></li>
+                            </c:if>
                         </ul>
                     </div>
                 </div>
