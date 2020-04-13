@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.FileOutputStream;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +29,25 @@ import service.MybatisRcpDaoMysql;
 public class RcpController {
 	
 	@Autowired
-	MybatisRcpDaoMysql dbPro;	
+	MybatisRcpDaoMysql dbPro;
+	
+	@ModelAttribute
+	public void initProcess(Model m){
+		List<Rcp> foodnames =dbPro.rcpAllList();
+		List<Ingredient> ingredients =dbPro.getIngredient();
+		
+		HashSet<String> keywords = new HashSet<String>();
+		for(int i=0;i<foodnames.size();i++){
+			Rcp foodname=foodnames.get(i);
+			keywords.add(foodname.getFoodname());
+		}
+		for(int i=0;i<ingredients.size();i++){
+			Ingredient ingredient=ingredients.get(i);
+			keywords.add(ingredient.getIngredient());
+		}
+		
+		m.addAttribute("keywords", keywords);
+	}
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String rcp_list(int cateNum, String keyword, String sorting, Model m) throws Exception {
@@ -35,13 +55,13 @@ public class RcpController {
 		List<Rcp> rcpAllList;
 		List<Category> category;
 		List<Division> division;
-		System.out.println(sorting);
-		if(sorting=="latest"){
+		
+		if(sorting.equals("latest")){
 			if(cateNum==0){
 				if(keyword!=null){
 					rcpAllCount = dbPro.searchCount(keyword);
 					rcpAllList=dbPro.searchList(keyword);
-					System.out.println("1"+sorting);
+					
 				}else{
 					rcpAllCount = dbPro.rcpAllCount();
 					rcpAllList=dbPro.rcpAllList();
@@ -69,7 +89,6 @@ public class RcpController {
 				}else{
 					rcpAllCount = dbPro.rcpAllCount();
 					rcpAllList=dbPro.readCountList();
-					System.out.println("2"+sorting);
 				}			
 				category=dbPro.getCategory();
 				division=dbPro.getDivision();

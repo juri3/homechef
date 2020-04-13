@@ -297,13 +297,13 @@ public class MybatisMemberDao
 		return count;
 	}
 	
-	public List<Rcp> scarpList(int memnum){
+	public List<Rcp> scrapList(int memnum){
 		SqlSession sqlSession=opendb.getSqlSessionFactory().openSession();
 		List<Rcp> scarpList=null;
 		String statement;
 		
 		try{
-			statement=namespace+".scarpList";         
+			statement=namespace+".scrapList";         
 			scarpList=sqlSession.selectList(statement, memnum);
 		}finally{
 			sqlSession.close();

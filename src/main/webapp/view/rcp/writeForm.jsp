@@ -220,7 +220,7 @@
 		</div>	
 		<div class="cont_line">
 			<p class="cont_tit">조리시간</p>
-			<input type="text" name="cookingtime" autocomplete="off"> 
+			<input type="text" name="cookingtime" autocomplete="off" style="width:80px;"> 분
 		</div>	
 	</div>
 		
@@ -230,7 +230,7 @@
 		<tbody id="ingred_tbody">
 			<tr>
 				<td> <input type="text" name="ingredient1" class="ingred_name" placeholder="재료명" autocomplete="off">  </td>
-				<td> <input type="number" name="quantity1" class="ingred_qnt" placeholder="수량" autocomplete="off" onkeypress="return event.charCode >= 48 && event.charCode <= 57">  </td>
+				<td> <input type="text" name="quantity1" class="ingred_qnt" placeholder="수량" autocomplete="off">  </td>
 				<td></td>
 			</tr>
 		</tbody>
@@ -340,7 +340,7 @@
 		j++;
 		var rowItem = "<tr>"
 			rowItem += "<td> <input type='text' class='ingred_name' name='ingredient"+j+"' placeholder='재료명'> </td>"
-			rowItem += "<td> <input type='number' class='ingred_qnt' name='quantity"+j+"' placeholder='수량' onkeypress='return event.charCode >= 48 && event.charCode <= 57'> </td>"
+			rowItem += "<td> <input type='text' class='ingred_qnt' name='quantity"+j+"' placeholder='수량'> </td>"
 			rowItem += "<td> <button type='button' class='btn btn-danger' style='cursor:pointer;'> <i class='fa fa-minus'></i> </button> </td>"
 			rowItem += "</tr>"
 		$('#ingred_table').append(rowItem)

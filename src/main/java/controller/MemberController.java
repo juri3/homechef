@@ -3,6 +3,7 @@ package controller;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,11 +24,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import exception.DuplicateldException;
 import exception.LoginFailException;
 import model.Follow;
+import model.Ingredient;
 import model.Member;
 import model.Rcp;
 import model.Scrap;
 import model.User;
 import service.MybatisMemberDao;
+import service.MybatisRcpDaoMysql;
 import util.JdbcUtil;
 
 @Controller
@@ -34,10 +38,26 @@ import util.JdbcUtil;
 public class MemberController {
 	@Autowired
 	MybatisMemberDao dbPro;
+	@Autowired
+	MybatisRcpDaoMysql dbPro2;
 
-	/*public void initProcess(HttpServletRequest request,
-            HttpServletResponse response){		
-	}*/    
+	@ModelAttribute
+	public void initProcess(Model m){
+		List<Rcp> foodnames =dbPro2.rcpAllList();
+		List<Ingredient> ingredients =dbPro2.getIngredient();
+		
+		HashSet<String> keywords = new HashSet<String>();
+		for(int i=0;i<foodnames.size();i++){
+			Rcp foodname=foodnames.get(i);
+			keywords.add(foodname.getFoodname());
+		}
+		for(int i=0;i<ingredients.size();i++){
+			Ingredient ingredient=ingredients.get(i);
+			keywords.add(ingredient.getIngredient());
+		}
+		
+		m.addAttribute("keywords", keywords);
+	}   
     
     @RequestMapping(value = "join", method = RequestMethod.GET)
     public String member_joinForm() throws Exception
@@ -161,7 +181,7 @@ public class MemberController {
 		int rcpCount = dbPro.rcpCount(memNum);
 		List<Rcp> rcpList=dbPro.rcpList(memNum);
 		int scrapCount=dbPro.scrapCount(memNum);
-		List<Rcp> scarpList=dbPro.scarpList(memNum);
+		List<Rcp> scarpList=dbPro.scrapList(memNum);
 
 		m.addAttribute("loginNum", loginNum);
 

@@ -163,6 +163,21 @@ public class MybatisRcpDaoMysql {
 
 		return division;
 	}
+	
+	public List<Ingredient> getIngredient() {
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		List<Ingredient> ingredients = null;
+		String statement;
+
+		try {
+			statement = namespace + ".getIngredient";
+			ingredients = sqlSession.selectList(statement);
+		} finally {
+			sqlSession.close();
+		}
+
+		return ingredients;
+	}
 
 	public List<Rcp> rcpAllList() {
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();

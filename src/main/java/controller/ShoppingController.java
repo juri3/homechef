@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,15 +40,31 @@ public class ShoppingController {
    
    @Autowired
    ShoppingRepository service;
+   @Autowired
+	MybatisRcpDaoMysql dbPro;
    
    @ModelAttribute
-   public void initProcess(HttpSession session, Model model) {
+   public void initProcess(HttpSession session, Model m) {
       System.out.println("====================");
       //회원기능 머지 전이라 초기화
       //
       System.out.println("memNum : "+session.getAttribute("memNum"));
       
 	  System.out.println("====================");
+	  List<Rcp> foodnames =dbPro.rcpAllList();
+		List<Ingredient> ingredients =dbPro.getIngredient();
+		
+		HashSet<String> keywords = new HashSet<String>();
+		for(int i=0;i<foodnames.size();i++){
+			Rcp foodname=foodnames.get(i);
+			keywords.add(foodname.getFoodname());
+		}
+		for(int i=0;i<ingredients.size();i++){
+			Ingredient ingredient=ingredients.get(i);
+			keywords.add(ingredient.getIngredient());
+		}
+		
+		m.addAttribute("keywords", keywords);
       
    }
 

@@ -103,7 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where memNum=#{memnum}
 	</select>
 	
-	<select id="scarpList" parameterType="int" resultType="Rcp">
+	<select id="scrapList" parameterType="int" resultType="Rcp">
 		select *
 		from Rcp r, member m, scrap s
 		where r.memNum=m.memNum and r.rcpnum=s.scrapnum and s.memnum=#{memnum}

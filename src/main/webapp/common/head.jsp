@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 
 <head>
@@ -33,11 +34,42 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/flaticon.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/icomoon.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-    <!-- <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> -->
 
 </head>
+
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script> var auto = jQuery.noConflict(); </script>
+  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<style>
+.ui-autocomplete {
+max-height: 200px;
+overflow-y: auto;
+/* prevent horizontal scrollbar */
+overflow-x: hidden;
+}
+/* IE 6 doesn't support max-height
+* we use height instead, but this forces the menu to always be this tall
+*/
+* html .ui-autocomplete {
+height: 200px;
+}
+</style>
+  
+  <script>
+  auto(function() {
+    var keywords = [
+    	<c:forEach var="keywords" items="${keywords}">
+		'${keywords}',
+		</c:forEach>
+    ];
+    auto( ".form-control" ).autocomplete({
+      source: keywords,
+      max: 10
+    });
+  });
+  </script>
+
 
 <body class="goto-here">
     <div class="py-1 bg-primary">

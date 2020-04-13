@@ -60,6 +60,11 @@
 		where division_num=#{cateNum}
 	</select>
 	
+	<select id="getIngredient" resultType="Ingredient">
+		select *
+		from ingredient
+	</select>
+	
 	<select id="rcpAllList" resultType="Rcp">
 		select *
 		from Rcp r, member m

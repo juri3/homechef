@@ -6,9 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 
 <title>게시판</title>
 </head>

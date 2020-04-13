@@ -48,9 +48,7 @@
     <script src="<%=request.getContextPath()%>/js/aos.js"></script>
     <script src="<%=request.getContextPath()%>/js/jquery.animateNumber.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap-datepicker.js"></script>
-    <script src="<%=request.getContextPath()%>/js/scrollax.min.js"></script>
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
-    <!-- <script src="js/google-map.js"></script> -->
+    <script src="<%=request.getContextPath()%>/js/scrollax.min.js"></script>  
     <script src="<%=request.getContextPath()%>/js/main.js"></script>
 
 </body>

@@ -591,7 +591,7 @@
                             <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                                 <div class="block-18 text-center">
                                     <div class="text">
-                                        <strong class="number" data-number="10000">0</strong>
+                                        <strong class="number" data-number="100">0</strong>
                                         <span>총 쉐프수</span>
                                     </div>
                                 </div>
@@ -607,7 +607,7 @@
                             <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                                 <div class="block-18 text-center">
                                     <div class="text">
-                                        <strong class="number" data-number="1000">0</strong>
+                                        <strong class="number" data-number="100">0</strong>
                                         <span>월 방문자수</span>
                                     </div>
                                 </div>

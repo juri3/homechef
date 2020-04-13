@@ -270,6 +270,13 @@ a {
 .selected { background:red }
 </style>
 
+<c:if test='${keyword.equals("") }'>
+   <script>
+      alert("상품을 검색하세요");
+      history.go(-1);
+   </script>
+</c:if>
+
 <body>
 <div class="container">
 	<div class="search_cate">
