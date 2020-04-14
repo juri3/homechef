@@ -65,8 +65,12 @@ height: 200px;
     ];
     auto( ".form-control" ).autocomplete({
       source: keywords,
-      max: 10
+      max: 10,
+      focus: function(event, ui) {
+          return false;
+      }
     });
+    
   });
   </script>
 

@@ -23,6 +23,7 @@
 		<typeAlias type="model.Category" alias="Category"/>
 		<typeAlias type="model.Division" alias="Division"/>
 		<typeAlias type="model.Scrap" alias="Scrap"/>
+		<typeAlias type="model.Nutrient" alias="Nutrient"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">

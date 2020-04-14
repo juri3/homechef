@@ -158,9 +158,12 @@
 	
 	<select id="searchCount" parameterType="String" resultType="int">
 		select count(*)
-		from Rcp r, member m, ingredient i
-		where r.memNum=m.memNum and r.rcpnum=i.rcpnum and 
-			(foodname like '%'||#{keyword}||'%' or ingredient like '%'||#{keyword}||'%')
+		from Rcp r, member m
+		where r.memNum=m.memNum and 
+		      (foodname like '%'||#{keyword}||'%' or rcpnum in (
+													      select rcpnum 
+													      from ingredient 
+													      where ingredient like '%'||#{keyword}||'%'))
 	</select>
 	
 	<select id="searchList"  parameterType="String" resultType="Rcp">
@@ -202,6 +205,24 @@
 		    )r, category c
 		where r.catenum=c.catenum and lv!=lg and division_num=#{cateNum}
 		order by readcount desc
+	</select>
+	
+	<select id="getNutrient" resultType="Nutrient">
+		select *
+		from Nutrient	
+	</select>
+	
+	<select id="rcpNutrient" parameterType="int" resultType="Nutrient">
+		select sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*energy) as energy,
+		      sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*protein) as protein,
+		      sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*fat) as fat,
+		      sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*carb) as carb,
+		      sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*sugar) as sugar,
+		      sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*cal) as cal,
+		      sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*na) as na,
+		      sum((SUBSTR(quantity,INSTR(quantity,'/')+1)/100)*chole) as chole
+		from ingredient i, nutrient n
+		where i.INGREDIENT=n.food and rcpnum=#{rcpnum}
 	</select>
 	
 </mapper>

@@ -106,7 +106,19 @@ ol, ul {
     font-family: Microsoft YaHei,'NS';
     line-height: 22px;
 }
-
+.nutrition {
+    overflow: hidden;
+    margin: 10px 0 15px 0;
+}
+.nutrition li{
+	width: 110px;
+	float: left;
+	position: relative;
+	font-size: 20px;
+	text-align: center;
+	margin: 0 0 16px 16px;
+	line-height: 27px;
+}
 </style>
 
 <body>
@@ -154,7 +166,69 @@ ol, ul {
                                                             </c:forEach>                                                         
                                                         </ol>
                                                     </div>
-                                                    <h2>영양정보<span>(하루 적정섭취량, 1인분 기준)</span></h2>
+                                                    <h2>영양정보<span>(1인분 기준)</span></h2>                                                    
+                                                    	<div class="nutrition">
+                                                    	<c:forEach var="nutrient" items="${nutrient}">
+                                                    	<ul>
+                                                    		<li>
+                                                    			<span>칼로리</span><br>
+                                                    			<span style="font-size: 30px; color: #839705;">
+                                                    				${nutrient.energy} 
+                                                    			</span style="color: #839705;"><br>kcal     	                                                			
+                                                    		</li>
+                                                    		<li>
+                                                    			<span>탄수화물</span><br>
+                                                    			<span style="font-size: 30px; color: #e36113;">
+                                                    				${nutrient.carb}
+                                                    			</span><br>
+                                                    			<span style="color: #e36113;">g</span>
+                                                    		</li>
+                                                    		<li>
+                                                    			<span>단백질</span><br>
+                                                    			<span style="font-size: 30px; color: #2f97bd;">
+                                                    				${nutrient.protein}
+                                                    			</span><br>
+                                                    			<span style="color: #2f97bd;">g</span>
+                                                    		</li>
+                                                    		<li>
+                                                    			<span>지질</span><br>
+                                                    			<span style="font-size: 30px; color: #c43f68;">
+                                                    				${nutrient.fat}
+                                                    			</span> <br>
+                                                    			<span style="color: #c43f68;">g</span>
+                                                    		</li>                                                    		
+                                                    		<li>
+                                                    			<span>당류</span><br>
+                                                    			<span style="font-size: 30px; color: #aebf22;">
+                                                    				${nutrient.sugar}
+                                                    			</span> <br>
+                                                    			<span style="color: #aebf22;">g</span>
+                                                    		</li>
+                                                    		<li>
+                                                    			<span>칼슘</span><br>
+                                                    			<span style="font-size: 30px; color: #af9128;">
+                                                    				${nutrient.cal}
+                                                    			</span> <br>
+                                                    			<span style="color: #af9128;">mg</span>
+                                                    		</li>
+                                                    		<li>
+                                                    			<span>나트륨</span><br>
+                                                    			<span style="font-size: 30px; color: #37baa9;">
+                                                    				${nutrient.na}
+                                                    			</span><br>
+                                                    			<span style="color: #37baa9;">mg</span>
+                                                    		</li>
+                                                    		<li>
+                                                    			<span>콜레스테롤</span><br>
+                                                    			<span style="font-size: 30px; color: #905bcb;">
+                                                    				${nutrient.chole}
+                                                    			</span> <br>
+                                                    			<span style="color: #905bcb;">mg</span>
+                                                    		</li>
+                                                    	</ul>                                                                
+                                                        </c:forEach>                                                    	
+                                                    	</div>
+                                                    	
                                                     <h2>태그 정보</h2>
                                                     <h2>레시피 정보</h2>
                                                     <ol class="lst_step">
@@ -209,13 +283,8 @@ ol, ul {
                                                                 <dt class="scrap">스크랩</dt>
                                                                 <dd id="scrap-cnt">${scrapCount}</dd>
                                                                 <dt class="scrap">조회수</dt>
-                                                                <dd id="read-cnt">${rcpContent.readcount}</dd>
-                                                                <!-- [D] 스크랩이 된 경우 :
-														  <dt class="scrap on"><a href="#">스크랩</a></dt><dd>1,230</dd>
-														  -->
-                                                                <dt class="cal">칼로리</dt>
-                                                                <dd>180.4 kcal</dd>
-                                                            </dl>
+                                                                <dd id="read-cnt">${rcpContent.readcount}</dd>                                                             
+                                                            </dl>                                                       
 
                                                             <!-- [D] 버튼영역 추가 150314 -->
                                                             <div class="btn_area">
@@ -245,7 +314,10 @@ ol, ul {
 
                                                             <ul class="lst_ingrd">
                                                             	<c:forEach var="rcpContent3" items="${rcpContent3}">
-                                                            	<li><span>${rcpContent3.ingredient}</span><em>${rcpContent3.quantity}</em></li>
+                                                            	<li>
+                                                            		<span>${rcpContent3.ingredient}</span>
+                                                            		<em>${rcpContent3.quantity.split("/")[0]}(${rcpContent3.quantity.split("/")[1]}g)</em>
+                                                            	</li>
                                                             	</c:forEach>                                                               
                                                             </ul>
                                                         </div>

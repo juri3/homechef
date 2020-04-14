@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import model.Category;
 import model.Division;
 import model.Ingredient;
+import model.Nutrient;
 import model.Rcp;
 import model.RcpContent;
 import service.MybatisRcpDaoMysql;
@@ -133,6 +134,7 @@ public class RcpController {
 		Rcp rcpContent=dbPro.rcpContent(rcpnum);
 		List<RcpContent> rcpContent2=dbPro.rcpContent2(rcpnum);
 		List<Ingredient> rcpContent3=dbPro.rcpContent3(rcpnum);
+		List<Nutrient> nutrient=dbPro.rcpNutrient(rcpnum);
 		
 		int checkScrap = dbPro.checkScrap(loginNum, rcpnum);
 		int scrapCount = dbPro.scrapCount(rcpnum);
@@ -144,7 +146,8 @@ public class RcpController {
 		m.addAttribute("checkScrap", checkScrap);
 		m.addAttribute("scrapCount", scrapCount);
 		m.addAttribute("loginNum", loginNum);
-		
+		m.addAttribute("nutrient", nutrient);
+		System.out.println(nutrient.toString());
 		return "rcp/content";
 	}
 
@@ -154,6 +157,16 @@ public class RcpController {
 		
 		category = dbPro.getCategory();
 		
+		List<Nutrient> nutrientList =dbPro.getNutrient();
+		
+		HashSet<String> nutrients = new HashSet<String>();
+		
+		for(int i=0;i<nutrientList.size();i++){
+			Nutrient nutrient=nutrientList.get(i);
+			nutrients.add(nutrient.getFood());
+		}
+		
+		m.addAttribute("nutrients", nutrients);		
 		m.addAttribute("category", category);
 		
 		return "rcp/writeForm";
@@ -182,7 +195,7 @@ public class RcpController {
 		}
 		for(int i=1;i<x;i++){
 			ingre.setIngredient(multipart.getParameter("ingredient" + i));
-			ingre.setQuantity(multipart.getParameter("quantity" + i));
+			ingre.setQuantity(multipart.getParameter("quantity" + i)+"/"+multipart.getParameter("gram"+i));
 			dbPro.insertIngredient(ingre);
 		}
 		

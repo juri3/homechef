@@ -1,11 +1,131 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
+
+<style>
+.recommend {
+    background: #e66768;
+    padding: 57px 0 62px 0;
+}
+.recommend h2 {
+    text-align: center;
+    font-size: 40px;
+    color: #fff332;
+    font-family: Microsoft YaHei,'NSB';
+}
+.recommend form {
+    width: 840px;
+    overflow: hidden;
+    margin: 25px auto;
+}
+.field1 {
+    width: 595px;
+    float: left;
+}
+.recommend input {
+    box-sizing: border-box;
+    width: 595px;
+    height: 59px;
+    background: #fff url(/assets/_img/main/ico_srch_recommand-3c2b4b9….png) 96% center no-repeat;
+    border: #a73f40 solid 1px;
+    float: left;
+    padding-left: 20px;
+    font-size: 20px;
+    color: #000;
+    margin-bottom: 9px;
+    outline: none;
+}
+.field1>ul {
+    height: 270px;
+    border: 1px solid #a73f40;
+    background: #fff;
+    float: left;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+.big_sort {
+    width: 190px;
+    margin-right: 9px;
+    box-sizing: border-box;
+}
+.big_sort li {
+    font-size: 15px;
+    border-bottom: 1px solid #dddddd;
+}
+.big_sort li a {
+    color: #cc4244;
+    display: block;
+    line-height: 44px;
+    padding-left: 18px;
+}
+.small_sort {
+    width: 396px;
+    padding: 10px 13px;
+    font-family: Microsoft YaHei,'NS';
+    box-sizing: border-box;
+}
+.field2 {
+    width: 235px;
+    float: right;
+}
+.field2 dl {
+    border: 1px solid #a73f40;
+    background: #fff;
+    position: relative;
+}
+.field2 dt {
+    height: 59px;
+    font-size: 20px;
+    padding: 10px 15px;
+    font-family: Microsoft YaHei,'NSL';
+    box-sizing: border-box;
+    color: #e66768;
+    border-bottom: 1px solid #dddddd;
+}
+.field2 dd {
+    height: 277px;
+    box-sizing: border-box;
+}
+.field2 dd ul {
+    height: 205px;
+    padding: 12px 0;
+    overflow-x: hidden;
+    overflow-y: visible;
+    box-sizing: border-box;
+}
+.field2 dd ul li.no-content {
+    float: none;
+    font-size: 17px;
+    color: #b7b7b7;
+    text-align: center;
+    margin-top: 80px;
+    padding: 0;
+}
+.field2 dd .btn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 12px 16px;
+    background-color: #fff;
+}
+.field2 dd .btn button {
+    width: 194px;
+    height: 48px;
+    border-radius: 5px;
+    border: 1px solid #e66768;
+    background: #fff;
+    color: #e66768;
+    font-size: 15px;
+}
+</style>
+
 <body>
 
     <section id="home-section" class="hero">
@@ -40,6 +160,42 @@
                 </div>
             </div>
         </div>
+    </section>
+    
+    <section class="recommend">
+    	<div class="container">
+    	<h2>내가 가진 재료로 레시피 추천받기</h2>
+    	<form>
+    	<fieldset class="field1">
+    		<input type="text" class="search-ingre" placeholder="재료명으로 검색해보세요." autocomplete="off">
+    		<ul class="big_sort">
+    			<c:forEach var="nutrients" items="${nutrients}">
+    			<li>
+    				<a href="javascript:;">${nutrients}</a>
+    			</li>
+    			</c:forEach>
+    		</ul>
+    		<ul class="small_sort">
+    			<li>
+    				
+    		</ul>
+    	</fieldset>
+    	
+    	<fieldset class="field2">
+    		<dl>
+    			<dt>내가 선택한 자료</dt>
+    			<dd style="margin-bottom:0">
+    				<ul class="selected-ingre">                  
+                		<li class="no-content">재료를 선택해주세요.</li>
+                	</ul>
+                	<div class="btn">
+                		<button type="submit">이 재료로 추천받기</button>
+                	</div>
+    			</dd>
+    		</dl>
+    	</fieldset>    				
+    	</form>
+    	</div>
     </section>
 
     <section class="ftco-section">

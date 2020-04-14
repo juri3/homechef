@@ -229,9 +229,9 @@
 		<table id="ingred_table" class="table">		
 		<tbody id="ingred_tbody">
 			<tr>
-				<td> <input type="text" name="ingredient1" class="ingred_name" placeholder="재료명" autocomplete="off">  </td>
-				<td> <input type="text" name="quantity1" class="ingred_qnt" placeholder="수량" autocomplete="off">  </td>
-				<td></td>
+				<td> <input type="text" name="ingredient1" class="ingred_name" placeholder="재료명">  </td>
+				<td> <input type="text" name="quantity1" class="ingred_qnt" placeholder="수량" autocomplete="off" >  </td>
+				<td> ( <input type="text" name="gram1" autocomplete="off"> ) g</td>
 			</tr>
 		</tbody>
 		</table>
@@ -333,14 +333,30 @@
 
 </body>
 
-<script>
+<script>	
+	auto(document).on("click",".ingred_name",function(){
+		 var keywords = [
+		    	<c:forEach var="nutrients" items="${nutrients}">
+				'${nutrients}',
+				</c:forEach>
+		    ];
+		    
+		    auto(".ingred_name").autocomplete({
+			      source: keywords,
+			      max: 10,
+			      focus: function(event, ui) {
+			          return false;
+			      }
+			});
+	});
 	
 	var j=1;
 	$('.btnAdd').click(function() {
 		j++;
 		var rowItem = "<tr>"
-			rowItem += "<td> <input type='text' class='ingred_name' name='ingredient"+j+"' placeholder='재료명'> </td>"
-			rowItem += "<td> <input type='text' class='ingred_qnt' name='quantity"+j+"' placeholder='수량'> </td>"
+			rowItem += "<td> <input type='text' class='ingred_name' name='ingredient"+j+"' placeholder='재료명' autocomplete='off'> </td>"
+			rowItem += "<td> <input type='text' class='ingred_qnt' name='quantity"+j+"' placeholder='수량' autocomplete='off'> </td>"			
+			rowItem += "<td> ( <input type='text' name='gram"+j+"' autocomplete='off'> ) g</td>"
 			rowItem += "<td> <button type='button' class='btn btn-danger' style='cursor:pointer;'> <i class='fa fa-minus'></i> </button> </td>"
 			rowItem += "</tr>"
 		$('#ingred_table').append(rowItem)
@@ -387,8 +403,7 @@
     		}
     		reader.readAsDataURL(value.files[0]);
     	}
-	}	
-
+	}
 </script>
 
 </html>

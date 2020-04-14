@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import model.Category;
 import model.Division;
 import model.Ingredient;
+import model.Nutrient;
 import model.Rcp;
 import model.RcpContent;
 import mybatis.AbstractRepository;
@@ -430,6 +431,35 @@ public class MybatisRcpDaoMysql {
 		}
 
 		return rcpAllList;
+	}
+
+	public List<Nutrient> getNutrient() {
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		List<Nutrient> nutrient = null;
+
+		try {
+			String statement = namespace + ".getNutrient";
+			nutrient = sqlSession.selectList(statement);
+		} finally {
+			sqlSession.close();
+		}
+
+		return nutrient;
+	}
+	
+	public List<Nutrient> rcpNutrient(int rcpnum) {
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		List<Nutrient> rcpNutrient = null;
+		String statement;
+		
+		try {
+			statement = namespace + ".rcpNutrient";
+			rcpNutrient = sqlSession.selectList(statement, rcpnum);
+		} finally {
+			sqlSession.close();
+		}
+		
+		return rcpNutrient;
 	}
 	
 }

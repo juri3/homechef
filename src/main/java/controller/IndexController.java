@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import model.Brand;
 import model.Ingredient;
+import model.Nutrient;
 import model.Rcp;
 import service.BrandRepository;
 import service.MybatisRcpDaoMysql;
@@ -42,7 +43,18 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/main")
-	public String index(){
+	public String index(Model m){
+		List<Nutrient> nutrientList =dbPro.getNutrient();
+		
+		HashSet<String> nutrients = new HashSet<String>();
+		
+		for(int i=0;i<nutrientList.size();i++){
+			Nutrient nutrient=nutrientList.get(i);
+			nutrients.add(nutrient.getFoodgroup());
+		}
+		
+		m.addAttribute("nutrients", nutrients);	
+		
 		return "main";
 	}
 	@RequestMapping(value="/shop")
