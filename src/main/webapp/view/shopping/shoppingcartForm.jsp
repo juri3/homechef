@@ -11,7 +11,7 @@
 <title>Insert title here</title>
 </head>
 <body>
- <!-- <div class="hero-wrap hero-bread" style="background-image: url('images/bg_4.jpg');">
+<div class="hero-wrap hero-bread" style="background-image: url('../images/bg_1.jpg');">
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div> 
 
     <section class="ftco-section ftco-cart">
     	<form name="cartlist" method="post" >

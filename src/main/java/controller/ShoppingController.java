@@ -174,7 +174,9 @@ public class ShoppingController {
    @RequestMapping(value = "jjimlist")
    public String jjimlist(HttpSession session, Model m) throws Exception {
       // TODO Auto-generated method stub
-      
+	   if(session.getAttribute("memNum")==null){
+	    	  return "redirect:/member/login";
+	   }
 	 List<Jjim> jjimlist = service.getJjimlist((int)session.getAttribute("memNum"));
 	 m.addAttribute("jjimlist", jjimlist);
 
@@ -255,11 +257,11 @@ public class ShoppingController {
 			orderinfo.setZipcode(address_split(memaddr.getZipcode(),select));
 			
 			if(addradd==1){
-				//service.insertMemAddr(memaddr);
+				service.insertMemAddr(memaddr);
 			}
 		}else{
 			// 기존 배송지 일경우, 주문완료된 카트들 삭제..
-			//getmemA = service.getAddress1(sel_address);
+			getmemA = service.getAddress1(sel_address);
 			orderinfo.setAddress(getmemA.getAddress());
 			orderinfo.setRecipient(getmemA.getRecipient());
 			orderinfo.setZipcode(getmemA.getZipcode());
@@ -267,7 +269,7 @@ public class ShoppingController {
 		}
 		System.out.println(addr);
 		
-		//service.insertOrderForm(orderinfo, ordpro, nums);
+		service.insertOrderForm(orderinfo, ordpro, nums);
 		
 		
 		System.out.println(memaddr);
@@ -309,4 +311,27 @@ public class ShoppingController {
 	      return "shopping/pay";
 	      
 	}
+	
+	@RequestMapping(value = "orderinfo")
+	   public String orderinfo(HttpSession session, Model m) throws Exception {
+	      // TODO Auto-generated method stub
+		 if(session.getAttribute("memNum")==null){
+		    	  return "redirect:/member/login";
+		 }
+		 List<OrderProduct> productlist = new ArrayList<>();
+		 List<OrderInfo> orderlist = service.getorderinfolist((int)session.getAttribute("memNum"));
+		 for(OrderInfo order : orderlist){
+			 List<OrderProduct> product = service.getorderproductlist(order.getOrderNum());
+			 System.out.println(product);
+			 for(OrderProduct product1 : product){
+				 productlist.add(product1);
+			 }
+		 }
+		 System.out.println("p_list : "+productlist);
+		 
+		 m.addAttribute("orderlist", orderlist);
+		 m.addAttribute("productlist", productlist);
+
+	      return "/shopping/orderinfo";
+	   }
 }

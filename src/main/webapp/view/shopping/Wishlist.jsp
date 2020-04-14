@@ -11,22 +11,21 @@
 <title>Insert title here</title>
 </head>
 <body>
- <!-- <div class="hero-wrap hero-bread" style="background-image: url('images/bg_4.jpg');">
+	<div class="hero-wrap hero-bread" style="background-image: url('../images/bg_1.jpg');">
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Cart</span></p>
-            <h1 class="mb-0 bread">My Cart</h1>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Jjim</span></p>
+            <h1 class="mb-0 bread">Wish List</h1>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <section class="ftco-section ftco-cart">
     	<form name="cartlist" method="post" >
 			<div class="container">
 				<div class="row">
-				<h2>Wish List</h2>
     			<div class="col-md-12 ftco-animate">
     				
     				<div class="cart-list">

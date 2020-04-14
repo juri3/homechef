@@ -301,6 +301,7 @@ public class ShoppingRepository{
 			
 			for(int i : nums){
 				cart = getCartByNum(i);
+				ordpro.setThumbnail(cart.getThumbnail());
 				ordpro.setProductName(cart.getProductName());
 				ordpro.setQty(cart.getQty());
 				ordpro.setPrice(cart.getQty()*cart.getPrice());
@@ -319,6 +320,13 @@ public class ShoppingRepository{
 				try {
 					//주문완료된 카트 종료
 					deleteCartvalue(i);
+					Map map = new HashMap();
+					map.put("productname", cart.getProductName());
+					map.put("qty", cart.getQty());
+					sqlSession.update(namespace + ".updateSale", map);
+					System.out.println("update1 : "+map);
+					System.out.println("update2 : "+i);
+					sqlSession.commit();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -330,6 +338,29 @@ public class ShoppingRepository{
 		}
 	}
 	
+	
+	public List<OrderInfo> getorderinfolist(int memNum) {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try{
+			String statement = namespace + ".getorderinfolist";
+			return sqlSession.selectList(statement, memNum);
+		}finally{
+			sqlSession.close();
+		}
+	}
+	
+	public List<OrderProduct> getorderproductlist(Long orderNum) {
+		// TODO Auto-generated method stub
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try{
+			String statement = namespace + ".getorderproductlist";
+			return sqlSession.selectList(statement, orderNum);
+		}finally{
+			sqlSession.close();
+		}
+	}
+
 	public int getCountCart(int memNum) {
 		// TODO Auto-generated method stub
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();

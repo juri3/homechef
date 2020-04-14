@@ -103,7 +103,7 @@
                         </div>
                     </li>
                     <li class="nav-item"><a href="<%=request.getContextPath()%>/shop" class="nav-link">Store</a></li>
-                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="${pageContext.request.contextPath }/shopping/orderinfo" class="nav-link">Blog</a></li>
                     <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                     <li class="nav-item cta cta-colored"><a href="${pageContext.request.contextPath }/shopping/cartview" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
 

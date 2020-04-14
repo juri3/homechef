@@ -87,6 +87,22 @@
 		WHERE rnum between #{startRow} and #{endRow}	
 	</select>
 	
+	<select id="getorderproductlist" parameterType="Long" resultType="OrderProduct">
+		SELECT
+			*
+		FROM Order_product
+		WHERE ordernum = #{orderNum}
+		<!-- ORDER BY cartNum DESC; -->
+	</select>
+	<select id="getorderinfolist" parameterType="int" resultType="OrderInfo">
+		SELECT
+			ordernum, recipient, address, amount, howtopay
+		FROM Order_info
+		WHERE memNum = #{memNum}
+		order by orderdate desc
+		<!-- ORDER BY cartNum DESC; -->
+	</select>
+	
 	<select id="getCountSale" resultType="int">
 		SELECT
 			count(*)
@@ -132,12 +148,20 @@
 		where addressNum=#{addressNum}
 	</select>
 	
+	<update id="updateSale" parameterType="hashmap">
+		update sale
+		set sales = sales + #{qty}, stock = stock - #{qty}
+		where productname = #{productname}
+	</update>
+
+	
+	
 	<insert id="insertMemaddr"	parameterType="MemAddress">
 		INSERT INTO mem_address VALUES(#{addressNum}, #{recipient}, #{memNum}, #{memName}, #{address}, #{zipcode})
 	</insert>
 	
 	<insert id="insertOrderProduct"	parameterType="OrderProduct">
-		INSERT INTO order_product VALUES(#{productNum}, #{orderNum}, #{productName}, #{qty}, #{price})
+		INSERT INTO order_product VALUES(#{productNum}, #{orderNum},#{thumbnail}, #{productName}, #{qty}, #{price})
 	</insert>
 	
 	<insert id="insertOrderInfo"	parameterType="OrderInfo">

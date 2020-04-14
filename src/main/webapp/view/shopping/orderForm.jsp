@@ -433,8 +433,9 @@ div.right {
     		return false;
     	}
     	alert("결제전");
-        paying();
+        //paying();
        // alert("결제후");
+      	$("#orderform").submit();
         
         
     });
