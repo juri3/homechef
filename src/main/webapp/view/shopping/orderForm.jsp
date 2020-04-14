@@ -363,18 +363,38 @@ div.right {
 	    	return false;
 	    }
  	}
+	
+	jQuery.fn.serializeObject = function() {
+	    var obj = null;
+	    try {
+	        if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+	            var arr = this.serializeArray();
+	            if (arr) {
+	                obj = {};
+	                jQuery.each(arr, function() {
+	                    obj[this.name] = this.value;
+	                });
+	            }//if ( arr ) {
+	        }
+	    } catch (e) {
+	        alert(e.message);
+	    } finally {
+	    }
+	 
+	    return obj;
+	};
+
+
+
 	var success_pay = false;
     function paying(){
     	var IMP = window.IMP; // 생략가능
         IMP.init('imp89691835'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
         var select = $("input[name='select']:checked").val();
-        var dataed = JSON.stringify({
-
-        	selected : select
-
-        	});
-       console.log(dataed);
+       var data={  }
+       var data2 = JSON.stringify($("#orderform").serializeObject());
+       console.log(data2);
         IMP.request_pay({
             pg : 'kakaopay',
             pay_method : 'card',
@@ -386,7 +406,7 @@ div.right {
             buyer_tel : '01093529429',
             buyer_addr : '경기도 의정부시',
             //buyer_postcode : '123-456',
-          	//m_redirect_url : '${pageContext.request.contextPath}/shopping/complete'
+          	m_redirect_url : '${pageContext.request.contextPath}/shopping/complete'
         },function(rsp) {
         	 if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
         	      // jQuery로 HTTP 요청
@@ -394,12 +414,12 @@ div.right {
         	          url: "${pageContext.request.contextPath}/shopping/complete", // 가맹점 서버
         	          method: "POST",
         	          headers: { "Content-Type": "application/json" },
-        	          dataType: "json",
-        	          data: dataed
+        	          data: data2
+        	          
         	      }).done(function (data) {
         	        // 가맹점 서버 결제 API 성공시 로직
-        	        console.log(data);
         	      })
+        	      console.log("s  "+data2);
         	    } else {
         	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
         	    }

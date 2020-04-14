@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,7 +91,7 @@ public class ShoppingController {
    }
    
    @RequestMapping(value = "addcart") // 맨끝단의 url만 가지고 옴, get방식으로 한다.
-   public String addcart_get(@RequestParam("price")int price, @RequestParam("productName")String productName, @RequestParam("thumbnail")String thumbnail, HttpSession session, Model m) {
+   public String addcart_get(@RequestParam("price")int price, @RequestParam("productName")String productName, @RequestParam("thumbnail")String thumbnail, HttpSession session) {
       // TODO Auto-generated method stub
 	   if(session.getAttribute("memNum")==null){
 	    	  return "redirect:/member/login";
@@ -195,7 +196,7 @@ public class ShoppingController {
    }
    
    @RequestMapping(value = "order", method=RequestMethod.POST) // 
-	public String order(HttpServletRequest request, Model m){
+	public String order_form(HttpServletRequest request, Model m){
 		// TODO Auto-generated method stub
 		List<Cart> cartlist = new ArrayList<>();
 		List<MemAddress> address = new ArrayList<>();
@@ -231,8 +232,8 @@ public class ShoppingController {
 		return array[index];
 	}
 	
-	@RequestMapping(value = "complete_order") 
-	public String payment(@RequestParam("select")int select, @RequestParam(value="sel_address", required=false, defaultValue="-1")int sel_address, @RequestParam(value="addradd", required=false, defaultValue="0")int addradd,
+	@RequestMapping(value = "complete_order", method=RequestMethod.POST) 
+	public String order(@RequestParam("select")int select, @RequestParam(value="sel_address", required=false, defaultValue="-1")int sel_address, @RequestParam(value="addradd", required=false, defaultValue="0")int addradd,
 			int[] nums, MemAddress memaddr, OrderInfo orderinfo, OrderProduct ordpro, Model m){
 		// TODO Auto-generated method stub
 		MemAddress getmemA = new MemAddress();
@@ -278,16 +279,25 @@ public class ShoppingController {
 	}
 	
 	@RequestMapping(value = "complete", method=RequestMethod.POST)
-	@ResponseBody
-	public String pa(@RequestParam("select")int select, Model m){
-
+	public @ResponseBody String pa(@RequestBody String select){
 		System.out.println("complete!");
+		//System.out.println(test);
+		
+		
+		
 		System.out.println(select);
+		
 		//System.out.println(memaddr);
 		//System.out.println(orderinfo);
 		//System.out.println(ordpro);
 		
 		
+		return "shopping/orderSuccess";
+
+	}
+	@RequestMapping(value = "complete")
+	public String orderSuccess(){
+		System.out.println("complete!2");
 		return "shopping/orderSuccess";
 
 	}
