@@ -25,6 +25,13 @@
 		<!-- ORDER BY cartNum DESC; -->
 	</select>
 	
+	<select id="getSaleintoJjim" parameterType="int" resultType="Sale">
+		SELECT
+			*
+		FROM Sale
+		WHERE saleNum = #{saleNum}
+	</select>
+	
 	<select id="getCartintoJjim" parameterType="int" resultType="Cart">
 		SELECT
 			*
@@ -41,24 +48,72 @@
 	</select>
 	
 	<insert id="insertjjim"	parameterType="Jjim">
-		INSERT INTO jjim VALUES(#{jjimNum}, #{memNum}, #{productName}, #{price}, sysdate)
+		INSERT INTO jjim VALUES(#{jjimNum}, #{memNum}, #{thumbnail} , #{productName}, #{price}, sysdate)
 	</insert>
+	
+	<select id="getJjimlist" parameterType="int" resultType="Jjim">
+		SELECT
+			*
+		FROM Jjim
+		WHERE memNum = #{memNum}
+		<!-- ORDER BY cartNum DESC; -->
+	</select>
+	
+	<delete id="deleteJjimvalue" parameterType="int" >
+		DELETE FROM jjim
+		WHERE jjimNum = #{jjimNum}
+	</delete>
 	
 	<delete id="deleteCartvalue" parameterType="int" >
 		DELETE FROM cart
 		WHERE cartNum = #{cartNum}
 	</delete>
 	
-	<select id="getSale_nonParam" resultType="Sale">
+	<select id="getSale_nonParam" parameterType="hashmap" resultType="Sale">
 		SELECT
 			*
 		FROM sale
+		WHERE saleNum between #{startRow} and #{endRow}	
+	</select>
+	
+	<select id="getSale_nonParam_Cate" parameterType="hashmap" resultType="Sale">
+		SELECT
+			*
+		FROM (select rownum rnum, a.*
+			  from(SELECT
+					 *
+				   FROM sale
+				   WHERE categorynum = #{category})a)
+		WHERE rnum between #{startRow} and #{endRow}	
+	</select>
+	
+	<select id="getorderproductlist" parameterType="Long" resultType="OrderProduct">
+		SELECT
+			*
+		FROM Order_product
+		WHERE ordernum = #{orderNum}
+		<!-- ORDER BY cartNum DESC; -->
+	</select>
+	<select id="getorderinfolist" parameterType="int" resultType="OrderInfo">
+		SELECT
+			ordernum, recipient, address, amount, howtopay
+		FROM Order_info
+		WHERE memNum = #{memNum}
+		order by orderdate desc
+		<!-- ORDER BY cartNum DESC; -->
 	</select>
 	
 	<select id="getCountSale" resultType="int">
 		SELECT
 			count(*)
 		FROM sale
+	</select>
+	
+	<select id="getCountSale_cate" parameterType="int" resultType="int">
+		SELECT
+			count(*)
+		FROM sale
+		WHERE categorynum = #{category}
 	</select>
 	
 	<select id="getSale" parameterType="int" resultType="Sale">
@@ -72,6 +127,7 @@
 		SELECT
 			*
 		FROM sale_category 
+		ORDER BY cateNum asc
 	</select>
 		
 	<select id="getMember" parameterType="int" resultType="Member">
@@ -92,12 +148,20 @@
 		where addressNum=#{addressNum}
 	</select>
 	
+	<update id="updateSale" parameterType="hashmap">
+		update sale
+		set sales = sales + #{qty}, stock = stock - #{qty}
+		where productname = #{productname}
+	</update>
+
+	
+	
 	<insert id="insertMemaddr"	parameterType="MemAddress">
 		INSERT INTO mem_address VALUES(#{addressNum}, #{recipient}, #{memNum}, #{memName}, #{address}, #{zipcode})
 	</insert>
 	
 	<insert id="insertOrderProduct"	parameterType="OrderProduct">
-		INSERT INTO order_product VALUES(#{productNum}, #{orderNum}, #{productName}, #{qty}, #{price})
+		INSERT INTO order_product VALUES(#{productNum}, #{orderNum},#{thumbnail}, #{productName}, #{qty}, #{price})
 	</insert>
 	
 	<insert id="insertOrderInfo"	parameterType="OrderInfo">
