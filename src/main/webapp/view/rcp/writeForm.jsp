@@ -197,7 +197,7 @@
 <body>
 <div class="ricipe_regi">
 <div class="inner">
-<form method="post" enctype="multipart/form-data" name="writeForm" action="<%=request.getContextPath()%>/rcp/writePro" onSubmit="return check()">
+<form method="post" enctype="multipart/form-data" name="writeForm" action="<%=request.getContextPath()%>/rcp/writePro">
 <div class="regi_center">
 	<input type="hidden" name="readcount" value="0">	
 	<div class="regi_title">레시피 등록</div>

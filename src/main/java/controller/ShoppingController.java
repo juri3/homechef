@@ -28,7 +28,7 @@ import model.OrderInfo;
 import model.OrderProduct;
 import model.Rcp;
 import model.Sale;
-import service.MybatisRcpDaoMysql;
+import service.MybatisRcpDao;
 import service.ShoppingRepository;
 
 //서블릿 그자체, 왜냐하면 서블릿을 상속받았기 때문에

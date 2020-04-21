@@ -13821,7 +13821,7 @@ ul {
 }
 
 .sec_info .top .btn_area button {
-    width: 145px;
+    width: 140px;
     height: 35px;
     border: none;
     color: #ff6d00;
@@ -13831,8 +13831,8 @@ ul {
     background-image: url(/assets/_img/recipe/ico_btn_scrap-57e6fee52fabee34f7b22e2582b43f3b30296814c34695122f89a85390360bb2.png);
     background-repeat: no-repeat;
     background-position: 20% center;
-    text-indent: 25px;
-    line-height: 38px\0
+   /*  text-indent: 25px; */
+   /* line-height: 38px\0 */
 }
 
 .sec_info .top .btn_area .btn_scrap {

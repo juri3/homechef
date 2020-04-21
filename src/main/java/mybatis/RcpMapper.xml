@@ -148,15 +148,27 @@
 		update Rcp set readcount = nvl(readcount, 0) +1 where rcpnum = #{rcpnum}
 	</update>
 	
-	
-	<select id="getReadcount" parameterType="int" resultType="int">
-	<!-- 데이터를 하나만 받아옴 readcount가 int이고 select문이므로 결과값을 받아오는 resultType이 있어야한다. -->
-		<!-- select count(*) 
-		from readcount
-		where rcpnum=#{rcpnum} -->
-		select readcount from rcp where rcpnum=#{rcpnum}
+	<insert id="addLike" parameterType="Likes">
+		insert into likes
+		values(#{memnum}, #{mypick})
+	</insert>
+
+	<!-- 전에 좋아요를 눌렀는 지 안눌렀는 지 확인 -->
+	<select id="checkLike" parameterType="hashmap" resultType="int">
+		select NVL(count(*),0) 
+		from Likes 
+		where memnum=#{memnum} and mypick=#{mypick}
 	</select>
 	
+	<!-- 좋아요 취소 -->
+	<delete id="cancelLike" parameterType="Likes">
+		delete from likes where memnum = #{memnum} and mypick=#{mypick}
+	</delete>
+	
+	<!-- 해당 게시글이 가지고 있는 좋아요의 전체 수  -->
+	<select id="likeCount" resultType="Likes">
+		select nvl(count(*), 0) from likes group by rcpnum
+	</select>
 	
 
 </mapper>

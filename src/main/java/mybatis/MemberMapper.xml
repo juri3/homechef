@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertScrap" parameterType="Scrap">
 		insert into scrap values (#{memnum},#{scrapnum})
-	</insert>	
+	</insert>
 	
 	<delete id="delScrap" parameterType="Scrap">
 		delete from scrap where memnum=#{memnum} and scrapnum=#{scrapnum}
